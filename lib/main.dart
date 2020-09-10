@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'get_started.dart';
+import 'package:khojbuy/Services/authservice.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,16 +9,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: Color(0xff292b3a),
-          fontFamily: 'Nunito',
-          brightness: Brightness.light,
-        ),
-        home: GetStarted(),
-      ),
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (BuildContext context, snapshot) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: AuthService().handleAuth(),
+        );
+      },
     );
   }
 }
