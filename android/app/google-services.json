@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "169186977964",
+    "firebase_url": "https://khojbuy.firebaseio.com",
+    "project_id": "khojbuy",
+    "storage_bucket": "khojbuy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169186977964:android:9ad71bdb1c16a239a29709",
+        "android_client_info": {
+          "package_name": "com.example.khojbuy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169186977964-bprnhb02vjnuho4akedhsg7u3e5bjv1k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khojbuy",
+            "certificate_hash": "26f9192f12bfdd43fd91b2af37673db6f2af3f7e"
+          }
+        },
+        {
+          "client_id": "169186977964-cb5s53cq3ee9am0krovpcbr7qj9ge2ab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxL1EVw6lE3hw2cf3w8DEvb3e5Ej4kICY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169186977964-cb5s53cq3ee9am0krovpcbr7qj9ge2ab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
