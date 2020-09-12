@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Screens/dashboard.dart';
+import 'package:khojbuy/Screens/details_input.dart';
 import 'package:khojbuy/Screens/get_started.dart';
 
 class AuthService {
@@ -28,7 +29,7 @@ class AuthService {
     FirebaseAuth.instance.signInWithCredential(authCredential);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DashBoardPage()),
+      MaterialPageRoute(builder: (context) => DetailsInput()),
     );
   }
 

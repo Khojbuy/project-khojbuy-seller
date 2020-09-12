@@ -16,112 +16,129 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Container(
         child: Scaffold(
-            backgroundColor: Color.fromRGBO(179, 217, 255, 1),
-            body: Form(
-              key: formkey,
-              child: Column(
+      body: Form(
+        key: formkey,
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Color.fromRGBO(255, 255, 240, 1),
+            Color.fromRGBO(245, 245, 245, 1)
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  "SIGN IN",
+                  style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 38,
+                      fontWeight: FontWeight.w900),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      "SIGN IN",
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontSize: 38,
-                          fontWeight: FontWeight.w900),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 70,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text("+91",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Container(
-                          width: 150,
-                          child: TextFormField(
-                            keyboardType: TextInputType.phone,
-                            decoration: new InputDecoration(
-                              hintText: "Enter Your Mobile Number",
-                              fillColor: Colors.white,
-                            ),
-                            validator: (val) {
-                              if (val.length == 0) {
-                                return "Email cannot be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (val) {
-                              setState(() {
-                                this.phnNo = "+91" + val;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  codeSent
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Container(
-                            width: 150,
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              decoration:
-                                  InputDecoration(labelText: "Enter OTP"),
-                              onChanged: (val) {
-                                setState(() {
-                                  this.smsCode = val;
-                                });
-                              },
-                            ),
-                          ),
-                        )
-                      : Container(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
-                    child: InkWell(
-                      child: FloatingActionButton.extended(
-                        onPressed: () {
-                          codeSent
-                              ? AuthService().signInwithOTP(
-                                  smsCode, verificationId, context)
-                              : verifyPhone(phnNo);
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Container(
+                      width: 250,
+                      child: TextFormField(
+                        keyboardType: TextInputType.phone,
+                        decoration: new InputDecoration(
+                            hintText: "Enter Your Mobile Number",
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            fillColor: Colors.white),
+                        validator: (val) {
+                          if (val.length == 0) {
+                            return "Mobile Number cannot be empty";
+                          } else {
+                            return null;
+                          }
                         },
-                        elevation: 10,
-                        backgroundColor: Colors.white,
-                        label: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                          child: Text(
-                            codeSent ? "Login" : "Verify",
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w900,
-                                fontFamily: 'Nunito',
-                                color: Color.fromRGBO(0, 0, 58, 0.8)),
-                          ),
-                        ),
+                        onChanged: (val) {
+                          setState(() {
+                            this.phnNo = "+91" + val;
+                          });
+                        },
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-            )));
+              SizedBox(
+                height: 10,
+              ),
+              codeSent
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Container(
+                        width: 250,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "Enter Your OTP recieved",
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            fillColor: Colors.white,
+                          ),
+                          validator: (val) {
+                            if (val.length == 0) {
+                              return "OTP cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onChanged: (val) {
+                            setState(() {
+                              this.smsCode = val;
+                            });
+                          },
+                        ),
+                      ),
+                    )
+                  : Container(),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+                  child: InkWell(
+                    child: FloatingActionButton.extended(
+                      onPressed: () {
+                        codeSent
+                            ? AuthService()
+                                .signInwithOTP(smsCode, verificationId, context)
+                            : verifyPhone(phnNo);
+                      },
+                      elevation: 10,
+                      backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                      label: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: Text(
+                          codeSent ? "Login" : "Verify",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Nunito',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))
+            ],
+          ),
+        ),
+      ),
+    ));
   }
 
   Future<void> verifyPhone(String phnNo) async {
