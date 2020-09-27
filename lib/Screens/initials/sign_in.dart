@@ -44,34 +44,37 @@ class _SignInPageState extends State<SignInPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Container(
-                      width: 250,
-                      child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        decoration: new InputDecoration(
-                            hintText: "Enter Your Mobile Number",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32.0)),
-                            fillColor: Colors.white),
-                        validator: (val) {
-                          if (val.length == 0) {
-                            return "Mobile Number cannot be empty";
-                          } else {
-                            return null;
-                          }
-                        },
-                        onChanged: (val) {
-                          setState(() {
-                            this.phnNo = "+91" + val;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
+                  codeSent
+                      ? Container()
+                      : Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Container(
+                            width: 250,
+                            child: TextFormField(
+                              keyboardType: TextInputType.phone,
+                              decoration: new InputDecoration(
+                                  hintText: "Enter Your Mobile Number",
+                                  contentPadding: EdgeInsets.fromLTRB(
+                                      20.0, 15.0, 20.0, 15.0),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(32.0)),
+                                  fillColor: Colors.white),
+                              validator: (val) {
+                                if (val.length == 0) {
+                                  return "Mobile Number cannot be empty";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onChanged: (val) {
+                                setState(() {
+                                  this.phnNo = "+91" + val;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
                 ],
               ),
               SizedBox(
