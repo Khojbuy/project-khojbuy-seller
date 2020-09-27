@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Services/navigator_bloc.dart';
 
-class MyOrders extends StatefulWidget {
+class MyOrders extends StatefulWidget with NavigationStates {
   @override
   _MyOrdersState createState() => _MyOrdersState();
 }

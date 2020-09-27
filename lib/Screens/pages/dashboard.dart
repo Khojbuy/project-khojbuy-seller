@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Services/navigator_bloc.dart';
 
-class DashBoardPage extends StatefulWidget {
+class DashBoardPage extends StatefulWidget with NavigationStates {
   @override
   _DashBoardPageState createState() => _DashBoardPageState();
 }

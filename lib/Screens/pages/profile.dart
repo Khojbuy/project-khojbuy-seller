@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Services/navigator_bloc.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatefulWidget with NavigationStates {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
