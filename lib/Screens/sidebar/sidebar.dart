@@ -65,72 +65,74 @@ class _SidebarState extends State<Sidebar>
               child: Row(
                 children: <Widget>[
                   Expanded(
-                      child: Container(
-                    padding: EdgeInsets.all(20),
-                    color: Color.fromRGBO(41, 74, 171, 0.6),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 100,
-                        ),
-                        ListTile(
-                          title: Text(
-                            "John Doe",
-                            style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Nunito'),
+                      child: SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 100,
                           ),
-                          subtitle: Text(
-                            "9994446666",
-                            style: TextStyle(
-                                fontFamily: 'Nunito',
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white60,
-                                fontSize: 26),
-                          ),
-                          leading: CircleAvatar(
-                            child: Icon(
-                              Icons.perm_identity,
-                              color: Colors.white,
+                          ListTile(
+                            title: Text(
+                              "John Doe",
+                              style: TextStyle(
+                                  fontSize: 32,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Nunito'),
                             ),
-                            radius: 40,
+                            subtitle: Text(
+                              "9994446666",
+                              style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white60,
+                                  fontSize: 26),
+                            ),
+                            leading: CircleAvatar(
+                              child: Icon(
+                                Icons.perm_identity,
+                                color: Colors.white,
+                              ),
+                              radius: 40,
+                            ),
                           ),
-                        ),
-                        Divider(
-                          height: 64,
-                          thickness: 0.5,
-                          color: Colors.white.withOpacity(0.3),
-                          indent: 32,
-                          endIndent: 32,
-                        ),
-                        MenuItem(Icons.home, "My DashBoard", () {
-                          onIconTapped();
-                          BlocProvider.of<NavigatorBloc>(context)
-                              .add(NavigationEvents.DashBoardClickEvent);
-                        }),
-                        MenuItem(Icons.person, "My Profile", () {
-                          onIconTapped();
-                          BlocProvider.of<NavigatorBloc>(context)
-                              .add(NavigationEvents.ProfileClickEvent);
-                        }),
-                        MenuItem(Icons.shopping_basket, "My Orders", () {
-                          onIconTapped();
-                          BlocProvider.of<NavigatorBloc>(context)
-                              .add(NavigationEvents.OrdersClickEvent);
-                        }),
-                        Divider(
-                          height: 64,
-                          thickness: 0.5,
-                          color: Colors.white.withOpacity(0.3),
-                          indent: 32,
-                          endIndent: 32,
-                        ),
-                        MenuItem(Icons.exit_to_app, "LOGOUT", () {
-                          AuthService().signOut(context);
-                        }),
-                      ],
+                          Divider(
+                            height: 64,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.3),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          MenuItem(Icons.home, "My DashBoard", () {
+                            onIconTapped();
+                            BlocProvider.of<NavigatorBloc>(context)
+                                .add(NavigationEvents.DashBoardClickEvent);
+                          }),
+                          MenuItem(Icons.person, "My Profile", () {
+                            onIconTapped();
+                            BlocProvider.of<NavigatorBloc>(context)
+                                .add(NavigationEvents.ProfileClickEvent);
+                          }),
+                          MenuItem(Icons.shopping_basket, "My Orders", () {
+                            onIconTapped();
+                            BlocProvider.of<NavigatorBloc>(context)
+                                .add(NavigationEvents.OrdersClickEvent);
+                          }),
+                          Divider(
+                            height: 64,
+                            thickness: 0.5,
+                            color: Colors.white.withOpacity(0.3),
+                            indent: 32,
+                            endIndent: 32,
+                          ),
+                          MenuItem(Icons.exit_to_app, "LOGOUT", () {
+                            AuthService().signOut(context);
+                          }),
+                        ],
+                      ),
                     ),
                   )),
                   Align(
@@ -144,12 +146,12 @@ class _SidebarState extends State<Sidebar>
                         child: Container(
                           width: 35,
                           height: 110,
-                          color: Color.fromRGBO(41, 74, 171, 0.6),
+                          color: Color.fromRGBO(41, 74, 171, 0.98),
                           alignment: Alignment.centerLeft,
                           child: AnimatedIcon(
                             icon: AnimatedIcons.menu_close,
                             progress: _animationController,
-                            color: Colors.blue,
+                            color: Colors.white,
                             size: 25,
                           ),
                         ),
@@ -174,8 +176,8 @@ class CustomMenuClipper extends CustomClipper<Path> {
     path.moveTo(0, 0);
     path.quadraticBezierTo(0, 8, 10, 16);
     path.quadraticBezierTo(width - 1, height / 2 - 20, width, height / 2);
-    path.quadraticBezierTo(width, height / 2, 10, height - 16);
-    path.quadraticBezierTo(0, height - 10, 0, height);
+    path.quadraticBezierTo(width + 1, height / 2 + 20, 10, height - 16);
+    path.quadraticBezierTo(0, height - 8, 0, height);
     path.close();
     return path;
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Screens/pages/dashboard.dart';
+import '../homepagelayout.dart';
 
 class DetailsInput extends StatefulWidget {
   @override
@@ -131,7 +131,7 @@ class _DetailsInputState extends State<DetailsInput> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DashBoardPage()),
+                              builder: (context) => HomePageLayout()),
                         );
                       },
                       elevation: 10,
