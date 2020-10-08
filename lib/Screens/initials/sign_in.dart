@@ -20,10 +20,9 @@ class _SignInPageState extends State<SignInPage> {
         key: formkey,
         child: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color.fromRGBO(255, 255, 240, 1),
-            Color.fromRGBO(245, 245, 245, 1)
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              color: Color.fromRGBO(255, 255, 250, 1),
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
