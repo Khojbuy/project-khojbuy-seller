@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'package:khojbuy/Services/navigator_bloc.dart';
+import 'package:khojbuy/Screens/pages/about_us.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _SidebarState extends State<Sidebar>
   @override
   void initState() {
     _animationController =
-        AnimationController(value: this, duration: _animationDuration);
+        AnimationController(vsync: this, duration: _animationDuration);
     isOpenStreamController = PublishSubject<bool>();
     isOpenStream = isOpenStreamController.stream;
     isOpenSink = isOpenStreamController.sink;
@@ -51,7 +52,8 @@ class _SidebarState extends State<Sidebar>
 
   @override
   Widget build(BuildContext context) {
-    final screenwidth = MediaQuery.of(context).size.width;
+    final screenwidth = MediaQuery.of(context).size.shortestSide;
+    final screenheight = MediaQuery.of(context).size.longestSide;
     return StreamBuilder<bool>(
         initialData: false,
         stream: isOpenStream,
@@ -61,12 +63,13 @@ class _SidebarState extends State<Sidebar>
               top: 0,
               bottom: 0,
               left: isOpenAsync.data ? 0 : -screenwidth,
-              right: isOpenAsync.data ? 0 : screenwidth - 45,
+              right: isOpenAsync.data ? 0 : screenwidth - 50,
               child: Row(
                 children: <Widget>[
                   Expanded(
                       child: SingleChildScrollView(
                     child: Container(
+                      height: screenheight,
                       padding: EdgeInsets.all(20),
                       color: Color.fromRGBO(41, 74, 171, 0.98),
                       child: Column(
@@ -121,6 +124,11 @@ class _SidebarState extends State<Sidebar>
                             BlocProvider.of<NavigatorBloc>(context)
                                 .add(NavigationEvents.OrdersClickEvent);
                           }),
+                          MenuItem(Icons.question_answer_outlined, "FAQs", () {
+                            onIconTapped();
+                            BlocProvider.of<NavigatorBloc>(context)
+                                .add(NavigationEvents.FaqClickEvent);
+                          }),
                           Divider(
                             height: 64,
                             thickness: 0.5,
@@ -128,6 +136,15 @@ class _SidebarState extends State<Sidebar>
                             indent: 32,
                             endIndent: 32,
                           ),
+                          MenuItem(
+                              Icons.connect_without_contact_rounded, "Reach Us",
+                              () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ContactInfo()),
+                            );
+                          }),
                           MenuItem(Icons.exit_to_app, "LOGOUT", () {
                             AuthService().signOut(context);
                           }),
@@ -144,7 +161,7 @@ class _SidebarState extends State<Sidebar>
                       child: ClipPath(
                         clipper: CustomMenuClipper(),
                         child: Container(
-                          width: 35,
+                          width: 45,
                           height: 110,
                           color: Color.fromRGBO(41, 74, 171, 0.98),
                           alignment: Alignment.centerLeft,
@@ -169,16 +186,17 @@ class CustomMenuClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     Paint paint = Paint();
     paint.color = Colors.white;
-    final width = size.width;
-    final height = size.height;
+    //print(size.width / size.height);
 
     Path path = Path();
-    path.moveTo(0, 0);
-    path.quadraticBezierTo(0, 8, 10, 16);
-    path.quadraticBezierTo(width - 1, height / 2 - 20, width, height / 2);
-    path.quadraticBezierTo(width + 1, height / 2 + 20, 10, height - 16);
-    path.quadraticBezierTo(0, height - 8, 0, height);
+    path.moveTo(size.width * 0.00, size.height * 1.00);
+    path.lineTo(0, size.height * 0.00);
+    path.quadraticBezierTo(size.width * 0.93, size.height * 0.24,
+        size.width * 0.93, size.height * 0.47);
+    path.quadraticBezierTo(size.width * 0.95, size.height * 0.73,
+        size.width * 0.00, size.height * 1.00);
     path.close();
+
     return path;
   }
 
