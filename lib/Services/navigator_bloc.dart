@@ -1,16 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:khojbuy/Screens/pages/about_us.dart';
 import 'package:khojbuy/Screens/pages/dashboard.dart';
 import 'package:khojbuy/Screens/pages/orders.dart';
 import 'package:khojbuy/Screens/pages/profile.dart';
-import 'package:khojbuy/Screens/pages/faq.dart';
 
 enum NavigationEvents {
   DashBoardClickEvent,
   ProfileClickEvent,
-  OrdersClickEvent,
-  FaqClickEvent,
-  AboutEvent
+  OrdersClickEvent
 }
 
 abstract class NavigationStates {}
@@ -31,12 +27,6 @@ class NavigatorBloc extends Bloc<NavigationEvents, NavigationStates> {
         break;
       case NavigationEvents.OrdersClickEvent:
         yield MyOrders();
-        break;
-      case NavigationEvents.FaqClickEvent:
-        yield Faq();
-        break;
-      case NavigationEvents.AboutEvent:
-        yield ContactInfo();
         break;
     }
   }
