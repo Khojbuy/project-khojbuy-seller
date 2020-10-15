@@ -19,3 +19,10 @@ class _FaqState extends State<Faq> {
     );
   }
 }
+
+Widget FAQCard(String question, String answer) {
+  return Card(
+    elevation: 16,
+    child: Container(),
+  );
+}
