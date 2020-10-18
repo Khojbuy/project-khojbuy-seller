@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../homepagelayout.dart';
@@ -140,12 +141,47 @@ class _DetailsInputState extends State<DetailsInput> {
                         padding: EdgeInsets.all(8),
                         attribute: "Category",
                         options: communities),
+                    SizedBox(height: 15),
+                    FormBuilderCheckbox(
+                      attribute: 'accept_terms',
+                      initialValue: false,
+                      leadingInput: true,
+                      label: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: 'I have read and agree to the ',
+                                style: TextStyle(color: Colors.black)),
+                            TextSpan(
+                              text: 'Terms and Conditions',
+                              style: TextStyle(color: Colors.blue),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  print('launch url');
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                      validators: [
+                        FormBuilderValidators.requiredTrue(
+                          errorText:
+                              'You must accept terms and conditions to continue',
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
                           child: FloatingActionButton.extended(
                             onPressed: () {
+                              if (_fbKey.currentState.saveAndValidate()) {
+                                print(_fbKey.currentState.value);
+                              } else {
+                                print(_fbKey.currentState.value);
+                                print('validation failed');
+                              }
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -171,7 +207,9 @@ class _DetailsInputState extends State<DetailsInput> {
                         ),
                         InkWell(
                           child: FloatingActionButton.extended(
-                            onPressed: () {},
+                            onPressed: () {
+                              _fbKey.currentState.reset();
+                            },
                             elevation: 10,
                             backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
                             label: Padding(
