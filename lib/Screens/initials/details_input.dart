@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import '../homepagelayout.dart';
+import '../drawerlayout.dart';
 
 class DetailsInput extends StatefulWidget {
   @override

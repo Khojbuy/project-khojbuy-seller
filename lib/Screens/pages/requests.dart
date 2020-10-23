@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class MyOrders extends StatefulWidget {
+class MyRequests extends StatefulWidget {
   @override
-  _MyOrdersState createState() => _MyOrdersState();
+  _MyRequestsState createState() => _MyRequestsState();
 }
 
-class _MyOrdersState extends State<MyOrders> {
+class _MyRequestsState extends State<MyRequests> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Text(
-          "MY ORDERS",
+          "MY REQUESTS",
           style: TextStyle(fontSize: 36),
         ),
       ),

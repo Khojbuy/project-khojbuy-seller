@@ -85,11 +85,6 @@ class _HomePageLayoutState extends State<HomePageLayout> {
                 BlocProvider.of<NavigatorBloc>(context)
                     .add(NavigationEvents.ProfileClickEvent);
               }),
-              MenuItem(Icons.shopping_basket, "My Orders", () {
-                Navigator.of(context).pop();
-                BlocProvider.of<NavigatorBloc>(context)
-                    .add(NavigationEvents.OrdersClickEvent);
-              }),
               MenuItem(Icons.question_answer_outlined, "FAQs", () {
                 Navigator.of(context).pop();
                 BlocProvider.of<NavigatorBloc>(context)
