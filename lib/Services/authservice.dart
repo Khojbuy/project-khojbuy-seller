@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Screens/drawerlayout.dart';
 import 'package:khojbuy/Screens/initials/details_input.dart';
 import 'package:khojbuy/Screens/initials/get_started.dart';
-import '../home.dart';
 
 class AuthService {
   handleAuth() {
@@ -10,7 +10,7 @@ class AuthService {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData)
-          return Home();
+          return HomePageLayout();
         else
           return GetStarted();
       },

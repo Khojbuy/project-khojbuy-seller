@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khojbuy/Screens/sidebar/sidebar.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'package:khojbuy/Services/navigator_bloc.dart';
 
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-class HomePageLayout extends StatefulWidget {
-  @override
-  _HomePageLayoutState createState() => _HomePageLayoutState();
-}
-
-class _HomePageLayoutState extends State<HomePageLayout> {
+class HomePageLayout extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,22 +124,12 @@ class MenuItem extends StatelessWidget {
         padding: EdgeInsets.all(15.0),
         child: Row(
           children: <Widget>[
-            Icon(
-              icon,
-              color: Colors.black12,
-              size: 30,
+            BlocBuilder<NavigatorBloc, NavigationStates>(
+              builder: (context, NavigationStates) {
+                return NavigationStates as Widget;
+              },
             ),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              title,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16),
-            )
+            Sidebar()
           ],
         ),
       ),

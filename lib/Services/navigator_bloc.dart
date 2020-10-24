@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:khojbuy/Screens/pages/about_us.dart';
 import 'package:khojbuy/Screens/pages/dashboard.dart';
 import 'package:khojbuy/Screens/pages/profile.dart';
 import 'package:khojbuy/Screens/pages/faq.dart';
+import 'package:khojbuy/Screens/pages/about_us.dart';
 
 enum NavigationEvents {
   DashBoardClickEvent,
@@ -34,6 +34,7 @@ class NavigatorBloc extends Bloc<NavigationEvents, NavigationStates> {
         break;
       case NavigationEvents.AboutEvent:
         yield ContactInfo();
+
         break;
     }
   }
