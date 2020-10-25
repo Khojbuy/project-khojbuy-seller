@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import '../drawerlayout.dart';
+import 'package:khojbuy/Seller/Screens/homepage_seller.dart';
 
-class DetailsInput extends StatefulWidget {
+class DetailsInputSeller extends StatefulWidget {
   @override
-  _DetailsInputState createState() => _DetailsInputState();
+  _DetailsInputSellerState createState() => _DetailsInputSellerState();
 }
 
 List<FormBuilderFieldOption> communities = [
@@ -26,7 +26,7 @@ List<FormBuilderFieldOption> communities = [
   FormBuilderFieldOption(value: "Gift Shop", child: Text("Gift Shop")),
 ];
 
-class _DetailsInputState extends State<DetailsInput> {
+class _DetailsInputSellerState extends State<DetailsInputSeller> {
   AutovalidateMode autovalidateMode = AutovalidateMode.always;
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   String userName, enterpriseName;
@@ -185,7 +185,7 @@ class _DetailsInputState extends State<DetailsInput> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomePageLayout()),
+                                    builder: (context) => HomePageSeller()),
                               );
                             },
                             elevation: 10,

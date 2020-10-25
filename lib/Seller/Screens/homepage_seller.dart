@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khojbuy/Screens/sidebar/sidebar.dart';
 import 'package:khojbuy/Services/authservice.dart';
-import 'package:khojbuy/Services/navigator_bloc.dart';
+import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
-class HomePageLayout extends StatelessWidget {
+class HomePageSeller extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -129,7 +128,6 @@ class MenuItem extends StatelessWidget {
                 return NavigationStates as Widget;
               },
             ),
-            Sidebar()
           ],
         ),
       ),

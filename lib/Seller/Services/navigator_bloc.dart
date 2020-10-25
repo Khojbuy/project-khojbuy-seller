@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:khojbuy/Screens/pages/dashboard.dart';
-import 'package:khojbuy/Screens/pages/profile.dart';
-import 'package:khojbuy/Screens/pages/faq.dart';
-import 'package:khojbuy/Screens/pages/about_us.dart';
+import 'package:khojbuy/Seller/Screens/pages/dashboard.dart';
+import 'package:khojbuy/Seller/Screens/pages/profile.dart';
+import 'package:khojbuy/Seller/Screens/pages/faq.dart';
+import 'package:khojbuy/Seller/Screens/pages/about_us.dart';
 
 enum NavigationEvents {
   DashBoardClickEvent,

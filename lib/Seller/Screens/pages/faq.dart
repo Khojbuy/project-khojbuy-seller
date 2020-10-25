@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Services/navigator_bloc.dart';
+import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 class Faq extends StatefulWidget with NavigationStates {
   @override

@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'dart:async';
 
-class SignInPage extends StatefulWidget {
+class SignInPageBuyer extends StatefulWidget {
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _SignInPageBuyerState createState() => _SignInPageBuyerState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInPageBuyerState extends State<SignInPageBuyer> {
   final formkey = new GlobalKey<FormState>();
   String phnNo, verificationId, smsCode;
   bool codeSent = false;
@@ -117,8 +117,8 @@ class _SignInPageState extends State<SignInPage> {
                     child: FloatingActionButton.extended(
                       onPressed: () {
                         codeSent
-                            ? AuthService()
-                                .signInwithOTP(smsCode, verificationId, context)
+                            ? AuthService().signInwithOTPBuyer(
+                                smsCode, verificationId, context)
                             : verifyPhone(phnNo);
                       },
                       elevation: 10,
@@ -146,7 +146,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<void> verifyPhone(String phnNo) async {
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      AuthService().signIn(authResult, context);
+      AuthService().signInBuyer(authResult, context);
     };
 
     final PhoneVerificationFailed verificationFailed =

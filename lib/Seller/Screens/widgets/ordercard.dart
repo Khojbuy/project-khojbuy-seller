@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Models/modelcard.dart';
+import 'package:khojbuy/Seller/Models/modelcard.dart';
 
 Widget cardPlate(Cards card, BuildContext context, Function ontap) {
   return Card(

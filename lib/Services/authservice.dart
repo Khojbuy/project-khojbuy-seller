@@ -1,17 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Screens/drawerlayout.dart';
-import 'package:khojbuy/Screens/initials/details_input.dart';
-import 'package:khojbuy/Screens/initials/get_started.dart';
+import 'package:khojbuy/Buyer/Screens/homepage_buyer.dart';
+import 'package:khojbuy/Seller/Screens/homepage_seller.dart';
+import 'package:khojbuy/Buyer/initials/details_input_buyer.dart';
+import 'package:khojbuy/Seller/initials/details_input_seller.dart';
+import 'package:khojbuy/get_started.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+SharedPreferences pref;
+
+initprefs() async {
+  pref = await SharedPreferences.getInstance();
+}
 
 class AuthService {
   handleAuth() {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
-        if (snapshot.hasData)
-          return HomePageLayout();
-        else
+        if (snapshot.hasData) {
+          if (pref.getString('type') == 'buyer')
+            return HomePageBuyer();
+          else
+            return HomePageSeller();
+        } else
           return GetStarted();
       },
     );
@@ -25,17 +37,33 @@ class AuthService {
     );
   }
 
-  signIn(AuthCredential authCredential, BuildContext context) {
+  signInBuyer(AuthCredential authCredential, BuildContext context) {
     FirebaseAuth.instance.signInWithCredential(authCredential);
+    pref.setString('type', 'buyer');
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DetailsInput()),
+      MaterialPageRoute(builder: (context) => DetailsInputBuyer()),
     );
   }
 
-  signInwithOTP(String smsCode, String verId, BuildContext context) {
+  signInwithOTPBuyer(String smsCode, String verId, BuildContext context) {
     AuthCredential authCredential =
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
-    signIn(authCredential, context);
+    signInBuyer(authCredential, context);
+  }
+
+  signInSeller(AuthCredential authCredential, BuildContext context) {
+    pref.setString('type', 'seller');
+    FirebaseAuth.instance.signInWithCredential(authCredential);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DetailsInputSeller()),
+    );
+  }
+
+  signInwithOTPSeller(String smsCode, String verId, BuildContext context) {
+    AuthCredential authCredential =
+        PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
+    signInSeller(authCredential, context);
   }
 }

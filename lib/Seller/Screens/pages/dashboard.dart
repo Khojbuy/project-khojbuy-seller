@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Models/modelcard.dart';
-import 'package:khojbuy/Screens/pages/orders.dart';
-import 'package:khojbuy/Screens/pages/requests.dart';
-import 'package:khojbuy/Screens/widgets/ordercard.dart';
-import 'package:khojbuy/Services/navigator_bloc.dart';
+import 'package:khojbuy/Seller/Models/modelcard.dart';
+import 'package:khojbuy/Seller/Screens/pages/orders.dart';
+import 'package:khojbuy/Seller/Screens/pages/requests.dart';
+import 'package:khojbuy/Seller/Screens/widgets/ordercard.dart';
+import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 class DashBoardPage extends StatefulWidget with NavigationStates {
   @override
