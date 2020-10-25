@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Seller/Screens/pages/orders.dart';
+import 'package:khojbuy/Seller/Screens/pages/requests.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 class DashBoardPage extends StatefulWidget with NavigationStates {
@@ -17,7 +18,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Card(
+          color: Color.fromRGBO(41, 74, 171, 0.98),
           child: GestureDetector(
+            child: Center(
+              child: Text('ORDERS'),
+              widthFactor: 50,
+              heightFactor: 50,
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -26,7 +33,25 @@ class _DashBoardPageState extends State<DashBoardPage> {
             },
           ),
         ),
-        Card()
+        SizedBox(
+          height: MediaQuery.of(context).size.longestSide * 0.05,
+        ),
+        Card(
+          color: Color.fromRGBO(41, 74, 171, 0.98),
+          child: GestureDetector(
+            child: Center(
+              child: Text('REQUESTS'),
+              widthFactor: 50,
+              heightFactor: 50,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyRequests()),
+              );
+            },
+          ),
+        )
       ],
     ));
   }
