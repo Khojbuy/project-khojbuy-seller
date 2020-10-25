@@ -14,20 +14,26 @@ class HomePageSeller extends StatelessWidget {
         actions: [
           IconButton(
               icon: Icon(
-                Icons.menu_open_rounded,
+                Icons.notifications,
                 color: Colors.white,
               ),
-              onPressed: () {
-                _scaffoldKey.currentState.openEndDrawer();
-              })
+              onPressed: () {}),
         ],
+        leading: IconButton(
+            icon: Icon(
+              Icons.menu_open_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              _scaffoldKey.currentState.openDrawer();
+            }),
       ),
       body: BlocBuilder<NavigatorBloc, NavigationStates>(
         builder: (context, NavigationStates states) {
           return states as Widget;
         },
       ),
-      endDrawer: Drawer(
+      drawer: Drawer(
         elevation: 20,
         child: SingleChildScrollView(
           child: Column(
