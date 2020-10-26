@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Buyer/Screens/homepage_buyer.dart';
 import 'package:khojbuy/Buyer/initials/details_input_buyer.dart';
+import 'package:khojbuy/Seller/Initials/details_input_seller.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
-import 'package:khojbuy/Seller/initials/details_input_seller.dart';
 import 'package:khojbuy/get_started.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,7 +74,7 @@ class AuthService {
     FirebaseAuth.instance.signInWithCredential(authCredential);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Home()),
+      MaterialPageRoute(builder: (context) => DetailsInputSeller()),
     );
   }
 
