@@ -1,16 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Buyer/Screens/homepage_buyer.dart';
-import 'package:khojbuy/Seller/Screens/homepage_seller.dart';
 import 'package:khojbuy/Buyer/initials/details_input_buyer.dart';
+import 'package:khojbuy/Seller/Services/home_seller.dart';
 import 'package:khojbuy/Seller/initials/details_input_seller.dart';
 import 'package:khojbuy/get_started.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences pref;
-
-initprefs() async {
+initPrefs() async {
   pref = await SharedPreferences.getInstance();
+  pref.setString('type', 'empty');
+}
+
+getType() async {
+  pref = await SharedPreferences.getInstance();
+  return pref.getString('type');
+}
+
+setBuyer() async {
+  pref = await SharedPreferences.getInstance();
+  pref.setString('type', 'buyer');
+}
+
+setSeller() async {
+  pref = await SharedPreferences.getInstance();
+  pref.setString('type', 'seller');
 }
 
 class AuthService {
@@ -19,12 +34,14 @@ class AuthService {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
-          if (pref.getString('type') == 'buyer')
+          if (getType() == 'buyer')
             return HomePageBuyer();
           else
-            return HomePageSeller();
-        } else
+            return Home();
+        } else {
+          initPrefs();
           return GetStarted();
+        }
       },
     );
   }
@@ -39,7 +56,7 @@ class AuthService {
 
   signInBuyer(AuthCredential authCredential, BuildContext context) {
     FirebaseAuth.instance.signInWithCredential(authCredential);
-    pref.setString('type', 'buyer');
+    setBuyer();
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => DetailsInputBuyer()),
@@ -53,11 +70,11 @@ class AuthService {
   }
 
   signInSeller(AuthCredential authCredential, BuildContext context) {
-    pref.setString('type', 'seller');
+    setSeller();
     FirebaseAuth.instance.signInWithCredential(authCredential);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DetailsInputSeller()),
+      MaterialPageRoute(builder: (context) => Home()),
     );
   }
 

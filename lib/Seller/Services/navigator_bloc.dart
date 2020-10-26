@@ -7,7 +7,6 @@ import 'package:khojbuy/Seller/Screens/pages/about_us.dart';
 enum NavigationEvents {
   DashBoardClickEvent,
   ProfileClickEvent,
-
   FaqClickEvent,
   AboutEvent
 }

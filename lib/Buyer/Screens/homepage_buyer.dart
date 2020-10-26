@@ -10,6 +10,8 @@ class HomePageBuyer extends StatefulWidget {
 class _HomePageBuyerState extends State<HomePageBuyer> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text("hello"),
+    );
   }
 }

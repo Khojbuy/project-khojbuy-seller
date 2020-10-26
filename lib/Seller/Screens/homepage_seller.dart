@@ -5,6 +5,7 @@ import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 class HomePageSeller extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +36,8 @@ class HomePageSeller extends StatelessWidget {
       ),
       drawer: Drawer(
         elevation: 20,
-        child: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(color: Color.fromRGBO(41, 74, 171, 0.98)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -47,7 +49,7 @@ class HomePageSeller extends StatelessWidget {
                   "John Doe",
                   style: TextStyle(
                       fontSize: 32,
-                      color: Colors.black,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
@@ -56,14 +58,14 @@ class HomePageSeller extends StatelessWidget {
                   style: TextStyle(
                       fontFamily: 'Nunito',
                       fontWeight: FontWeight.w700,
-                      color: Colors.black54,
+                      color: Colors.white54,
                       fontSize: 26),
                 ),
                 leading: CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Icon(
                     Icons.perm_identity,
-                    color: Colors.black12,
+                    color: Colors.white12,
                   ),
                   radius: 40,
                 ),
@@ -126,14 +128,25 @@ class MenuItem extends StatelessWidget {
     return GestureDetector(
       onTap: ontap,
       child: Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: EdgeInsets.only(left: 20, right: 15, top: 15, bottom: 15),
         child: Row(
           children: <Widget>[
-            BlocBuilder<NavigatorBloc, NavigationStates>(
-              builder: (context, NavigationStates) {
-                return NavigationStates as Widget;
-              },
+            Icon(
+              icon,
+              color: Colors.white54,
+              size: 36,
             ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16),
+            )
           ],
         ),
       ),

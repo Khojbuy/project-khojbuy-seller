@@ -3,6 +3,7 @@ import 'package:khojbuy/Seller/Constants/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:khojbuy/Seller/Screens/homepage_seller.dart';
+import 'package:khojbuy/Seller/Services/home_seller.dart';
 
 class DetailsInputSeller extends StatefulWidget {
   @override
@@ -197,7 +198,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomePageSeller()),
+                                      builder: (context) => Home()),
                                 );
                               },
                               elevation: 10,

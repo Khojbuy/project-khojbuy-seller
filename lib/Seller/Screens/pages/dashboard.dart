@@ -12,47 +12,80 @@ class _DashBoardPageState extends State<DashBoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Card(
-          color: Color.fromRGBO(41, 74, 171, 0.98),
-          child: GestureDetector(
-            child: Center(
-              child: Text('ORDERS'),
-              widthFactor: 50,
-              heightFactor: 50,
+        body: Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Card(
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.white70, width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              color: Color.fromRGBO(41, 74, 171, 0.98),
+              child: InkWell(
+                child: GestureDetector(
+                  child: Container(
+                    height: MediaQuery.of(context).size.longestSide * 0.2,
+                    child: Center(
+                      child: Text(
+                        'ORDERS',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyOrders()),
+                    );
+                  },
+                ),
+              ),
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyOrders()),
-              );
-            },
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.longestSide * 0.05,
-        ),
-        Card(
-          color: Color.fromRGBO(41, 74, 171, 0.98),
-          child: GestureDetector(
-            child: Center(
-              child: Text('REQUESTS'),
-              widthFactor: 50,
-              heightFactor: 50,
+            SizedBox(
+              height: MediaQuery.of(context).size.longestSide * 0.05,
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyRequests()),
-              );
-            },
-          ),
-        )
-      ],
+            Card(
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.white70, width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              color: Color.fromRGBO(41, 74, 171, 0.98),
+              child: InkWell(
+                child: GestureDetector(
+                  child: Container(
+                    height: MediaQuery.of(context).size.longestSide * 0.2,
+                    child: Center(
+                      child: Text(
+                        'REQUESTS',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyRequests()),
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     ));
   }
 }
