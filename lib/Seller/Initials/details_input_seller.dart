@@ -35,197 +35,204 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Form(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                onSaved: (val) => _seller.shopName = val,
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the required value';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Shop Name',
-                  labelStyle:
-                      TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-                  icon: Icon(
-                    Icons.home_rounded,
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Form(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            key: _formKey,
+            child: ListView(
+              children: [
+                TextFormField(
+                  onSaved: (val) => _seller.shopName = val,
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter the required value';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Shop Name',
+                    labelStyle:
+                        TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                    icon: Icon(
+                      Icons.home_rounded,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                    ),
                   ),
                 ),
-              ),
-              TextFormField(
-                onSaved: (val) => _seller.ownerName = val,
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the required value';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelStyle:
-                      TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-                  labelText: 'Owner Name',
-                  icon: Icon(
-                    Icons.person_pin,
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                TextFormField(
+                  onSaved: (val) => _seller.ownerName = val,
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter the required value';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelStyle:
+                        TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                    labelText: 'Owner Name',
+                    icon: Icon(
+                      Icons.person_pin,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                    ),
                   ),
                 ),
-              ),
-              TextFormField(
-                onSaved: (val) => _seller.email = val,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the required value';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelText: 'E-mail Address',
-                  labelStyle:
-                      TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-                  icon: Icon(
-                    Icons.email_rounded,
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                TextFormField(
+                  onSaved: (val) => _seller.email = val,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter the required value';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'E-mail Address',
+                    labelStyle:
+                        TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                    icon: Icon(
+                      Icons.email_rounded,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                    ),
                   ),
                 ),
-              ),
-              TextFormField(
-                onSaved: (val) => _seller.contact = val,
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the required value';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Contact Number',
-                  labelStyle:
-                      TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-                  icon: Icon(
-                    Icons.call_rounded,
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                TextFormField(
+                  onSaved: (val) => _seller.contact = val,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter the required value';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Contact Number',
+                    labelStyle:
+                        TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                    icon: Icon(
+                      Icons.call_rounded,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                "Choose the categories you deal in (max 3) -",
-                softWrap: true,
-                style: TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-              ),
-              Wrap(
-                children: _buildChoiceList(),
-              ),
-              SwitchListTile(
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  title: Text(
-                    "Do you have home-delivery facility",
-                    style: TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-                  ),
-                  activeColor: Color.fromRGBO(41, 74, 171, 0.98),
-                  inactiveTrackColor: Colors.blueGrey,
-                  value: _seller.delivery,
-                  onChanged: (val) {
-                    _seller.delivery = val;
-                  }),
-              TextFormField(
-                onSaved: (val) => _seller.address.addressLine = val,
-                keyboardType: TextInputType.streetAddress,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the required value';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Address',
-                  labelStyle:
-                      TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-                  icon: Icon(
-                    Icons.location_on,
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                Text(
+                  "Choose the categories you deal in (max 3) -",
+                  softWrap: true,
+                  style: TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                ),
+                Wrap(
+                  children: _buildChoiceList(),
+                ),
+                SwitchListTile(
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    title: Text(
+                      "Do you have home-delivery facility",
+                      style:
+                          TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                    ),
+                    activeColor: Color.fromRGBO(41, 74, 171, 0.98),
+                    inactiveTrackColor: Colors.blueGrey,
+                    value: _seller.delivery,
+                    onChanged: (val) {
+                      _seller.delivery = val;
+                    }),
+                TextFormField(
+                  onSaved: (val) => _seller.address.addressLine = val,
+                  keyboardType: TextInputType.streetAddress,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter the required value';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Address',
+                    labelStyle:
+                        TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                    icon: Icon(
+                      Icons.location_on,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                    ),
                   ),
                 ),
-              ),
-              TextFormField(
-                onSaved: (val) => _seller.address.city = val,
-                keyboardType: TextInputType.name,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the required value';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelText: 'City',
-                  labelStyle:
-                      TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
-                  icon: Icon(
-                    Icons.location_city_rounded,
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                TextFormField(
+                  onSaved: (val) => _seller.address.city = val,
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter the required value';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'City',
+                    labelStyle:
+                        TextStyle(color: Color.fromRGBO(41, 74, 171, 0.98)),
+                    icon: Icon(
+                      Icons.location_city_rounded,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(30),
-                    child: InkWell(
-                      child: FloatingActionButton.extended(
-                        onPressed: () {
-                          _formKey.currentState.validate();
-                          _formKey.currentState.save();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );
-                        },
-                        elevation: 10,
-                        backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
-                        label: Text(
-                          "SUBMIT",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Nunito',
-                              color: Colors.white),
+                SizedBox(
+                  height: MediaQuery.of(context).size.longestSide * 0.05,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(30),
+                      child: InkWell(
+                        child: FloatingActionButton.extended(
+                          onPressed: () {
+                            print(_seller);
+                            _formKey.currentState.validate();
+                            _formKey.currentState.save();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Home()),
+                            );
+                          },
+                          elevation: 10,
+                          backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                          label: Text(
+                            "SUBMIT",
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Nunito',
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(30),
-                    child: InkWell(
-                      child: FloatingActionButton.extended(
-                        onPressed: () {
-                          _formKey.currentState.reset();
-                        },
-                        elevation: 10,
-                        backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
-                        label: Text(
-                          "RESET",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Nunito',
-                              color: Colors.white),
+                    Container(
+                      padding: EdgeInsets.all(30),
+                      child: InkWell(
+                        child: FloatingActionButton.extended(
+                          onPressed: () {
+                            _formKey.currentState.reset();
+                          },
+                          elevation: 10,
+                          backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                          label: Text(
+                            "RESET",
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Nunito',
+                                color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              )
-            ],
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
