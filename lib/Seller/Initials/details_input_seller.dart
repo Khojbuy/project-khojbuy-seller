@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Seller/Constants/categories.dart';
+import 'package:khojbuy/Constants/categories.dart';
 import 'package:khojbuy/Seller/Models/seller.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
 
