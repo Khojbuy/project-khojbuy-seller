@@ -3,6 +3,7 @@ class Seller {
   String ownerName = '';
   String email = '';
   String contact = '';
+  String image = '';
   List<String> categories = [];
   bool delivery = false;
   Address address;
@@ -11,6 +12,7 @@ class Seller {
       this.ownerName,
       this.email,
       this.contact,
+      this.image,
       this.categories,
       this.delivery,
       this.address});
