@@ -19,10 +19,12 @@ class _SignInSellerState extends State<SignInSeller> {
         key: formkey,
         child: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
+            color: Color.fromRGBO(255, 255, 240, 1),
+            /*  gradient: LinearGradient(colors: [
             Color.fromRGBO(255, 255, 240, 1),
             Color.fromRGBO(245, 245, 245, 1)
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter) */
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
