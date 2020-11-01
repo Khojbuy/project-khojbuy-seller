@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Seller {
   String shopName = '';
   String ownerName = '';
@@ -27,4 +29,6 @@ class Address {
 class DeliveryDetails {
   bool delivery = false;
   String minAmt;
+  TimeOfDay delStart = TimeOfDay.now();
+  TimeOfDay delEnd = TimeOfDay.now();
 }

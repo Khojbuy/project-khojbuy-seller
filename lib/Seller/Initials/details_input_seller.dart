@@ -12,6 +12,16 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
   final _formKey = GlobalKey<FormState>();
 
   Seller _seller = new Seller();
+  Future<Null> selectstartTime(BuildContext context) async {
+    _seller.deliveryDetails.delStart = await showTimePicker(
+        context: context, initialTime: _seller.deliveryDetails.delStart);
+  }
+
+  Future<Null> selectendTime(BuildContext context) async {
+    _seller.deliveryDetails.delEnd = await showTimePicker(
+        context: context, initialTime: _seller.deliveryDetails.delEnd);
+  }
+
   _buildChoiceList() {
     List<Widget> choices = List();
     category.forEach((element) {
@@ -139,7 +149,91 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                     onChanged: (val) {
                       _seller.deliveryDetails.delivery = val;
                     }),
-                _seller.deliveryDetails.delivery ? Container() : Container(),
+                _seller.deliveryDetails.delivery
+                    ? Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TextFormField(
+                              onSaved: (val) =>
+                                  _seller.deliveryDetails.minAmt = val,
+                              keyboardType: TextInputType.streetAddress,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter the required value';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Minimum amount for home delivery',
+                                labelStyle: TextStyle(
+                                    color: Color.fromRGBO(41, 74, 171, 0.98)),
+                                icon: Icon(
+                                  Icons.location_on,
+                                  color: Color.fromRGBO(41, 74, 171, 0.98),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Home delivery starts at : ",
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                                  ),
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectstartTime(context);
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              style: BorderStyle.solid,
+                                              width: 0.5),
+                                          shape: BoxShape.rectangle),
+                                      child: Text(_seller
+                                          .deliveryDetails.delStart
+                                          .toString()),
+                                    ))
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Home delivery ends at : ",
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                                  ),
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectendTime(context);
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              style: BorderStyle.solid,
+                                              width: 0.5),
+                                          shape: BoxShape.rectangle),
+                                      child: Text(_seller.deliveryDetails.delEnd
+                                          .toString()),
+                                    ))
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    : Container(),
                 TextFormField(
                   onSaved: (val) => _seller.address.addressLine = val,
                   keyboardType: TextInputType.streetAddress,
