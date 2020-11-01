@@ -5,7 +5,7 @@ class Seller {
   String contact = '';
   String image = '';
   List<String> categories = [];
-  bool delivery = false;
+  DeliveryDetails deliveryDetails;
   Address address;
   Seller(
       {this.shopName,
@@ -14,7 +14,7 @@ class Seller {
       this.contact,
       this.image,
       this.categories,
-      this.delivery,
+      this.deliveryDetails,
       this.address});
 }
 
@@ -22,4 +22,9 @@ class Address {
   String city;
   String addressLine;
   Address({this.city, this.addressLine});
+}
+
+class DeliveryDetails {
+  bool delivery = false;
+  String minAmt;
 }

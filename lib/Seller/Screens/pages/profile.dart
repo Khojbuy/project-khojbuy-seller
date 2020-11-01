@@ -101,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
               hintText: _seller.categories.join(','),
               icon: Icons.category_rounded),
           _textFormField(
-              hintText: _seller.delivery.toString(),
+              hintText: _seller.deliveryDetails.delivery.toString(),
               icon: Icons.delivery_dining),
           _textFormField(hintText: _seller.email, icon: Icons.email_rounded),
           _textFormField(

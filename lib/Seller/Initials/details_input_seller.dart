@@ -135,10 +135,11 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                     ),
                     activeColor: Color.fromRGBO(41, 74, 171, 0.98),
                     inactiveTrackColor: Colors.blueGrey,
-                    value: _seller.delivery,
+                    value: _seller.deliveryDetails.delivery,
                     onChanged: (val) {
-                      _seller.delivery = val;
+                      _seller.deliveryDetails.delivery = val;
                     }),
+                _seller.deliveryDetails.delivery ? Container() : Container(),
                 TextFormField(
                   onSaved: (val) => _seller.address.addressLine = val,
                   keyboardType: TextInputType.streetAddress,

@@ -116,7 +116,7 @@ class _SignInSellerState extends State<SignInSeller> {
                     child: FloatingActionButton.extended(
                       onPressed: () {
                         codeSent
-                            ? AuthService().signInwithOTPBuyer(
+                            ? AuthService().signInwithOTPSeller(
                                 smsCode, verificationId, context)
                             : verifyPhone(phnNo);
                       },
@@ -145,7 +145,7 @@ class _SignInSellerState extends State<SignInSeller> {
 
   Future<void> verifyPhone(String phnNo) async {
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      AuthService().signInBuyer(authResult, context);
+      AuthService().signInSeller(authResult, context);
     };
 
     final PhoneVerificationFailed verificationFailed =

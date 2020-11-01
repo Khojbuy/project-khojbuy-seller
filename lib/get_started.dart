@@ -1,7 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Seller/initials/sign_in_seller.dart';
-import 'Buyer/initials/sign_in_buyer.dart';
 
 class GetStarted extends StatelessWidget {
   @override
@@ -59,8 +57,7 @@ class GetStarted extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => SignInPageBuyer()),
+                      MaterialPageRoute(builder: (context) => SignInSeller()),
                     );
                   },
                   elevation: 10,
@@ -74,28 +71,6 @@ class GetStarted extends StatelessWidget {
                         color: Colors.white),
                   ),
                 ),
-              ),
-            ),
-            RichText(
-              text: new TextSpan(
-                children: [
-                  new TextSpan(
-                    text: 'Are you a seller? ',
-                    style: new TextStyle(color: Colors.black),
-                  ),
-                  new TextSpan(
-                    text: 'Continue here',
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignInSeller()),
-                        );
-                      },
-                    style: new TextStyle(color: Colors.blue),
-                  ),
-                ],
               ),
             ),
           ],
