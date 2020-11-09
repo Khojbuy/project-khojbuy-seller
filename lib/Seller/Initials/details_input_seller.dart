@@ -12,15 +12,6 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
   final _formKey = GlobalKey<FormState>();
 
   Seller _seller = new Seller();
-  Future<Null> selectstartTime(BuildContext context) async {
-    _seller.deliveryDetails.delStart = await showTimePicker(
-        context: context, initialTime: _seller.deliveryDetails.delStart);
-  }
-
-  Future<Null> selectendTime(BuildContext context) async {
-    _seller.deliveryDetails.delEnd = await showTimePicker(
-        context: context, initialTime: _seller.deliveryDetails.delEnd);
-  }
 
   _buildChoiceList() {
     List<Widget> choices = List();
@@ -175,61 +166,6 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Home delivery starts at : ",
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(41, 74, 171, 0.98),
-                                  ),
-                                ),
-                                GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectstartTime(context);
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              style: BorderStyle.solid,
-                                              width: 0.5),
-                                          shape: BoxShape.rectangle),
-                                      child: Text(_seller
-                                          .deliveryDetails.delStart
-                                          .toString()),
-                                    ))
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Home delivery ends at : ",
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(41, 74, 171, 0.98),
-                                  ),
-                                ),
-                                GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        selectendTime(context);
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              style: BorderStyle.solid,
-                                              width: 0.5),
-                                          shape: BoxShape.rectangle),
-                                      child: Text(_seller.deliveryDetails.delEnd
-                                          .toString()),
-                                    ))
-                              ],
-                            )
                           ],
                         ),
                       )

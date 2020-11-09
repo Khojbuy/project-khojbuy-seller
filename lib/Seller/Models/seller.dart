@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Seller {
+  String userId = '';
   String shopName = '';
   String ownerName = '';
   String email = '';
@@ -10,7 +12,8 @@ class Seller {
   DeliveryDetails deliveryDetails;
   Address address;
   Seller(
-      {this.shopName,
+      {this.userId,
+      this.shopName,
       this.ownerName,
       this.email,
       this.contact,
@@ -18,6 +21,8 @@ class Seller {
       this.categories,
       this.deliveryDetails,
       this.address});
+
+
 }
 
 class Address {
@@ -29,6 +34,22 @@ class Address {
 class DeliveryDetails {
   bool delivery = false;
   String minAmt;
-  TimeOfDay delStart = TimeOfDay.now();
-  TimeOfDay delEnd = TimeOfDay.now();
+  
+}
+
+Map<String,dynamic> toJsonSeller(Seller seller){
+  return{
+    FirebaseAuth.instance.currentUser.uid : {
+      "Address" : seller.address.addressLine + seller.address.city,
+      "Category" : seller.categories,
+      "Name" : seller.ownerName,
+      "ShopName" : seller.shopName,
+      "delivery" : {
+        "Allowed" : seller.deliveryDetails.delivery,
+        "MinAmount" : seller.deliveryDetails.minAmt
+      },
+      "phone_no" : seller.contact,
+      "shopImage" : "url"
+    }
+  }
 }
