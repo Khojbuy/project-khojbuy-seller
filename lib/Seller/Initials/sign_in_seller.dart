@@ -18,7 +18,7 @@ class _SignInSellerState extends State<SignInSeller> {
       addressCity = " ",
       minAmt = " ";
   bool delivery = false;
-  List<String> selectCategory = ["Grocery"];
+  List<String> selectCategory = [""];
   String phnNo, verificationId, smsCode;
   bool codeSent = false;
   @override
@@ -155,6 +155,7 @@ class _SignInSellerState extends State<SignInSeller> {
                                               ],
                                             ));
                                       }).toList(),
+                                      value: this.selectCategory.toString(),
                                       decoration: InputDecoration(
                                           hintText: "Enter Your Shop Category",
                                           contentPadding: EdgeInsets.fromLTRB(
@@ -165,8 +166,7 @@ class _SignInSellerState extends State<SignInSeller> {
                                           fillColor: Colors.white),
                                       onChanged: (val) {
                                         setState(() {
-                                          selectCategory.removeLast();
-                                          selectCategory.add(val);
+                                          this.selectCategory.add(val);
                                         });
                                       }),
                                   SizedBox(
