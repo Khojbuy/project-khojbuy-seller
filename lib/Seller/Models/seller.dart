@@ -4,33 +4,20 @@ class Seller {
   String userId = '';
   String shopName = '';
   String ownerName = '';
-  String email = '';
   String contact = '';
   String image = '';
-  List<String> categories = [];
+  String categories = "";
   DeliveryDetails deliveryDetails;
   String address;
   Seller(
       {this.userId,
       this.shopName,
       this.ownerName,
-      this.email,
       this.contact,
       this.image,
       this.categories,
       this.deliveryDetails,
       this.address});
-
-  Seller.fromSnapshot(DataSnapshot snapshot) {
-    userId = snapshot.key;
-    shopName = snapshot.value["ShopName"];
-    address = snapshot.value["Address"];
-    categories = snapshot.value["Category"].toList();
-    deliveryDetails.delivery = snapshot.value["delivery"].value["Allowed"];
-    deliveryDetails.minAmt = snapshot.value["delivery"].value["MinAmount"];
-    contact = snapshot.value["phone_no"];
-    image = snapshot.value["shopImage"];
-  }
 
   toJsonSeller(Seller seller) {
     return {
@@ -52,5 +39,7 @@ class Seller {
 
 class DeliveryDetails {
   bool delivery = false;
-  String minAmt;
+  String minAmt = "0";
+
+  DeliveryDetails({this.delivery = false, this.minAmt = "0"});
 }
