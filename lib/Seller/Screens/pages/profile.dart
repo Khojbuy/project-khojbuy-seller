@@ -105,8 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icons.delivery_dining),
           _textFormField(hintText: _seller.email, icon: Icons.email_rounded),
           _textFormField(
-              hintText: _seller.address.addressLine + _seller.address.city,
-              icon: Icons.location_city_rounded),
+              hintText: _seller.address, icon: Icons.location_city_rounded),
           Container(
             height: 55,
             width: double.infinity,

@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khojbuy/Seller/Screens/pages/dashboard.dart';
 import 'package:khojbuy/Seller/Screens/pages/profile.dart';
 import 'package:khojbuy/Seller/Screens/pages/faq.dart';

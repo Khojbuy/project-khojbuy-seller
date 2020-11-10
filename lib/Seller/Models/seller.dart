@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class Seller {
   String userId = '';
@@ -10,7 +9,7 @@ class Seller {
   String image = '';
   List<String> categories = [];
   DeliveryDetails deliveryDetails;
-  Address address;
+  String address;
   Seller(
       {this.userId,
       this.shopName,
@@ -22,34 +21,36 @@ class Seller {
       this.deliveryDetails,
       this.address});
 
+  Seller.fromSnapshot(DataSnapshot snapshot) {
+    userId = snapshot.key;
+    shopName = snapshot.value["ShopName"];
+    address = snapshot.value["Address"];
+    categories = snapshot.value["Category"].toList();
+    deliveryDetails.delivery = snapshot.value["delivery"].value["Allowed"];
+    deliveryDetails.minAmt = snapshot.value["delivery"].value["MinAmount"];
+    contact = snapshot.value["phone_no"];
+    image = snapshot.value["shopImage"];
+  }
 
-}
-
-class Address {
-  String city;
-  String addressLine;
-  Address({this.city, this.addressLine});
+  toJsonSeller(Seller seller) {
+    return {
+      FirebaseAuth.instance.currentUser.uid: {
+        "Address": seller.address,
+        "Category": seller.categories,
+        "Name": seller.ownerName,
+        "ShopName": seller.shopName,
+        "delivery": {
+          "Allowed": seller.deliveryDetails.delivery,
+          "MinAmount": seller.deliveryDetails.minAmt
+        },
+        "phone_no": seller.contact,
+        "shopImage": seller.image
+      }
+    };
+  }
 }
 
 class DeliveryDetails {
   bool delivery = false;
   String minAmt;
-  
-}
-
-Map<String,dynamic> toJsonSeller(Seller seller){
-  return{
-    FirebaseAuth.instance.currentUser.uid : {
-      "Address" : seller.address.addressLine + seller.address.city,
-      "Category" : seller.categories,
-      "Name" : seller.ownerName,
-      "ShopName" : seller.shopName,
-      "delivery" : {
-        "Allowed" : seller.deliveryDetails.delivery,
-        "MinAmount" : seller.deliveryDetails.minAmt
-      },
-      "phone_no" : seller.contact,
-      "shopImage" : "url"
-    }
-  }
 }
