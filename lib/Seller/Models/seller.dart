@@ -11,23 +11,29 @@ class Seller {
   String addressLoc;
   String addressCity;
 
-  Seller() {
+  Seller(String sName, String uName, String phnNo, List<String> cat, bool del,
+      String minA, String aloc, String aCity) {
     userId = FirebaseAuth.instance.currentUser.uid;
-    //create constructor
+    shopName = sName;
+    ownerName = uName;
+    contact = phnNo;
+    categories = cat;
+    delivery = del;
+    minAmt = minA;
+    addressLoc = aloc;
+    addressCity = aCity;
   }
 
   toJsonSeller(Seller seller) {
     return {
-      FirebaseAuth.instance.currentUser.uid: {
-        "AddressLocation": seller.addressLoc,
-        "AddressCity": seller.addressCity,
-        "Category": seller.categories.toList(),
-        "Name": seller.ownerName,
-        "ShopName": seller.shopName,
-        "Delivery": seller.delivery,
-        "MinAmt": seller.minAmt,
-        "PhoneNo": seller.contact,
-      }
+      "AddressLocation": seller.addressLoc,
+      "AddressCity": seller.addressCity,
+      "Category": seller.categories.toList(),
+      "Name": seller.ownerName,
+      "ShopName": seller.shopName,
+      "Delivery": seller.delivery,
+      "MinAmt": seller.minAmt,
+      "PhoneNo": seller.contact,
     };
   }
 }

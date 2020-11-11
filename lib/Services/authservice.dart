@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
+import 'package:khojbuy/Seller/Models/seller.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
 import 'package:khojbuy/get_started.dart';
+
+final SellerDataRef = FirebaseDatabase.instance.reference().child('SellerData');
 
 class AuthService {
   handleAuth() {
@@ -26,7 +29,9 @@ class AuthService {
     );
   }
 
-  signInSeller(AuthCredential authCredential, BuildContext context) {
+  signInSeller(
+      AuthCredential authCredential, BuildContext context, Seller seller) {
+    SellerDataRef.push();
     FirebaseAuth.instance.signInWithCredential(authCredential);
     Navigator.push(
       context,
@@ -34,9 +39,10 @@ class AuthService {
     );
   }
 
-  signInwithOTPSeller(String smsCode, String verId, BuildContext context) {
+  signInwithOTPSeller(
+      String smsCode, String verId, BuildContext context, Seller seller) {
     AuthCredential authCredential =
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
-    signInSeller(authCredential, context);
+    signInSeller(authCredential, context, seller);
   }
 }

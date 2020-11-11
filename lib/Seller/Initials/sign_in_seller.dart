@@ -317,7 +317,18 @@ class _SignInSellerState extends State<SignInSeller> {
                       onPressed: () {
                         codeSent
                             ? AuthService().signInwithOTPSeller(
-                                smsCode, verificationId, context)
+                                smsCode,
+                                verificationId,
+                                context,
+                                Seller(
+                                    this.shopName,
+                                    this.ownerName,
+                                    this.phnNo,
+                                    this.selectCategory,
+                                    this.delivery,
+                                    this.minAmt,
+                                    this.addressLoc,
+                                    this.addressCity))
                             : verifyPhone(phnNo);
                       },
                       elevation: 10,
