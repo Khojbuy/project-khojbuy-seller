@@ -23,17 +23,18 @@ class Seller {
     addressLoc = aloc;
     addressCity = aCity;
   }
+}
 
-  toJsonSeller(Seller seller) {
-    return {
-      "AddressLocation": seller.addressLoc,
-      "AddressCity": seller.addressCity,
-      "Category": seller.categories.toList(),
-      "Name": seller.ownerName,
-      "ShopName": seller.shopName,
-      "Delivery": seller.delivery,
-      "MinAmt": seller.minAmt,
-      "PhoneNo": seller.contact,
-    };
-  }
+toJsonSeller(Seller seller) {
+  return {
+    "userId": FirebaseAuth.instance.currentUser.uid,
+    "AddressLocation": seller.addressLoc,
+    "AddressCity": seller.addressCity,
+    "Category": seller.categories.toList(),
+    "Name": seller.ownerName,
+    "ShopName": seller.shopName,
+    "Delivery": seller.delivery,
+    "MinAmt": seller.minAmt,
+    "PhoneNo": seller.contact,
+  };
 }

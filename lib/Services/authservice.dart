@@ -5,8 +5,6 @@ import 'package:khojbuy/Seller/Models/seller.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
 import 'package:khojbuy/get_started.dart';
 
-final SellerDataRef = FirebaseDatabase.instance.reference().child('SellerData');
-
 class AuthService {
   handleAuth() {
     return StreamBuilder(
@@ -31,7 +29,9 @@ class AuthService {
 
   signInSeller(
       AuthCredential authCredential, BuildContext context, Seller seller) {
-    SellerDataRef.push();
+    final sellerDataRef =
+        FirebaseDatabase.instance.reference().child('SellerData');
+    sellerDataRef.push().set(toJsonSeller(seller));
     FirebaseAuth.instance.signInWithCredential(authCredential);
     Navigator.push(
       context,

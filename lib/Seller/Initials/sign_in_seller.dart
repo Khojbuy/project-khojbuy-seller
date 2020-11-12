@@ -315,6 +315,8 @@ class _SignInSellerState extends State<SignInSeller> {
                   child: InkWell(
                     child: FloatingActionButton.extended(
                       onPressed: () {
+                        formkey.currentState.save();
+
                         codeSent
                             ? AuthService().signInwithOTPSeller(
                                 smsCode,
@@ -329,7 +331,18 @@ class _SignInSellerState extends State<SignInSeller> {
                                     this.minAmt,
                                     this.addressLoc,
                                     this.addressCity))
-                            : verifyPhone(phnNo);
+                            : verifyPhone(
+                                phnNo,
+                                Seller(
+                                    this.shopName,
+                                    this.ownerName,
+                                    this.phnNo,
+                                    this.selectCategory,
+                                    this.delivery,
+                                    this.minAmt,
+                                    this.addressLoc,
+                                    this.addressCity));
+                        formkey.currentState.reset();
                       },
                       elevation: 10,
                       backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
@@ -354,9 +367,9 @@ class _SignInSellerState extends State<SignInSeller> {
     ));
   }
 
-  Future<void> verifyPhone(String phnNo) async {
+  Future<void> verifyPhone(String phnNo, Seller seller) async {
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      AuthService().signInSeller(authResult, context);
+      AuthService().signInSeller(authResult, context, seller);
     };
 
     final PhoneVerificationFailed verificationFailed =
