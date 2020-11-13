@@ -1,22 +1,33 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class DatabaseService {
+  final String userId;
+  DatabaseService({this.userId});
+
+  final CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection('SellerData');
+
+  Future updateUserData(Seller seller) async {
+    return await collectionReference.doc(userId).set(toJsonSeller(seller));
+  }
+}
 
 class Seller {
-  String userId;
   String shopName;
   String ownerName;
   String contact;
-  List<String> categories;
+  String category;
   bool delivery;
   String minAmt;
   String addressLoc;
   String addressCity;
 
-  Seller(String sName, String uName, String phnNo, List<String> cat, bool del,
+  Seller(String sName, String uName, String phnNo, String cat, bool del,
       String minA, String aloc, String aCity) {
     shopName = sName;
     ownerName = uName;
     contact = phnNo;
-    categories = cat;
+    category = cat;
     delivery = del;
     minAmt = minA;
     addressLoc = aloc;
@@ -26,10 +37,9 @@ class Seller {
 
 toJsonSeller(Seller seller) {
   return {
-    "userId": seller.userId,
     "AddressLocation": seller.addressLoc,
     "AddressCity": seller.addressCity,
-    "Category": seller.categories.toList(),
+    "Category": seller.category,
     "Name": seller.ownerName,
     "ShopName": seller.shopName,
     "Delivery": seller.delivery,

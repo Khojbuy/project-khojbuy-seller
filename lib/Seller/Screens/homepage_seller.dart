@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khojbuy/Services/authservice.dart';
@@ -7,13 +5,11 @@ import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 class HomePageSeller extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final DatabaseReference ref =
-      FirebaseDatabase.instance.reference().child('SellerData');
 
   @override
   Widget build(BuildContext context) {
-    String shopName, ownerName, phnNo;
-    dataRetrieve(ref, shopName, ownerName, phnNo);
+    String shopName = " ", ownerName = " ", phnNo = " ";
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -132,21 +128,6 @@ class HomePageSeller extends StatelessWidget {
       ),
     );
   }
-}
-
-void dataRetrieve(
-    DatabaseReference ref, String shopName, String ownerName, String phnNo) {
-  ref.once().then((DataSnapshot snapshot) {
-    var keys = snapshot.value.keys;
-    var data = snapshot.value;
-    for (var key in keys) {
-      if (data[key]['userId'] == FirebaseAuth.instance.currentUser.uid) {
-        shopName = data[key]['ShopName'];
-        ownerName = data[key]['Name'];
-        phnNo = data[key]['PhnoneNo'];
-      }
-    }
-  });
 }
 
 class MenuItem extends StatelessWidget {
