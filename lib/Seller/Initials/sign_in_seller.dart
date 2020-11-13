@@ -18,7 +18,8 @@ class _SignInSellerState extends State<SignInSeller> {
       addressCity = " ",
       minAmt = " ";
   bool delivery = false;
-  List<String> selectCategory = [""];
+  List<String> selectCategory;
+  String categoryInstance = "Grocery";
   String phnNo, verificationId, smsCode;
   bool codeSent = false;
   @override
@@ -35,332 +36,345 @@ class _SignInSellerState extends State<SignInSeller> {
             Color.fromRGBO(245, 245, 245, 1)
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter) */
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  "SIGN IN",
-                  style: TextStyle(
-                      fontFamily: 'Nunito',
-                      fontSize: 38,
-                      fontWeight: FontWeight.w900),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).size.longestSide * 0.15,
                 ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  codeSent
-                      ? Container()
-                      : Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Container(
-                            width:
-                                MediaQuery.of(context).size.shortestSide * 0.85,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: new InputDecoration(
-                                        hintText: "Enter your Shop Name",
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            20.0, 15.0, 20.0, 15.0),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(32.0)),
-                                        fillColor: Colors.white),
-                                    validator: (val) {
-                                      if (val.length == 0) {
-                                        return "Shop Name cannot be empty";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    onChanged: (val) {
-                                      setState(() {
-                                        this.shopName = val;
-                                      });
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: new InputDecoration(
-                                        hintText: "Enter your Name",
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            20.0, 15.0, 20.0, 15.0),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(32.0)),
-                                        fillColor: Colors.white),
-                                    validator: (val) {
-                                      if (val.length == 0) {
-                                        return "Owner Name cannot be empty";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    onChanged: (val) {
-                                      setState(() {
-                                        this.ownerName = val;
-                                      });
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  TextFormField(
-                                    keyboardType: TextInputType.phone,
-                                    decoration: new InputDecoration(
-                                        hintText: "Enter Your Mobile Number",
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            20.0, 15.0, 20.0, 15.0),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(32.0)),
-                                        fillColor: Colors.white),
-                                    validator: (val) {
-                                      if (val.length == 0) {
-                                        return "Mobile Number cannot be empty";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    onChanged: (val) {
-                                      setState(() {
-                                        this.phnNo = "+91" + val;
-                                      });
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  DropdownButtonFormField(
-                                      items: category.map((String category) {
-                                        return new DropdownMenuItem(
-                                            value: category,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(category),
-                                              ],
-                                            ));
-                                      }).toList(),
-                                      value: this.selectCategory.toString(),
-                                      decoration: InputDecoration(
-                                          hintText: "Enter Your Shop Category",
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    "SIGN IN",
+                    style: TextStyle(
+                        fontFamily: 'Nunito',
+                        fontSize: 38,
+                        fontWeight: FontWeight.w900),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    codeSent
+                        ? Container()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.shortestSide *
+                                  0.85,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      decoration: new InputDecoration(
+                                          hintText: "Enter your Shop Name",
                                           contentPadding: EdgeInsets.fromLTRB(
                                               20.0, 15.0, 20.0, 15.0),
                                           border: OutlineInputBorder(
                                               borderRadius:
                                                   BorderRadius.circular(32.0)),
                                           fillColor: Colors.white),
+                                      validator: (val) {
+                                        if (val.length == 0) {
+                                          return "Shop Name cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
                                       onChanged: (val) {
                                         setState(() {
-                                          this.selectCategory.add(val);
-                                        });
-                                      }),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  TextFormField(
-                                    keyboardType: TextInputType.streetAddress,
-                                    decoration: new InputDecoration(
-                                        hintText: "Enter your Shop's Location",
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            20.0, 15.0, 20.0, 15.0),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(32.0)),
-                                        fillColor: Colors.white),
-                                    validator: (val) {
-                                      if (val.length == 0) {
-                                        return "Address cannot be empty";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    onChanged: (val) {
-                                      setState(() {
-                                        this.addressLoc = val;
-                                      });
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  DropdownButtonFormField(
-                                      items: ["Angul", "Sambalpur"]
-                                          .map((String category) {
-                                        return new DropdownMenuItem(
-                                            value: category,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(category),
-                                              ],
-                                            ));
-                                      }).toList(),
-                                      decoration: InputDecoration(
-                                          hintText: "Enter Your City",
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              20.0, 15.0, 20.0, 15.0),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(32.0)),
-                                          fillColor: Colors.white),
-                                      onChanged: (val) {
-                                        setState(() {
-                                          this.addressCity = val;
-                                        });
-                                      }),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                        " Do you have home delivery facility ? "),
-                                    trailing: Switch(
-                                      activeColor: Colors.blueAccent,
-                                      value: this.delivery,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          this.delivery = value;
+                                          this.shopName = val;
                                         });
                                       },
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  delivery
-                                      ? TextFormField(
-                                          keyboardType: TextInputType.number,
-                                          decoration: new InputDecoration(
-                                              hintText:
-                                                  "Enter the minimum amount for home delivery",
-                                              contentPadding:
-                                                  EdgeInsets.fromLTRB(
-                                                      20.0, 15.0, 20.0, 15.0),
-                                              border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          32.0)),
-                                              fillColor: Colors.white),
-                                          validator: (val) {
-                                            if (val.length == 0) {
-                                              return "Amount cannot be empty";
-                                            } else {
-                                              return null;
-                                            }
-                                          },
-                                          onChanged: (val) {
-                                            setState(() {
-                                              this.minAmt = val;
-                                            });
-                                          },
-                                        )
-                                      : Container(),
-                                ],
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      decoration: new InputDecoration(
+                                          hintText: "Enter your Name",
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 15.0, 20.0, 15.0),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(32.0)),
+                                          fillColor: Colors.white),
+                                      validator: (val) {
+                                        if (val.length == 0) {
+                                          return "Owner Name cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onChanged: (val) {
+                                        setState(() {
+                                          this.ownerName = val;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    TextFormField(
+                                      keyboardType: TextInputType.phone,
+                                      decoration: new InputDecoration(
+                                          hintText: "Enter Your Mobile Number",
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 15.0, 20.0, 15.0),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(32.0)),
+                                          fillColor: Colors.white),
+                                      validator: (val) {
+                                        if (val.length == 0) {
+                                          return "Mobile Number cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onChanged: (val) {
+                                        setState(() {
+                                          this.phnNo = "+91" + val;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    DropdownButtonFormField(
+                                        items: category.map((String category) {
+                                          return new DropdownMenuItem(
+                                              value: category,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Text(category.toString()),
+                                                ],
+                                              ));
+                                        }).toList(),
+                                        value: categoryInstance,
+                                        decoration: InputDecoration(
+                                            hintText:
+                                                "Enter Your Shop Category",
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                20.0, 15.0, 20.0, 15.0),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        32.0)),
+                                            fillColor: Colors.white),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            categoryInstance = val;
+                                            this.selectCategory.add(val);
+                                          });
+                                        }),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    TextFormField(
+                                      keyboardType: TextInputType.streetAddress,
+                                      decoration: new InputDecoration(
+                                          hintText:
+                                              "Enter your Shop's Location",
+                                          contentPadding: EdgeInsets.fromLTRB(
+                                              20.0, 15.0, 20.0, 15.0),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(32.0)),
+                                          fillColor: Colors.white),
+                                      validator: (val) {
+                                        if (val.length == 0) {
+                                          return "Address cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onChanged: (val) {
+                                        setState(() {
+                                          this.addressLoc = val;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    DropdownButtonFormField(
+                                        items: ["Angul", "Sambalpur"]
+                                            .map((String category) {
+                                          return new DropdownMenuItem(
+                                              value: category,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Text(category),
+                                                ],
+                                              ));
+                                        }).toList(),
+                                        decoration: InputDecoration(
+                                            hintText: "Enter Your City",
+                                            contentPadding: EdgeInsets.fromLTRB(
+                                                20.0, 15.0, 20.0, 15.0),
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        32.0)),
+                                            fillColor: Colors.white),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            this.addressCity = val;
+                                          });
+                                        }),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                          " Do you have home delivery facility ? "),
+                                      trailing: Switch(
+                                        activeColor: Colors.blueAccent,
+                                        value: this.delivery,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            this.delivery = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    delivery
+                                        ? TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            decoration: new InputDecoration(
+                                                hintText:
+                                                    "Enter the minimum amount for home delivery",
+                                                contentPadding:
+                                                    EdgeInsets.fromLTRB(
+                                                        20.0, 15.0, 20.0, 15.0),
+                                                border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            32.0)),
+                                                fillColor: Colors.white),
+                                            validator: (val) {
+                                              if (val.length == 0) {
+                                                return "Amount cannot be empty";
+                                              } else {
+                                                return null;
+                                              }
+                                            },
+                                            onChanged: (val) {
+                                              setState(() {
+                                                this.minAmt = val;
+                                              });
+                                            },
+                                          )
+                                        : Container(),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              codeSent
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25.0),
-                      child: Container(
-                        width: 250,
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: "Enter Your OTP recieved",
-                            contentPadding:
-                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32.0)),
-                            fillColor: Colors.white,
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                codeSent
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 25.0),
+                        child: Container(
+                          width: 250,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Enter Your OTP recieved",
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(32.0)),
+                              fillColor: Colors.white,
+                            ),
+                            validator: (val) {
+                              if (val.length == 0) {
+                                return "OTP cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (val) {
+                              setState(() {
+                                this.smsCode = val;
+                              });
+                            },
                           ),
-                          validator: (val) {
-                            if (val.length == 0) {
-                              return "OTP cannot be empty";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (val) {
-                            setState(() {
-                              this.smsCode = val;
-                            });
-                          },
                         ),
-                      ),
-                    )
-                  : Container(),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
-                  child: InkWell(
-                    child: FloatingActionButton.extended(
-                      onPressed: () {
-                        formkey.currentState.save();
+                      )
+                    : Container(),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+                    child: InkWell(
+                      child: FloatingActionButton.extended(
+                        onPressed: () {
+                          formkey.currentState.save();
 
-                        codeSent
-                            ? AuthService().signInwithOTPSeller(
-                                smsCode,
-                                verificationId,
-                                context,
-                                Seller(
-                                    this.shopName,
-                                    this.ownerName,
-                                    this.phnNo,
-                                    this.selectCategory,
-                                    this.delivery,
-                                    this.minAmt,
-                                    this.addressLoc,
-                                    this.addressCity))
-                            : verifyPhone(
-                                phnNo,
-                                Seller(
-                                    this.shopName,
-                                    this.ownerName,
-                                    this.phnNo,
-                                    this.selectCategory,
-                                    this.delivery,
-                                    this.minAmt,
-                                    this.addressLoc,
-                                    this.addressCity));
-                        formkey.currentState.reset();
-                      },
-                      elevation: 10,
-                      backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
-                      label: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: Text(
-                          codeSent ? "Login" : "Verify",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: 'Nunito',
-                            color: Colors.white,
+                          codeSent
+                              ? AuthService().signInwithOTPSeller(
+                                  smsCode,
+                                  verificationId,
+                                  context,
+                                  Seller(
+                                      this.shopName,
+                                      this.ownerName,
+                                      this.phnNo,
+                                      this.selectCategory,
+                                      this.delivery,
+                                      this.minAmt,
+                                      this.addressLoc,
+                                      this.addressCity))
+                              : verifyPhone(
+                                  phnNo,
+                                  Seller(
+                                      this.shopName,
+                                      this.ownerName,
+                                      this.phnNo,
+                                      this.selectCategory,
+                                      this.delivery,
+                                      this.minAmt,
+                                      this.addressLoc,
+                                      this.addressCity));
+                          formkey.currentState.reset();
+                        },
+                        elevation: 10,
+                        backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                        label: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                          child: Text(
+                            codeSent ? "Login" : "Verify",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w900,
+                              fontFamily: 'Nunito',
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ))
-            ],
+                    )),
+                SizedBox(
+                  height: MediaQuery.of(context).size.longestSide * 0.15,
+                ),
+              ],
+            ),
           ),
         ),
       ),

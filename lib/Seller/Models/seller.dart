@@ -13,7 +13,6 @@ class Seller {
 
   Seller(String sName, String uName, String phnNo, List<String> cat, bool del,
       String minA, String aloc, String aCity) {
-    userId = FirebaseAuth.instance.currentUser.uid;
     shopName = sName;
     ownerName = uName;
     contact = phnNo;
@@ -27,7 +26,7 @@ class Seller {
 
 toJsonSeller(Seller seller) {
   return {
-    "userId": FirebaseAuth.instance.currentUser.uid,
+    "userId": seller.userId,
     "AddressLocation": seller.addressLoc,
     "AddressCity": seller.addressCity,
     "Category": seller.categories.toList(),

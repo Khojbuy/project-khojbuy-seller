@@ -27,12 +27,19 @@ class AuthService {
     );
   }
 
-  signInSeller(
-      AuthCredential authCredential, BuildContext context, Seller seller) {
+  signInSeller(AuthCredential authCredential, BuildContext context,
+      Seller seller) async {
     final sellerDataRef =
         FirebaseDatabase.instance.reference().child('SellerData');
-    sellerDataRef.push().set(toJsonSeller(seller));
-    FirebaseAuth.instance.signInWithCredential(authCredential);
+    print(FirebaseAuth.instance.currentUser.phoneNumber);
+    FirebaseAuth.instance
+        .signInWithCredential(authCredential)
+        .then((userCredential) {
+      seller.userId = FirebaseAuth.instance.currentUser.uid;
+    });
+    print(seller.userId);
+    setData(seller, sellerDataRef);
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => Home()),
@@ -45,4 +52,8 @@ class AuthService {
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
     signInSeller(authCredential, context, seller);
   }
+}
+
+setData(Seller seller, DatabaseReference ref) {
+  ref.push().set(toJsonSeller(seller));
 }
