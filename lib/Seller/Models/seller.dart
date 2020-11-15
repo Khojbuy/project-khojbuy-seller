@@ -8,7 +8,19 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('SellerData');
 
   Future updateUserData(Seller seller) async {
-    return await collectionReference.doc(userId).set(toJsonSeller(seller));
+    return await collectionReference
+        .doc(userId)
+        .set(toJsonSeller(seller))
+        .then((value) {
+      print("User Added");
+    }).catchError((error) => print(error));
+  }
+
+  getDisplay() async {
+    var document = collectionReference.doc(userId);
+    document.get().then((document) {
+      return document["display"];
+    });
   }
 }
 
@@ -37,6 +49,7 @@ class Seller {
 
 toJsonSeller(Seller seller) {
   return {
+    "display": false,
     "AddressLocation": seller.addressLoc,
     "AddressCity": seller.addressCity,
     "Category": seller.category,

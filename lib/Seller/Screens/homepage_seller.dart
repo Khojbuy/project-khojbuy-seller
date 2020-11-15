@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khojbuy/Services/authservice.dart';
@@ -5,11 +7,10 @@ import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 class HomePageSeller extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('SellerData');
   @override
   Widget build(BuildContext context) {
-    String shopName = " ", ownerName = " ", phnNo = " ";
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -43,47 +44,6 @@ class HomePageSeller extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SizedBox(
-                height: 100,
-              ),
-              ListTile(
-                title: Text(
-                  shopName,
-                  style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Nunito'),
-                ),
-                subtitle: Column(
-                  children: [
-                    Text(
-                      ownerName,
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white54,
-                          fontSize: 26),
-                    ),
-                    Text(
-                      phnNo,
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white54,
-                          fontSize: 26),
-                    ),
-                  ],
-                ),
-                leading: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.perm_identity,
-                    color: Colors.white12,
-                  ),
-                  radius: 40,
-                ),
-              ),
               Divider(
                 height: 64,
                 thickness: 0.5,
@@ -166,4 +126,65 @@ class MenuItem extends StatelessWidget {
       ),
     );
   }
+}
+
+FutureBuilder names(CollectionReference users, BuildContext context) {
+  return FutureBuilder<DocumentSnapshot>(
+      future: users.doc(FirebaseAuth.instance.currentUser.uid).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data = snapshot.data.data();
+          return Column(
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              ListTile(
+                title: Text(
+                  data['ShopName'],
+                  style: TextStyle(
+                      fontSize: 32,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Nunito'),
+                ),
+                subtitle: Column(
+                  children: [
+                    Text(
+                      data['Name'],
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white54,
+                          fontSize: 26),
+                    ),
+                    Text(
+                      data['PhoneNo'],
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white54,
+                          fontSize: 26),
+                    ),
+                  ],
+                ),
+                leading: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.perm_identity,
+                    color: Colors.white12,
+                  ),
+                  radius: 40,
+                ),
+              ),
+            ],
+          );
+        }
+        return Text("Loading");
+      });
 }
