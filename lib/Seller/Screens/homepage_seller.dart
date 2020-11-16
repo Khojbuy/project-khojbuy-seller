@@ -44,6 +44,7 @@ class HomePageSeller extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              names(users, context),
               Divider(
                 height: 64,
                 thickness: 0.5,
@@ -140,6 +141,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data = snapshot.data.data();
           return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
                 height: 100,
@@ -147,31 +149,12 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
               ListTile(
                 title: Text(
                   data['ShopName'],
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                       fontSize: 32,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
-                ),
-                subtitle: Column(
-                  children: [
-                    Text(
-                      data['Name'],
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white54,
-                          fontSize: 26),
-                    ),
-                    Text(
-                      data['PhoneNo'],
-                      style: TextStyle(
-                          fontFamily: 'Nunito',
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white54,
-                          fontSize: 26),
-                    ),
-                  ],
                 ),
                 leading: CircleAvatar(
                   backgroundColor: Colors.white,
