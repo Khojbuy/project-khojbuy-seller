@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Seller/Screens/pages/policies/dialouge.dart';
 import 'package:khojbuy/Seller/initials/sign_in_seller.dart';
 
 class GetStarted extends StatelessWidget {
@@ -73,6 +75,35 @@ class GetStarted extends StatelessWidget {
                 ),
               ),
             ),
+            RichText(
+                text: TextSpan(
+                    text: 'By creating an account, you are agreeing to our\n',
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                    children: <TextSpan>[
+                  TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return DialougePop(mdFileName: "tnc.md");
+                              });
+                        },
+                      text: 'Terms & Conditions',
+                      style: TextStyle(color: Colors.blueAccent, fontSize: 18)),
+                  TextSpan(text: "and"),
+                  TextSpan(
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return DialougePop(mdFileName: "privacy.md");
+                              });
+                        },
+                      text: 'Privacy Policy',
+                      style: TextStyle(color: Colors.blueAccent, fontSize: 18))
+                ]))
           ],
         ),
       ),

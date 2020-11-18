@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Seller/Screens/pages/policies/dialouge.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 class ContactInfo extends StatelessWidget with NavigationStates {
@@ -49,7 +50,11 @@ class ContactInfo extends StatelessWidget with NavigationStates {
                       ),
                     ),
                     onTap: () {
-                      print("tapped");
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialougePop(mdFileName: "tnc.md");
+                          });
                     },
                   ),
                 ),
@@ -76,7 +81,13 @@ class ContactInfo extends StatelessWidget with NavigationStates {
                         ),
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DialougePop(mdFileName: "privacy.md");
+                          });
+                    },
                   ),
                 ),
               )

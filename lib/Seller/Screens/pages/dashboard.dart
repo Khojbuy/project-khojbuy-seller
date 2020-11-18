@@ -21,7 +21,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
       padding: const EdgeInsets.all(24.0),
       child: Center(
         child: FutureBuilder(
-            future: users.doc(FirebaseAuth.instance.currentUser.uid).get(),
+            future: Future.delayed(Duration(microseconds: 1)).then((value) {
+              return users.doc(FirebaseAuth.instance.currentUser.uid).get();
+            }),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               Map<String, dynamic> data = snapshot.data.data();
