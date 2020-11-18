@@ -25,6 +25,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               Map<String, dynamic> data = snapshot.data.data();
+              if (data == null) {
+                return CircularProgressIndicator();
+              }
               if (snapshot.connectionState == ConnectionState.done &&
                   data['display'] == true) {
                 return Column(
