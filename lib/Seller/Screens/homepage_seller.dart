@@ -62,7 +62,7 @@ class HomePageSeller extends StatelessWidget {
                 BlocProvider.of<NavigatorBloc>(context)
                     .add(NavigationEvents.ProfileClickEvent);
               }),
-              MenuItem(Icons.question_answer_outlined, "FAQs", () {
+              MenuItem(Icons.privacy_tip_rounded, "Policies", () {
                 Navigator.of(context).pop();
                 BlocProvider.of<NavigatorBloc>(context)
                     .add(NavigationEvents.FaqClickEvent);
