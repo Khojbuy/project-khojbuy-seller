@@ -29,7 +29,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
         key: formkey,
         child: Container(
           decoration: BoxDecoration(
-            color: Color.fromRGBO(255, 255, 240, 1),
+            color: Colors.white,
           ),
           child: SingleChildScrollView(
             child: Column(
