@@ -49,6 +49,7 @@ class Seller {
 
 toJsonSeller(Seller seller) {
   return {
+    "PhotoURL": "url",
     "display": false,
     "AddressLocation": seller.addressLoc,
     "AddressCity": seller.addressCity,

@@ -274,7 +274,7 @@ This Agreement and the Privacy Policy shall be governed in all respects by the l
         ·  Any complaints or concerns with regards to any content on **Khojbuy** Services or any breach of this Agreement or Privacy Policy can be directed to the designated Grievance Officer of **Khojbuy** in writing at Ranisati Services, near transformer, Badabazar, Khetrajpur, Sambalpur, Odisha, India- 768003** (Khojbuy, Odisha) **or through an email signed with the electronic signature sent to contact.khojbuy@gmail.com
 
 
-        ·  The Agreement and the Privacy Policy constitute the entire agreement between the User(s) and **Khojbuy** with respect to access to and use of the Web Site, superseding any prior written or oral agreements in relation to the same subject matter herein
+        ·  zxnbvcxzzxm,./The Agreement and the Privacy Policy constitute the entire agreement between the User(s) and **Khojbuy** with respect to access to and use of the Web Site, superseding any prior written or oral agreements in relation to the same subject matter herein
 
 **XVIII. PHARMACEUTICAL PRODUCT/SERVICE POLICIES**
 

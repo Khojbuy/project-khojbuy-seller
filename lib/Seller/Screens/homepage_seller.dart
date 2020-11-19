@@ -151,14 +151,28 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
-                leading: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.perm_identity,
-                    color: Colors.white12,
-                  ),
-                  radius: 40,
-                ),
+                leading: (data['PhotoURL'] == " url")
+                    ? CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.perm_identity,
+                          color: Colors.white12,
+                        ),
+                        radius: 40,
+                      )
+                    : CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Image.file(
+                          data['PhotoURL'],
+                          fit: BoxFit.fill,
+                          errorBuilder: (context, object, stackTrace) {
+                            return Container(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
+                        radius: 40,
+                      ),
               ),
             ],
           );
