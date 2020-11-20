@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
@@ -14,6 +17,7 @@ class ProfilePage extends StatefulWidget with NavigationStates {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  File _image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +34,21 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data = snapshot.data.data();
+
           String addLoc = data["AddressLocation"];
           String addCity = data["AddressCity"];
           bool delivery = data["Delivery"];
           String deliveryAmt = data["MinAmt"];
+
+          Future getImage() async {
+            var image =
+                await ImagePicker().getImage(source: ImageSource.gallery);
+            setState(() {
+              _image = File(image.path);
+              print(_image);
+            });
+          }
+
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -41,12 +56,26 @@ class _ProfilePageState extends State<ProfilePage> {
                 (data["PhotoURL"] == "url")
                     ? CircleAvatar(
                         radius: 80,
-                        child: Image.asset("assets/images/shop.png"),
+                        child: Image.asset(
+                          "assets/images/shop.png",
+                          fit: BoxFit.fill,
+                        ),
                       )
                     : CircleAvatar(
                         radius: 80,
-                        child: Image.file(data["PhotoURL"]),
+                        child: Image.file(
+                          _image,
+                          fit: BoxFit.fill,
+                        ),
                       ),
+                FlatButton(
+                    onPressed: () {
+                      getImage();
+                    },
+                    child: Text(
+                      "Change Photo",
+                      style: TextStyle(color: Colors.blue),
+                    )),
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
@@ -185,9 +214,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: InkWell(
                       child: FloatingActionButton.extended(
                         onPressed: () {
-                          updateUserData(
-                              users, addLoc, addCity, delivery, deliveryAmt);
-                          Scaffold.of(context).showSnackBar(snackbar);
+                          updateUserData(users, addLoc, addCity, delivery,
+                                  deliveryAmt, _image)
+                              .then((value) {
+                            Scaffold.of(context).showSnackBar(snackbar);
+                          });
                         },
                         elevation: 10,
                         backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
@@ -218,10 +249,11 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 Future updateUserData(CollectionReference collectionReference, String addLoc,
-    String addCity, bool del, String minAmt) async {
+    String addCity, bool del, String minAmt, File imageFile) async {
   return await collectionReference
       .doc(FirebaseAuth.instance.currentUser.uid)
       .set({
+    "PhotoURL": imageFile.path,
     "AddressLocation": addLoc,
     "AddressCity": addCity,
     "Delivery": del,
