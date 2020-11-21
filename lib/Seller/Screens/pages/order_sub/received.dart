@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Seller/Models/order_format.dart';
 
 class OrderReceived extends StatefulWidget {
   @override
@@ -8,13 +9,6 @@ class OrderReceived extends StatefulWidget {
 class _OrderReceivedState extends State<OrderReceived> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          "MY Orders Recieved",
-          style: TextStyle(fontSize: 36),
-        ),
-      ),
-    );
+    return Scaffold(body: orderTile("recieved", context));
   }
 }

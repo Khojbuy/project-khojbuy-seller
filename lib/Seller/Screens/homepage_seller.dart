@@ -151,8 +151,8 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
-                leading: (data['PhotoURL'] == " url")
-                    ? CircleAvatar(
+                leading: //(data['PhotoURL'] == " url")?
+                    CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Icon(
                           Icons.perm_identity,
@@ -160,7 +160,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                         ),
                         radius: 40,
                       )
-                    : CircleAvatar(
+                   /*  : CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Image.file(
                           data['PhotoURL'],
@@ -172,7 +172,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                           },
                         ),
                         radius: 40,
-                      ),
+                      ) */,
               ),
             ],
           );

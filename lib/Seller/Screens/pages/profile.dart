@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +18,6 @@ class ProfilePage extends StatefulWidget with NavigationStates {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File _image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,209 +34,237 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data = snapshot.data.data();
-
+          String imgURL = data["PhotoURL"];
           String addLoc = data["AddressLocation"];
           String addCity = data["AddressCity"];
           bool delivery = data["Delivery"];
           String deliveryAmt = data["MinAmt"];
 
-          Future getImage() async {
-            var image =
-                await ImagePicker().getImage(source: ImageSource.gallery);
-            setState(() {
-              _image = File(image.path);
-              print(_image);
-            });
-          }
-
           return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                (data["PhotoURL"] == "url")
-                    ? CircleAvatar(
-                        radius: 80,
-                        child: Image.asset(
-                          "assets/images/shop.png",
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                    : CircleAvatar(
-                        radius: 80,
-                        child: Image.file(
-                          _image,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                FlatButton(
-                    onPressed: () {
-                      getImage();
-                    },
-                    child: Text(
-                      "Change Photo",
-                      style: TextStyle(color: Colors.blue),
-                    )),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    data["ShopName"],
-                    style: TextStyle(
-                      color: Color.fromRGBO(41, 74, 171, 1),
-                      fontSize: 25,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    data["Name"] + "   " + data["PhoneNo"],
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromRGBO(41, 74, 171, 0.6),
-                      letterSpacing: 2.5,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    data["Category"],
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromRGBO(41, 74, 171, 0.6),
-                      letterSpacing: 2.5,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                  width: 200,
-                  child: Divider(
-                    color: Colors.teal[100],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.streetAddress,
-                    initialValue: addLoc,
-                    decoration: new InputDecoration(
-                        labelText: "Shop Location ",
-                        contentPadding:
-                            EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                        fillColor: Colors.white),
-                    validator: (val) {
-                      if (val.length == 0) {
-                        return "Address cannot be empty";
-                      } else {
-                        return null;
-                      }
-                    },
-                    onChanged: (val) {
-                      setState(() {
-                        addLoc = val;
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.streetAddress,
-                    initialValue: addCity,
-                    decoration: new InputDecoration(
-                        labelText: "Shop City",
-                        contentPadding:
-                            EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32.0)),
-                        fillColor: Colors.white),
-                    validator: (val) {
-                      if (val.length == 0) {
-                        return "Address cannot be empty";
-                      } else {
-                        return null;
-                      }
-                    },
-                    onChanged: (val) {
-                      setState(() {
-                        addCity = val;
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: SwitchListTile(
-                      title: Text(
-                        "Home Delivery Facility",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      value: delivery,
-                      onChanged: (val) {
-                        setState(() {
-                          delivery = val;
-                        });
-                      }),
-                ),
-                delivery
-                    ? Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.streetAddress,
-                          initialValue: deliveryAmt,
-                          decoration: new InputDecoration(
-                              labelText: "Minimum Amount for home delivery ",
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(32.0)),
-                              fillColor: Colors.white),
-                          validator: (val) {
-                            if (val.length == 0) {
-                              return "Amount cannot be empty";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (val) {
-                            setState(() {
-                              addCity = val;
-                            });
-                          },
-                        ),
-                      )
-                    : Container(),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
-                    child: InkWell(
-                      child: FloatingActionButton.extended(
-                        onPressed: () {
-                          updateUserData(users, addLoc, addCity, delivery,
-                                  deliveryAmt, _image)
-                              .then((value) {
-                            Scaffold.of(context).showSnackBar(snackbar);
-                          });
-                        },
-                        elevation: 10,
-                        backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
-                        label: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                          child: Text(
-                            "Save Data",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: 'Nunito',
-                              color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  (data["PhotoURL"] == "url")
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 80,
+                            child: Image.asset(
+                              "assets/images/shop.png",
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 80,
+                            child: Image.network(
+                              imgURL,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
+                  FlatButton(
+                      textColor: Colors.blueAccent,
+                      onPressed: () async {
+                        final picker = ImagePicker();
+                        final storage = FirebaseStorage.instance;
+
+                        PickedFile image =
+                            await picker.getImage(source: ImageSource.gallery);
+                        File img = File(image.path);
+                        if (img != null) {
+                          TaskSnapshot snapshot = await storage
+                              .ref()
+                              .child("SellerData/${data["Name"]}")
+                              .putFile(img);
+                          String downloadURL =
+                              await snapshot.ref.getDownloadURL();
+                          setState(() {
+                            imgURL = downloadURL;
+                          });
+                        } else {
+                          print("No path recived");
+                        }
+                      },
+                      child: Text(
+                        "Change Photo",
+                      )),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      data["ShopName"],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(41, 74, 171, 1),
+                          fontSize: 32,
+                          letterSpacing: 2.5),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      data["Name"] +
+                          " " +
+                          data["PhoneNo"].toString().substring(3),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        color: Color.fromRGBO(41, 74, 171, 0.6),
+                        letterSpacing: 1.5,
                       ),
-                    )),
-              ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Shop Category : " + data["Category"],
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromRGBO(41, 74, 171, 0.6),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                    width: 200,
+                    child: Divider(
+                      color: Colors.teal[100],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextFormField(
+                      keyboardType: TextInputType.streetAddress,
+                      initialValue: addLoc,
+                      decoration: new InputDecoration(
+                          labelText: "Shop Location ",
+                          contentPadding:
+                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          fillColor: Colors.white),
+                      validator: (val) {
+                        if (val.length == 0) {
+                          return "Address cannot be empty";
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          addLoc = val;
+                        });
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextFormField(
+                      keyboardType: TextInputType.streetAddress,
+                      initialValue: addCity,
+                      decoration: new InputDecoration(
+                          labelText: "Shop City",
+                          contentPadding:
+                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          fillColor: Colors.white),
+                      validator: (val) {
+                        if (val.length == 0) {
+                          return "Address cannot be empty";
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (val) {
+                        setState(() {
+                          addCity = val;
+                        });
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: SwitchListTile(
+                        title: Text(
+                          "Home Delivery Facility",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        value: delivery,
+                        onChanged: (val) {
+                          setState(() {
+                            delivery = val;
+                          });
+                        }),
+                  ),
+                  delivery
+                      ? Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.streetAddress,
+                            initialValue: deliveryAmt,
+                            decoration: new InputDecoration(
+                                labelText: "Minimum Amount for home delivery ",
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(32.0)),
+                                fillColor: Colors.white),
+                            validator: (val) {
+                              if (val.length == 0) {
+                                return "Amount cannot be empty";
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (val) {
+                              setState(() {
+                                if (!delivery)
+                                  deliveryAmt = "0";
+                                else
+                                  deliveryAmt = val;
+                              });
+                            },
+                          ),
+                        )
+                      : Container(),
+                  Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+                      child: InkWell(
+                        child: FloatingActionButton.extended(
+                          onPressed: () {
+                            updateUserData(users, addLoc, addCity, delivery,
+                                    deliveryAmt, imgURL)
+                                .then((value) {
+                              Scaffold.of(context).showSnackBar(snackbar);
+                            });
+                          },
+                          elevation: 10,
+                          backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                          label: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 40.0),
+                            child: Text(
+                              "Save Data",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                                fontFamily: 'Nunito',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )),
+                ],
+              ),
             ),
           );
         }
@@ -249,11 +277,11 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 Future updateUserData(CollectionReference collectionReference, String addLoc,
-    String addCity, bool del, String minAmt, File imageFile) async {
+    String addCity, bool del, String minAmt, String imgURL) async {
   return await collectionReference
       .doc(FirebaseAuth.instance.currentUser.uid)
       .set({
-    "PhotoURL": imageFile.path,
+    "PhotoURL": imgURL,
     "AddressLocation": addLoc,
     "AddressCity": addCity,
     "Delivery": del,
