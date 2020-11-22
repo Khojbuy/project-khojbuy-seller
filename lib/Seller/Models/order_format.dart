@@ -24,9 +24,21 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
         .where("Status", isEqualTo: orderStatus)
         .snapshots(),
     builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.done) {
+      if (snapshot.connectionState == ConnectionState.done &&
+          snapshot.data == null) {
+        return Container(
+          child: Text(
+            "You have no orders in this status",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      if (snapshot.connectionState == ConnectionState.done &&
+          snapshot.data != null) {
         final ups = snapshot.data.documents;
         return ListView.builder(
+            clipBehavior: Clip.antiAlias,
+            shrinkWrap: true,
             itemExtent: 50,
             scrollDirection: Axis.vertical,
             itemCount: ups.length,
@@ -42,12 +54,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
               );
             });
       }
-      return Container(
-        child: Text(
-          "You have no orders in this status",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      );
+      return Center(child: CircularProgressIndicator());
     },
   );
 }

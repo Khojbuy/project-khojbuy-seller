@@ -280,7 +280,7 @@ Future updateUserData(CollectionReference collectionReference, String addLoc,
     String addCity, bool del, String minAmt, String imgURL) async {
   return await collectionReference
       .doc(FirebaseAuth.instance.currentUser.uid)
-      .set({
+      .update({
     "PhotoURL": imgURL,
     "AddressLocation": addLoc,
     "AddressCity": addCity,
