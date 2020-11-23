@@ -151,8 +151,8 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
-                leading: //(data['PhotoURL'] == " url")?
-                    CircleAvatar(
+                leading: (data['PhotoURL'] == " url")
+                    ? CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Icon(
                           Icons.perm_identity,
@@ -160,19 +160,20 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                         ),
                         radius: 40,
                       )
-                   /*  : CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Image.file(
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(40.0),
+                        child: Image.network(
                           data['PhotoURL'],
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
+                          height: 50,
+                          width: 50,
                           errorBuilder: (context, object, stackTrace) {
                             return Container(
                               child: CircularProgressIndicator(),
                             );
                           },
                         ),
-                        radius: 40,
-                      ) */,
+                      ),
               ),
             ],
           );
