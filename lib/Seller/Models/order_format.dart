@@ -36,7 +36,12 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
       if (snapshot.connectionState == ConnectionState.done &&
           snapshot.data != null) {
         final ups = snapshot.data.documents;
-        return ListView.builder(
+        return Center(
+          child: Text("Data is being accessed" +
+              snapshot.connectionState.toString() +
+              snapshot.data.toString()),
+        );
+        /*  ListView.builder(
             clipBehavior: Clip.antiAlias,
             shrinkWrap: true,
             itemExtent: 50,
@@ -52,7 +57,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
                       "There is an order of " + products['Count'] + " items"),
                 ),
               );
-            });
+            }); */
       }
       return Center(child: CircularProgressIndicator());
     },
