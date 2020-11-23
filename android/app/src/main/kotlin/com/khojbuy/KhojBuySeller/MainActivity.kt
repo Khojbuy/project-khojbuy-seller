@@ -1,4 +1,4 @@
-package com.example.khojbuy
+package com.khojbuy.KhojBuySeller
 
 import io.flutter.embedding.android.FlutterActivity
 

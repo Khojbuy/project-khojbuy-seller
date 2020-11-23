@@ -8,17 +8,54 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:169186977964:android:9ad71bdb1c16a239a29709",
+        "mobilesdk_app_id": "1:169186977964:android:10b2496ddea977dba29709",
         "android_client_info": {
-          "package_name": "com.example.khojbuy"
+          "package_name": "com.example.khojbuy_buyer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "169186977964-bprnhb02vjnuho4akedhsg7u3e5bjv1k.apps.googleusercontent.com",
+          "client_id": "169186977964-r532vub96ee1t1i92q2hplihqd18b0i7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.khojbuy",
+            "package_name": "com.example.khojbuy_buyer",
+            "certificate_hash": "d9b143f562dcc098742ef0a01e798f4023b12266"
+          }
+        },
+        {
+          "client_id": "169186977964-cb5s53cq3ee9am0krovpcbr7qj9ge2ab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxL1EVw6lE3hw2cf3w8DEvb3e5Ej4kICY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169186977964-cb5s53cq3ee9am0krovpcbr7qj9ge2ab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169186977964:android:ea00d549f1d9a3fda29709",
+        "android_client_info": {
+          "package_name": "com.khojbuy.KhojBuySeller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169186977964-1k8v38csfcd7utp2fqepddr5vjohns1b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khojbuy.KhojBuySeller",
             "certificate_hash": "26f9192f12bfdd43fd91b2af37673db6f2af3f7e"
           }
         },
