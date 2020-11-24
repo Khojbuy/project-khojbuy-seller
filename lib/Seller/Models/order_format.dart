@@ -35,7 +35,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
       }
       if (snapshot.connectionState == ConnectionState.done &&
           snapshot.data != null) {
-        final ups = snapshot.data.documents;
+        //final ups = snapshot.data.documents;
         return Center(
           child: Text("Data is being accessed" +
               snapshot.connectionState.toString() +

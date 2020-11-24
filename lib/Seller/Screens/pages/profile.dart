@@ -102,6 +102,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Text(
                           "Change Photo",
                         )),
+                    Text(
+                      "The changes will be visible after you SAVE them",
+                      style: TextStyle(color: Colors.black, fontSize: 8),
+                    ),
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
