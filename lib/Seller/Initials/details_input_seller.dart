@@ -143,25 +143,26 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               ),
                               DropdownButtonFormField(
                                   items: [
-                                    'Electronics',
-                                    'Clothing',
-                                    'Puja Requirements',
-                                    'Home Essentials',
-                                    'Pharmaceauticals',
-                                    'Motor Parts',
+                                    'Electronics and Electricals',
+                                    'Clothing and Boutique',
+                                    'Daily Needs'
+                                        'Home Essentials and Decor',
+                                    'Health and Medicines',
+                                    'Motor Parts and Hardware',
                                     'Grocery',
                                     'Footwear',
-                                    'Hardware',
                                     'Stationery',
-                                    'Hardware',
                                     'Furniture',
-                                    'Gift Shop'
+                                    'Sanitary Wares and Ceramics'
                                   ].map((String category) {
                                     return new DropdownMenuItem(
                                         value: category,
                                         child: Row(
                                           children: <Widget>[
-                                            Text(category.toString()),
+                                            Text(
+                                              category.toString(),
+                                              style: TextStyle(fontSize: 12),
+                                            ),
                                           ],
                                         ));
                                   }).toList(),
@@ -214,7 +215,10 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         value: category,
                                         child: Row(
                                           children: <Widget>[
-                                            Text(category),
+                                            Text(
+                                              category,
+                                              style: TextStyle(fontSize: 12),
+                                            ),
                                           ],
                                         ));
                                   }).toList(),

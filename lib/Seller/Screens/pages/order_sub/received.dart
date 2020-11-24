@@ -9,6 +9,6 @@ class OrderReceived extends StatefulWidget {
 class _OrderReceivedState extends State<OrderReceived> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: orderTile("recieved", context));
+    return Scaffold(body: orderTile("received", context));
   }
 }
