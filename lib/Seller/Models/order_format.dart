@@ -5,16 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 final CollectionReference users =
-    FirebaseFirestore.instance.collection('Order');
+    FirebaseFirestore.instance.collection('SellerData');
 List<String> stats = ["received", " confirmed", "to pack", "completed"];
 
 StreamBuilder orderTile(String orderStatus, BuildContext context) {
   return StreamBuilder(
     stream: users
-        .where("Seller", isEqualTo: FirebaseAuth.instance.currentUser.uid)
-        .where("Status", isEqualTo: orderStatus)
+        //.where("Seller", isEqualTo: FirebaseAuth.instance.currentUser.uid)
+        //.where("Status", isEqualTo: orderStatus)
         .snapshots(),
     builder: (context, snapshot) {
+      print(FirebaseAuth.instance.currentUser.uid);
+      print(snapshot);
       if (snapshot.connectionState == ConnectionState.done &&
           !snapshot.hasData) {
         return Container(

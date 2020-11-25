@@ -15,7 +15,10 @@ class _MyOrdersState extends State<MyOrders> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
-          title: Text("ORDERS"),
+          title: Text(
+            "ORDERS",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
           centerTitle: true,
         ),
         body: Padding(

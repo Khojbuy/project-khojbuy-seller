@@ -26,10 +26,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
             }),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
-              Map<String, dynamic> data = snapshot.data.data();
-
-              if (snapshot.connectionState == ConnectionState.done &&
-                  data != null) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> data = snapshot.data.data();
+                print(data);
                 if (data["display"] == true) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -13,7 +13,8 @@ class _MyRequestsState extends State<MyRequests> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
-          title: Text("REQUESTS"),
+          title: Text("REQUESTS",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
           centerTitle: true,
         ),
         body: Padding(
