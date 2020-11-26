@@ -25,67 +25,62 @@ class _MyRequestsState extends State<MyRequests> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Card(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: Color.fromRGBO(41, 74, 171, 0.98),
-                  child: InkWell(
-                    child: GestureDetector(
-                      child: Container(
-                        height: MediaQuery.of(context).size.longestSide * 0.1,
-                        child: Center(
-                          child: Text(
-                            'NEW',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold),
-                          ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RequestNew()),
+                    );
+                  },
+                  child: Card(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                    child: Container(
+                      height: MediaQuery.of(context).size.longestSide * 0.1,
+                      child: Center(
+                        child: Text(
+                          'NEW',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RequestNew()),
-                        );
-                      },
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Card(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: Color.fromRGBO(41, 74, 171, 0.98),
-                  child: InkWell(
-                    child: GestureDetector(
-                      child: Container(
-                        height: MediaQuery.of(context).size.longestSide * 0.1,
-                        child: Center(
-                          child: Text(
-                            'SENT',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold),
-                          ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RequestSent()),
+                    );
+                  },
+                  child: Card(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                    child: Container(
+                      height: MediaQuery.of(context).size.longestSide * 0.1,
+                      child: Center(
+                        child: Text(
+                          'SENT',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RequestSent()),
-                        );
-                      },
                     ),
                   ),
                 ),

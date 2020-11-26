@@ -5,66 +5,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 final CollectionReference users =
-    FirebaseFirestore.instance.collection('SellerData');
+    FirebaseFirestore.instance.collection('Order');
 List<String> stats = ["received", " confirmed", "to pack", "completed"];
 
 StreamBuilder orderTile(String orderStatus, BuildContext context) {
   return StreamBuilder(
     stream: users
-        //.where("Seller", isEqualTo: FirebaseAuth.instance.currentUser.uid)
-        //.where("Status", isEqualTo: orderStatus)
+        .where("Seller",
+            isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
+        .where("Status", isEqualTo: orderStatus)
         .snapshots(),
     builder: (context, snapshot) {
-      print(FirebaseAuth.instance.currentUser.uid);
-      print(snapshot);
-      if (snapshot.connectionState == ConnectionState.done &&
-          !snapshot.hasData) {
-        return Container(
+      if (!snapshot.hasData) {
+        return Center(
           child: Text(
             "You have no orders in this status",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         );
       }
-      if (snapshot.connectionState == ConnectionState.done &&
-          snapshot.hasData) {
-        final ups = snapshot.data.documents;
-        /* return Center(
-          child: Text("Data is being accessed" +
-              snapshot.connectionState.toString() +
-              snapshot.data.toString()),
-        ); */
-        ListView.builder(
-            clipBehavior: Clip.antiAlias,
-            shrinkWrap: true,
-            itemExtent: 50,
-            scrollDirection: Axis.vertical,
-            itemCount: ups.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot products = snapshot.data.documents[index];
-              String userID = products.id;
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => OrderPage(
-                              snapshot: products,
-                              userID: userID,
-                            )),
-                  );
-                },
-                child: ListTile(
-                  title: Text(products['CustomerName']),
-                  subtitle: Text(
-                      "There is an order of " + products['Count'] + " items"),
-                ),
-              );
-            });
-      }
-      return Center(child: CircularProgressIndicator());
+
+      return ListView(
+          scrollDirection: Axis.vertical,
+          children: snapshot.data.documents.map<Widget>((doc) {
+            return Card(
+              margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+              elevation: 20,
+              child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  title: Text(doc['CustomerName'])),
+            );
+          }).toList());
     },
   );
+}
+
+orderPieces(AsyncSnapshot snapshot) {
+  return snapshot.data.documents.map((doc) => ListTile(
+        title: doc["CustomerName"],
+      ));
 }
 
 class OrderPage extends StatefulWidget {

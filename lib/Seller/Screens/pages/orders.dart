@@ -29,136 +29,124 @@ class _MyOrdersState extends State<MyOrders> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Card(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: Color.fromRGBO(41, 74, 171, 0.98),
-                  child: InkWell(
-                    child: GestureDetector(
-                      child: Container(
-                        height: MediaQuery.of(context).size.longestSide * 0.1,
-                        child: Center(
-                          child: Text(
-                            'RECEIVED',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold),
-                          ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderReceived()),
+                    );
+                  },
+                  child: Card(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                    child: Container(
+                      height: MediaQuery.of(context).size.longestSide * 0.1,
+                      child: Center(
+                        child: Text(
+                          'RECEIVED',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OrderReceived()),
-                        );
-                      },
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Card(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: Color.fromRGBO(41, 74, 171, 0.98),
-                  child: InkWell(
-                    child: GestureDetector(
-                      child: Container(
-                        height: MediaQuery.of(context).size.longestSide * 0.1,
-                        child: Center(
-                          child: Text(
-                            'TO CONFIRM',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold),
-                          ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderToConfirm()),
+                    );
+                  },
+                  child: Card(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                    child: Container(
+                      height: MediaQuery.of(context).size.longestSide * 0.1,
+                      child: Center(
+                        child: Text(
+                          'TO CONFIRM',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OrderToConfirm()),
-                        );
-                      },
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Card(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: Color.fromRGBO(41, 74, 171, 0.98),
-                  child: InkWell(
-                    child: GestureDetector(
-                      child: Container(
-                        height: MediaQuery.of(context).size.longestSide * 0.1,
-                        child: Center(
-                          child: Text(
-                            'TO PACK',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold),
-                          ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderToPack()),
+                    );
+                  },
+                  child: Card(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                    child: Container(
+                      height: MediaQuery.of(context).size.longestSide * 0.1,
+                      child: Center(
+                        child: Text(
+                          'TO PACK',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OrderToPack()),
-                        );
-                      },
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                Card(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.white70, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  color: Color.fromRGBO(41, 74, 171, 0.98),
-                  child: InkWell(
-                    child: GestureDetector(
-                      child: Container(
-                        height: MediaQuery.of(context).size.longestSide * 0.1,
-                        child: Center(
-                          child: Text(
-                            'COMPLETED',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold),
-                          ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderCompleted()),
+                    );
+                  },
+                  child: Card(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.white70, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color.fromRGBO(41, 74, 171, 0.98),
+                    child: Container(
+                      height: MediaQuery.of(context).size.longestSide * 0.1,
+                      child: Center(
+                        child: Text(
+                          'COMPLETED',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OrderCompleted()),
-                        );
-                      },
                     ),
                   ),
                 ),

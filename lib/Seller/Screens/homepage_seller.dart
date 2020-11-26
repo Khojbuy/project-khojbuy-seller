@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khojbuy/Seller/Screens/pages/about_us.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
@@ -14,6 +15,11 @@ class HomePageSeller extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "KHOJBUY",
+          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
         actions: [
           IconButton(
@@ -61,6 +67,11 @@ class HomePageSeller extends StatelessWidget {
                 Navigator.of(context).pop();
                 BlocProvider.of<NavigatorBloc>(context)
                     .add(NavigationEvents.ProfileClickEvent);
+              }),
+              MenuItem(Icons.art_track_rounded, "My Advertisements", () {
+                Navigator.of(context).pop();
+                BlocProvider.of<NavigatorBloc>(context)
+                    .add(NavigationEvents.StoryAddEvent);
               }),
               Divider(
                 height: 64,
