@@ -25,26 +25,42 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
         );
       }
 
-      return ListView(
-          scrollDirection: Axis.vertical,
-          children: snapshot.data.documents.map<Widget>((doc) {
-            return Card(
-              margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-              elevation: 20,
-              child: ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  title: Text(doc['CustomerName'])),
-            );
-          }).toList());
+      return Column(
+        children: [
+          ListView(
+              scrollDirection: Axis.vertical,
+              children: snapshot.data.documents.map<Widget>((doc) {
+                return InkWell(
+                  onTap: () {
+                    print(doc);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderPage(
+                                snapshot: doc,
+                                userID: FirebaseAuth.instance.currentUser.uid,
+                              )),
+                    );
+                  },
+                  child: Card(
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    elevation: 20,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      title: Text(doc['CustomerName']),
+                      subtitle: Text("has ordered " +
+                          doc['Items'].length.toString() +
+                          " items"),
+                    ),
+                  ),
+                );
+              }).toList()),
+        ],
+      );
     },
   );
-}
-
-orderPieces(AsyncSnapshot snapshot) {
-  return snapshot.data.documents.map((doc) => ListTile(
-        title: doc["CustomerName"],
-      ));
 }
 
 class OrderPage extends StatefulWidget {

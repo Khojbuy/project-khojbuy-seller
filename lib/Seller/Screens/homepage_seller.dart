@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khojbuy/Seller/Screens/pages/about_us.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
@@ -46,7 +45,7 @@ class HomePageSeller extends StatelessWidget {
       drawer: Drawer(
         elevation: 20,
         child: Container(
-          decoration: BoxDecoration(color: Color.fromRGBO(41, 74, 171, 0.98)),
+          decoration: BoxDecoration(color: Colors.white),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -54,7 +53,7 @@ class HomePageSeller extends StatelessWidget {
               Divider(
                 height: 64,
                 thickness: 0.5,
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.blue.withOpacity(0.7),
                 indent: 32,
                 endIndent: 32,
               ),
@@ -76,7 +75,7 @@ class HomePageSeller extends StatelessWidget {
               Divider(
                 height: 64,
                 thickness: 0.5,
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.blue.withOpacity(0.7),
                 indent: 32,
                 endIndent: 32,
               ),
@@ -114,7 +113,7 @@ class MenuItem extends StatelessWidget {
           children: <Widget>[
             Icon(
               icon,
-              color: Colors.white54,
+              color: Color.fromRGBO(41, 74, 171, 0.98),
               size: 36,
             ),
             SizedBox(
@@ -123,7 +122,7 @@ class MenuItem extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                  color: Colors.white,
+                  color: Color.fromRGBO(41, 74, 171, 1),
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w600,
                   fontSize: 16),
@@ -158,7 +157,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       fontSize: 32,
-                      color: Colors.white,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
@@ -167,7 +166,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                         backgroundColor: Colors.white,
                         child: Icon(
                           Icons.perm_identity,
-                          color: Colors.white12,
+                          color: Color.fromRGBO(41, 74, 171, 0.98),
                         ),
                         radius: 40,
                       )
