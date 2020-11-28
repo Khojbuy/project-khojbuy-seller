@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Seller/Screens/pages/orders.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/new.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/sent.dart';
 
@@ -25,68 +26,18 @@ class _MyRequestsState extends State<MyRequests> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RequestNew()),
-                    );
-                  },
-                  child: Card(
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.white70, width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
-                    child: Container(
-                      height: MediaQuery.of(context).size.longestSide * 0.1,
-                      child: Center(
-                        child: Text(
-                          'NEW',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RequestSent()),
-                    );
-                  },
-                  child: Card(
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.white70, width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    color: Color.fromRGBO(41, 74, 171, 0.98),
-                    child: Container(
-                      height: MediaQuery.of(context).size.longestSide * 0.1,
-                      child: Center(
-                        child: Text(
-                          'SENT',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                )
+                orderCard("NEW REQUESTS", () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RequestNew()),
+                  );
+                }, context),
+                orderCard("RESPONDED REQUESTS", () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RequestSent()),
+                  );
+                }, context)
               ],
             ),
           ),

@@ -2,20 +2,29 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 final CollectionReference users =
     FirebaseFirestore.instance.collection('Order');
-List<String> stats = ["received", " confirmed", "to pack", "completed"];
+List<String> stats = ["received", "waiting", "to pack", "completed"];
 
 StreamBuilder orderTile(String orderStatus, BuildContext context) {
   return StreamBuilder(
-    stream: users
-        .where("Seller",
-            isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
-        .where("Status", isEqualTo: orderStatus)
-        .snapshots(),
+    stream: (orderStatus == "received")
+        ? users
+            .where("Seller",
+                isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
+            .where("Status", whereIn: ["received", "waiting"]).snapshots()
+        : users
+            .where("Seller",
+                isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
+            .where("Status", isEqualTo: orderStatus)
+            .snapshots(),
     builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
       if (!snapshot.hasData) {
         return Center(
           child: Text(
@@ -47,6 +56,15 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
                         horizontal: 10.0, vertical: 6.0),
                     elevation: 20,
                     child: ListTile(
+                      trailing: doc["Status"] == 'waiting'
+                          ? Text(
+                              "Waiting \n for Confirmation",
+                              style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12),
+                            )
+                          : Container(),
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
                       title: Text(doc['CustomerName']),
@@ -80,6 +98,8 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     String remark = documentSnapshot['Remarks'];
+    List<Map<String, dynamic>> items = documentSnapshot['Items'];
+    print(items);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -103,21 +123,16 @@ class _OrderPageState extends State<OrderPage> {
                 shrinkWrap: true,
                 itemCount: documentSnapshot['Items'].length,
                 itemBuilder: (context, index) {
-                  bool availability =
-                      documentSnapshot['Items'][index]['Availability'];
-                  String itemName =
-                      documentSnapshot['Items'][index]['ItemName'];
-                  String amount = documentSnapshot['Items'][index]['Amount'];
                   return SwitchListTile(
                       title: Text(
-                        itemName,
+                        items[index]['ItemName'],
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        amount,
+                        items[index]['Amount'],
                         style: TextStyle(
                             color: Colors.black45,
                             fontSize: 14,
@@ -127,9 +142,11 @@ class _OrderPageState extends State<OrderPage> {
                       dense: true,
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                      value: availability,
+                      value: items[index]['Availability'],
                       onChanged: (val) {
-                        availability = val;
+                        setState(() {
+                          items[index]['Availability'] = val;
+                        });
                       });
                 }),
             (documentSnapshot['image'] == 'url')
@@ -170,17 +187,26 @@ class _OrderPageState extends State<OrderPage> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              child: InkWell(
-                onTap: () {
-                  int index = stats.indexOf(documentSnapshot['Status']);
-                  users.doc(userID).update({
-                    'Status': stats[index++],
-                    'Remarks': remark,
-                  }).whenComplete(() => print("Status Updated"));
-                  Navigator.of(context).pop();
-                },
-                child: Container(),
-              ),
+              child: RaisedButton(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0),
+                  ),
+                  textColor: Colors.white,
+                  child: Text(
+                    "PROCEED",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  splashColor: Colors.blue,
+                  color: Color.fromRGBO(41, 74, 171, 0.98),
+                  onPressed: () {
+                    int index = stats.indexOf(documentSnapshot['Status']);
+                    users.doc(userID).update({
+                      'Items': items,
+                      'Status': stats[index++],
+                      'Remarks': remark,
+                    }).whenComplete(() => print("Status Updated"));
+                    Navigator.of(context).pop();
+                  }),
             )
           ],
         ),
