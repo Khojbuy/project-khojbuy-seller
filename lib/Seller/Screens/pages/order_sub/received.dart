@@ -17,6 +17,6 @@ class _OrderReceivedState extends State<OrderReceived> {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
-        body: orderTile("received", context));
+        body: Container(child: orderTile("received", context)));
   }
 }

@@ -58,18 +58,9 @@ StreamBuilder requestTile(String status, BuildContext context) {
                       new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                   elevation: 20,
                   child: ListTile(
-                    trailing: doc["Status"] == 'waiting'
-                        ? Text(
-                            "Waiting \n for Confirmation",
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12),
-                          )
-                        : Container(),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(doc['CustomerName']),
+                    title: Text(doc['Customer']),
                     subtitle: Text("has ordered " +
                         doc['Items'].length.toString() +
                         " items"),
@@ -95,8 +86,26 @@ class _RequestPageState extends State<RequestPage> {
   final DocumentSnapshot documentSnapshot;
 
   _RequestPageState(this.documentSnapshot);
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    String remark = documentSnapshot['Remarks'];
+    List<Map<String, dynamic>> items = documentSnapshot['Items'];
+    print(items);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          documentSnapshot['Customer'],
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [],
+        ),
+      ),
+    );
   }
 }

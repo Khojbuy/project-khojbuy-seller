@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 final CollectionReference referenceSeller =
@@ -21,33 +19,39 @@ class _StoryAddPageState extends State<StoryAddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        decoration: BoxDecoration(color: Color.fromRGBO(41, 74, 171, 0.98)),
-        child: InkWell(
-          autofocus: true,
-          onTap: () async {
-            final picker = ImagePicker();
-            final storage = FirebaseStorage.instance;
-
-            PickedFile image =
-                await picker.getImage(source: ImageSource.gallery);
-            File img = File(image.path);
-          },
-          child: Text(
-            "Upload New",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+        floatingActionButton: Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(41, 74, 171, 0.98),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  bottomRight: Radius.circular(25.0))),
+          child: InkWell(
+            autofocus: true,
+            onTap: () async {},
+            child: Text(
+              "Upload New",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [],
-      ),
-    );
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "THIS FEATURE WILL ARRIVE SOON",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Color.fromRGBO(41, 74, 171, 1)),
+            ),
+          ),
+        ));
   }
 }
 
