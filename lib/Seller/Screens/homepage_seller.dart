@@ -20,14 +20,6 @@ class HomePageSeller extends StatelessWidget {
           style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.notifications,
-                color: Colors.white,
-              ),
-              onPressed: () {}),
-        ],
         leading: IconButton(
             icon: Icon(
               Icons.menu_open_rounded,

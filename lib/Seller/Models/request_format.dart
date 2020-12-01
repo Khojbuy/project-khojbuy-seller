@@ -43,6 +43,7 @@ StreamBuilder requestTile(String status, BuildContext context) {
         }
         if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.active) {
+          print(snapshot.data);
           print(snapshot.data.documents);
           return Column(
             children: snapshot.data.documents.map<Widget>((doc) {
@@ -95,7 +96,6 @@ class _RequestPageState extends State<RequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(documentSnapshot);
     String remark = documentSnapshot['Remarks'];
     List<dynamic> items = documentSnapshot['Items'];
     String userID = documentSnapshot.id;
@@ -104,7 +104,7 @@ class _RequestPageState extends State<RequestPage> {
       appBar: AppBar(
         title: Text(
           documentSnapshot['Customer'],
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
         backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
         actions: [
@@ -126,7 +126,7 @@ class _RequestPageState extends State<RequestPage> {
             (documentSnapshot["Status"] == 'new')
                 ? Padding(
                     padding: EdgeInsets.all(10),
-                    child: Text("Choose the items available with you"),
+                    child: Text("If you have all the listed items, PROCEED"),
                   )
                 : Container(),
             ListView.builder(
@@ -151,13 +151,13 @@ class _RequestPageState extends State<RequestPage> {
                     ),
                   );
                 }),
-            (documentSnapshot['image'] == 'url')
+            (documentSnapshot['Image'] == 'url')
                 ? Container(
                     child: Text(
-                        "${documentSnapshot['CustomerName']} attached no image for this request."),
+                        "${documentSnapshot['Customer']} attached no image for this request."),
                   )
                 : Image.network(
-                    documentSnapshot['image'],
+                    documentSnapshot['Image'],
                     fit: BoxFit.cover,
                     height: 350,
                     width: 350,
