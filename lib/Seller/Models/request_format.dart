@@ -7,9 +7,9 @@ final CollectionReference users =
 
 List<String> stats = ["new", "responded"];
 
-getCategory() async {
+Future<String> getCategory() async {
   final DocumentSnapshot category = await FirebaseFirestore.instance
-      .collection("Seller")
+      .collection("SellerData")
       .doc(FirebaseAuth.instance.currentUser.uid)
       .get();
 
@@ -17,14 +17,17 @@ getCategory() async {
 }
 
 StreamBuilder requestTile(String status, BuildContext context) {
-  final String cat = getCategory();
+  String cat;
+  getCategory().then((value) {
+    cat = value;
+    print(cat);
+  });
   return StreamBuilder(
       stream: users
           .where("Category", isEqualTo: cat)
           .where("Status", isEqualTo: status)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        print(snapshot);
         if (snapshot.hasError) {
           return Center(
             child: CircularProgressIndicator(),
@@ -38,10 +41,12 @@ StreamBuilder requestTile(String status, BuildContext context) {
             ),
           );
         }
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            snapshot.data.documents.map<Widget>((doc) {
+        if (snapshot.hasData &&
+            snapshot.connectionState == ConnectionState.active) {
+          print(snapshot.data.documents);
+          return Column(
+            children: snapshot.data.documents.map<Widget>((doc) {
+              print(doc.data());
               return InkWell(
                 onTap: () {
                   print(doc);
@@ -60,7 +65,7 @@ StreamBuilder requestTile(String status, BuildContext context) {
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(doc['Customer']),
+                    title: Text(doc["Customer"]),
                     subtitle: Text("has ordered " +
                         doc['Items'].length.toString() +
                         " items"),
@@ -68,8 +73,9 @@ StreamBuilder requestTile(String status, BuildContext context) {
                 ),
               );
             }).toList(),
-          ],
-        );
+          );
+        }
+        return CircularProgressIndicator();
       });
 }
 
@@ -89,8 +95,10 @@ class _RequestPageState extends State<RequestPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(documentSnapshot);
     String remark = documentSnapshot['Remarks'];
-    List<Map<String, dynamic>> items = documentSnapshot['Items'];
+    List<dynamic> items = documentSnapshot['Items'];
+    String userID = documentSnapshot.id;
     print(items);
     return Scaffold(
       appBar: AppBar(
@@ -99,11 +107,108 @@ class _RequestPageState extends State<RequestPage> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                users.doc(userID).delete();
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text("Request Deleted"),
+                  elevation: 20,
+                ));
+              })
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [],
+          children: [
+            (documentSnapshot["Status"] == 'new')
+                ? Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text("Choose the items available with you"),
+                  )
+                : Container(),
+            ListView.builder(
+                padding: EdgeInsets.all(12.0),
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      items[index]['ItemName'],
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      items[index]['ItemNo'],
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  );
+                }),
+            (documentSnapshot['image'] == 'url')
+                ? Container(
+                    child: Text(
+                        "${documentSnapshot['CustomerName']} attached no image for this request."),
+                  )
+                : Image.network(
+                    documentSnapshot['image'],
+                    fit: BoxFit.cover,
+                    height: 350,
+                    width: 350,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        child: Text("Please check your internet connection"),
+                      );
+                    },
+                  ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 32.0, horizontal: 12.0),
+              child: TextFormField(
+                initialValue: remark,
+                keyboardType: TextInputType.multiline,
+                maxLines: 5,
+                decoration: InputDecoration(
+                    labelText: "Additional details(if any)",
+                    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32.0)),
+                    fillColor: Colors.white),
+                onChanged: (value) {
+                  setState(() {
+                    remark = value;
+                  });
+                },
+              ),
+            ),
+            documentSnapshot["Status"] == "new"
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                        ),
+                        textColor: Colors.white,
+                        child: Text(
+                          "PROCEED",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        splashColor: Colors.blue,
+                        color: Color.fromRGBO(41, 74, 171, 1),
+                        onPressed: () {
+                          users.doc(userID).update(
+                              {"Remarks": remark, "Status": "responded"});
+                          Navigator.of(context).pop();
+                        }),
+                  )
+                : Container()
+          ],
         ),
       ),
     );

@@ -36,7 +36,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
       if (snapshot.hasData) {
         return Column(
           children: snapshot.data.documents.map<Widget>((doc) {
-            print(doc["Status"]);
+            //print(doc["Status"]);
             return InkWell(
               onTap: () {
                 print(doc);
@@ -45,7 +45,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
                   MaterialPageRoute(
                       builder: (context) => OrderPage(
                             snapshot: doc,
-                            orderStatus: orderStatus,
+                            orderStatus: doc["Status"],
                           )),
                 );
               },
@@ -238,8 +238,7 @@ class _OrderPageState extends State<OrderPage> {
                       },
                     ),
                   ),
-                  orderStatus == "completed" ||
-                          documentSnapshot["Status"] == "waiting"
+                  orderStatus == "completed" || orderStatus == "waiting"
                       ? Container()
                       : Padding(
                           padding: EdgeInsets.symmetric(

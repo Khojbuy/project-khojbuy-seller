@@ -93,6 +93,38 @@ class ContactInfo extends StatelessWidget with NavigationStates {
               )
             ],
           ),
+          Card(
+            elevation: 20,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.white70, width: 0.5),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            color: Color.fromRGBO(41, 74, 171, 0.98),
+            child: InkWell(
+              child: GestureDetector(
+                child: Container(
+                  width: MediaQuery.of(context).size.shortestSide * 0.7,
+                  height: MediaQuery.of(context).size.longestSide * 0.05,
+                  child: Center(
+                    child: Text(
+                      'Frequently Asked Questions',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return DialougePop(mdFileName: "faq.md");
+                      });
+                },
+              ),
+            ),
+          )
         ],
       ),
     ));
