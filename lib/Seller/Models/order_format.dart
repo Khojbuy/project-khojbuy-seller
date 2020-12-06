@@ -25,7 +25,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
           child: CircularProgressIndicator(),
         );
       }
-      if (!snapshot.hasData) {
+      if (!snapshot.hasData && snapshot.data.documents) {
         return Center(
           child: Text(
             "You have no orders in this status",
