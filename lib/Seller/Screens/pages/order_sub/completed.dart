@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:khojbuy/Seller/Models/order_format.dart';
 
 class OrderCompleted extends StatefulWidget {
-  OrderCompleted({Key key}) : super(key: key);
-
   @override
   _OrderCompletedState createState() => _OrderCompletedState();
 }

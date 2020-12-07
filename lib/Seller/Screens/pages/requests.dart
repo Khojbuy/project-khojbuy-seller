@@ -3,12 +3,7 @@ import 'package:khojbuy/Seller/Screens/pages/orders.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/new.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/sent.dart';
 
-class MyRequests extends StatefulWidget {
-  @override
-  _MyRequestsState createState() => _MyRequestsState();
-}
-
-class _MyRequestsState extends State<MyRequests> {
+class MyRequests extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

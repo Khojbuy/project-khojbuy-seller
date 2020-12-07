@@ -8,12 +8,7 @@ import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 final CollectionReference users =
     FirebaseFirestore.instance.collection('SellerData');
 
-class DashBoardPage extends StatefulWidget with NavigationStates {
-  @override
-  _DashBoardPageState createState() => _DashBoardPageState();
-}
-
-class _DashBoardPageState extends State<DashBoardPage> {
+class DashBoardPage extends StatelessWidget with NavigationStates {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

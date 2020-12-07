@@ -3,12 +3,7 @@ import 'package:khojbuy/Seller/Screens/pages/order_sub/completed.dart';
 import 'package:khojbuy/Seller/Screens/pages/order_sub/received.dart';
 import 'package:khojbuy/Seller/Screens/pages/order_sub/to_pack.dart';
 
-class MyOrders extends StatefulWidget {
-  @override
-  _MyOrdersState createState() => _MyOrdersState();
-}
-
-class _MyOrdersState extends State<MyOrders> {
+class MyOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

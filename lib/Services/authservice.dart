@@ -32,23 +32,24 @@ class AuthService {
     AuthCredential authCredential,
     BuildContext context,
   ) async {
-    FirebaseAuth.instance.signInWithCredential(authCredential);
-    FirebaseFirestore.instance
-        .collection("SellerData")
-        .doc(FirebaseAuth.instance.currentUser.uid)
-        .get()
-        .then((doc) {
-      if (doc.exists) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePageSeller()),
-        );
-      } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DetailsInputSeller()),
-        );
-      }
+    FirebaseAuth.instance.signInWithCredential(authCredential).then((value) {
+      FirebaseFirestore.instance
+          .collection("SellerData")
+          .doc(FirebaseAuth.instance.currentUser.uid)
+          .get()
+          .then((doc) {
+        if (doc.exists) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePageSeller()),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DetailsInputSeller()),
+          );
+        }
+      });
     });
   }
 
