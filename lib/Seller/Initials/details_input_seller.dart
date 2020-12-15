@@ -26,6 +26,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
     return Container(
         child: Scaffold(
       body: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         key: formkey,
         child: Container(
           decoration: BoxDecoration(
@@ -73,17 +74,17 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                validator: (val) {
-                                  if (val.length == 0) {
-                                    return "Shop Name cannot be empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
                                 onChanged: (val) {
                                   setState(() {
                                     this.shopName = val;
                                   });
+                                },
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter Shop Name';
+                                  }
+                                  return null;
                                 },
                               ),
                               SizedBox(
@@ -99,17 +100,17 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                validator: (val) {
-                                  if (val.length == 0) {
-                                    return "Owner Name cannot be empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
                                 onChanged: (val) {
                                   setState(() {
                                     this.ownerName = val;
                                   });
+                                },
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter Name';
+                                  }
+                                  return null;
                                 },
                               ),
                               SizedBox(
@@ -125,17 +126,17 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                validator: (val) {
-                                  if (val.length == 0) {
-                                    return "Mobile Number cannot be empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
                                 onChanged: (val) {
                                   setState(() {
                                     this.phnNo = "+91" + val;
                                   });
+                                },
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter mobile number';
+                                  }
+                                  return null;
                                 },
                               ),
                               SizedBox(
@@ -145,8 +146,8 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                   items: [
                                     'Electronics and Electricals',
                                     'Clothing and Boutique',
-                                    'Daily Needs'
-                                        'Home Essentials and Decor',
+                                    'Daily Needs',
+                                    'Home Essentials and Decor',
                                     'Health and Medicines',
                                     'Motor Parts and Hardware',
                                     'Grocery',
@@ -192,17 +193,17 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                validator: (val) {
-                                  if (val.length == 0) {
-                                    return "Address cannot be empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
                                 onChanged: (val) {
                                   setState(() {
                                     this.addressLoc = val;
                                   });
+                                },
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter Shop Location';
+                                  }
+                                  return null;
                                 },
                               ),
                               SizedBox(
@@ -254,32 +255,6 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               SizedBox(
                                 height: 16,
                               ),
-                              delivery
-                                  ? TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      decoration: new InputDecoration(
-                                          hintText:
-                                              "Enter the minimum amount for home delivery",
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              20.0, 15.0, 20.0, 15.0),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(32.0)),
-                                          fillColor: Colors.white),
-                                      validator: (val) {
-                                        if (val.length == 0) {
-                                          return "Amount cannot be empty";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      onChanged: (val) {
-                                        setState(() {
-                                          this.minAmt = val;
-                                        });
-                                      },
-                                    )
-                                  : Container(),
                             ],
                           ),
                         ),
@@ -295,6 +270,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                     child: InkWell(
                       child: FloatingActionButton.extended(
                         onPressed: () {
+                          formkey.currentState.validate();
                           formkey.currentState.save();
                           DatabaseService(
                                   userId: FirebaseAuth.instance.currentUser.uid)
@@ -304,7 +280,6 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                   phnNo,
                                   selectCategory,
                                   delivery,
-                                  minAmt,
                                   addressLoc,
                                   addressCity));
                           Navigator.push(

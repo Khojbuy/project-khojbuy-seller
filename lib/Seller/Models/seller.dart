@@ -30,18 +30,17 @@ class Seller {
   String contact;
   String category;
   bool delivery;
-  String minAmt;
   String addressLoc;
   String addressCity;
 
   Seller(String sName, String uName, String phnNo, String cat, bool del,
-      String minA, String aloc, String aCity) {
+      String aloc, String aCity) {
     shopName = sName;
     ownerName = uName;
     contact = phnNo;
     category = cat;
     delivery = del;
-    minAmt = minA;
+
     addressLoc = aloc;
     addressCity = aCity;
   }
@@ -57,7 +56,6 @@ toJsonSeller(Seller seller) {
     "Name": seller.ownerName,
     "ShopName": seller.shopName,
     "Delivery": seller.delivery,
-    "MinAmt": seller.minAmt,
     "PhoneNo": seller.contact,
   };
 }

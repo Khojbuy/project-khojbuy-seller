@@ -113,6 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           data["ShopName"],
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(41, 74, 171, 1),
@@ -126,6 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           data["Name"] +
                               " " +
                               data["PhoneNo"].toString().substring(3),
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 24,
@@ -138,6 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           "Shop Category : " + data["Category"],
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
                             color: Color.fromRGBO(41, 74, 171, 0.8),
@@ -169,13 +172,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                validator: (val) {
-                                  if (val.length == 0) {
-                                    return "Address cannot be empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
                                 onSaved: (val) {
                                   setState(() {
                                     addLoc = val;
@@ -197,13 +193,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                validator: (val) {
-                                  if (val.length == 0) {
-                                    return "Address cannot be empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
                                 onChanged: (val) {
                                   setState(() {
                                     addCity = val;
@@ -225,40 +214,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     });
                                   }),
                             ),
-                            delivery
-                                ? Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.streetAddress,
-                                      autofocus: false,
-                                      initialValue: deliveryAmt,
-                                      decoration: new InputDecoration(
-                                          labelText:
-                                              "Minimum Amount for home delivery ",
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              20.0, 15.0, 20.0, 15.0),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(32.0)),
-                                          fillColor: Colors.white),
-                                      validator: (val) {
-                                        if (val.length == 0) {
-                                          return "Amount cannot be empty";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      onChanged: (val) {
-                                        setState(() {
-                                          if (!delivery)
-                                            deliveryAmt = "0";
-                                          else
-                                            deliveryAmt = val;
-                                        });
-                                      },
-                                    ),
-                                  )
-                                : Container(),
                           ],
                         ),
                       ),
@@ -318,7 +273,6 @@ Future updateUserData(CollectionReference collectionReference, String addLoc,
     "AddressLocation": addLoc,
     "AddressCity": addCity,
     "Delivery": del,
-    "MinAmt": minAmt,
   }).then((value) {
     print("User Added");
   }).catchError((error) => print(error));
