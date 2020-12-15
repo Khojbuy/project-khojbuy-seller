@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
@@ -38,49 +39,64 @@ class HomePageSeller extends StatelessWidget {
         elevation: 20,
         child: Container(
           decoration: BoxDecoration(color: Colors.white),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              names(users, context),
-              Divider(
-                height: 64,
-                thickness: 0.5,
-                color: Colors.blue.withOpacity(0.7),
-                indent: 32,
-                endIndent: 32,
-              ),
-              MenuItem(Icons.home, "My DashBoard", () {
-                Navigator.of(context).pop();
-                BlocProvider.of<NavigatorBloc>(context)
-                    .add(NavigationEvents.DashBoardClickEvent);
-              }),
-              MenuItem(Icons.person, "My Profile", () {
-                Navigator.of(context).pop();
-                BlocProvider.of<NavigatorBloc>(context)
-                    .add(NavigationEvents.ProfileClickEvent);
-              }),
-              MenuItem(Icons.art_track_rounded, "My Advertisements", () {
-                Navigator.of(context).pop();
-                BlocProvider.of<NavigatorBloc>(context)
-                    .add(NavigationEvents.StoryAddEvent);
-              }),
-              Divider(
-                height: 64,
-                thickness: 0.5,
-                color: Colors.blue.withOpacity(0.7),
-                indent: 32,
-                endIndent: 32,
-              ),
-              MenuItem(Icons.connect_without_contact_rounded, "Reach Us", () {
-                Navigator.of(context).pop();
-                BlocProvider.of<NavigatorBloc>(context)
-                    .add(NavigationEvents.AboutEvent);
-              }),
-              MenuItem(Icons.exit_to_app, "LOGOUT", () {
-                Navigator.of(context).pop();
-                AuthService().signOut(context);
-              }),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                names(users, context),
+                Divider(
+                  height: 64,
+                  thickness: 0.5,
+                  color: Colors.blue.withOpacity(0.7),
+                  indent: 32,
+                  endIndent: 32,
+                ),
+                MenuItem(Icons.dashboard, "My DashBoard", () {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<NavigatorBloc>(context)
+                      .add(NavigationEvents.DashBoardClickEvent);
+                }),
+                MenuItem(Icons.person, "My Profile", () {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<NavigatorBloc>(context)
+                      .add(NavigationEvents.ProfileClickEvent);
+                }),
+                MenuItem(Icons.art_track_rounded, "My Advertisements", () {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<NavigatorBloc>(context)
+                      .add(NavigationEvents.StoryAddEvent);
+                }),
+                Divider(
+                  height: 64,
+                  thickness: 0.5,
+                  color: Colors.blue.withOpacity(0.7),
+                  indent: 32,
+                  endIndent: 32,
+                ),
+                MenuItem(Icons.connect_without_contact_rounded, "About Us", () {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<NavigatorBloc>(context)
+                      .add(NavigationEvents.AboutEvent);
+                }),
+                MenuItem(Icons.feedback_rounded, "Feedback", () async {
+                  final Uri feedback = Uri(
+                    scheme: 'mailto',
+                    path: 'nayakastha2911@gmail.com',
+                    //add subject and body here
+                  );
+                  var url = feedback.toString();
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch';
+                  }
+                }),
+                MenuItem(Icons.exit_to_app, "LOGOUT", () {
+                  Navigator.of(context).pop();
+                  AuthService().signOut(context);
+                }),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,7 +133,7 @@ class MenuItem extends StatelessWidget {
                   color: Color.fromRGBO(41, 74, 171, 1),
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w600,
-                  fontSize: 16),
+                  fontSize: 18),
             )
           ],
         ),
@@ -144,6 +160,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                 height: 100,
               ),
               ListTile(
+                dense: true,
                 title: Text(
                   data['ShopName'],
                   textAlign: TextAlign.start,
@@ -153,11 +170,21 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
-                leading: (data['PhotoURL'] == " url")
+                subtitle: Text(
+                  data['Name'],
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Nunito'),
+                ),
+                leading: (data['PhotoURL'] == "url")
                     ? CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.transparent,
                         child: Icon(
-                          Icons.perm_identity,
+                          Icons.home_filled,
+                          size: 60,
                           color: Color.fromRGBO(41, 74, 171, 0.98),
                         ),
                         radius: 40,

@@ -25,7 +25,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
           child: CircularProgressIndicator(),
         );
       }
-      if (!snapshot.hasData && snapshot.data.documents) {
+      if (!snapshot.hasData || snapshot.data.documents.toString() == "[]") {
         return Center(
           child: Text(
             "You have no orders in this status",
@@ -36,7 +36,6 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
       if (snapshot.hasData) {
         return Column(
           children: snapshot.data.documents.map<Widget>((doc) {
-            //print(doc["Status"]);
             return InkWell(
               onTap: () {
                 print(doc);

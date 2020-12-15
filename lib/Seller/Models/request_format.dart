@@ -33,7 +33,7 @@ StreamBuilder requestTile(String status, BuildContext context) {
             child: CircularProgressIndicator(),
           );
         }
-        if (!snapshot.hasData) {
+        if (!snapshot.hasData || snapshot.data.documents.toString() == "[]") {
           return Center(
             child: Text(
               "You have no requests in this status",

@@ -177,6 +177,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                     addLoc = val;
                                   });
                                 },
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter Shop Location';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
