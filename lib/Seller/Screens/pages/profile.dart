@@ -116,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(41, 74, 171, 1),
+                              color: Color.fromRGBO(84, 176, 243, 1),
                               fontSize: 32,
                               letterSpacing: 2.5),
                         ),
@@ -131,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 24,
-                            color: Color.fromRGBO(41, 74, 171, 0.8),
+                            color: Color.fromRGBO(84, 176, 243, 1),
                             letterSpacing: 1.5,
                           ),
                         ),
@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
-                            color: Color.fromRGBO(41, 74, 171, 0.8),
+                            color: Color.fromRGBO(84, 176, 243, 1),
                           ),
                         ),
                       ),
@@ -151,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 20.0,
                         width: 200,
                         child: Divider(
-                          color: Colors.teal[100],
+                          color: Colors.white10,
                         ),
                       ),
                       Form(
@@ -237,7 +237,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 });
                               },
                               elevation: 10,
-                              backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                              backgroundColor:
+                                  Color.fromRGBO(84, 176, 243, 0.6),
                               label: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 40.0),

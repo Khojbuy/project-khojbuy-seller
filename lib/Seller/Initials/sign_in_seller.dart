@@ -11,12 +11,14 @@ class _SignInSellerState extends State<SignInSeller> {
   final formkey = new GlobalKey<FormState>();
   String phnNo, verificationId, smsCode;
   bool codeSent = false;
+  String status;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
         key: formkey,
         child: Container(
+          height: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
           ),
@@ -27,18 +29,22 @@ class _SignInSellerState extends State<SignInSeller> {
                 SizedBox(
                   height: MediaQuery.of(context).size.longestSide * 0.15,
                 ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "SIGN IN",
-                    style: TextStyle(
-                        fontFamily: 'Nunito',
-                        fontSize: 38,
-                        fontWeight: FontWeight.w900),
+                CircleAvatar(
+                  radius: 100,
+                  backgroundColor: Colors.transparent,
+                  child: Image.asset(
+                    "assets/images/logo.jpg",
                   ),
                 ),
+                Text(
+                  "SIGN IN",
+                  style: TextStyle(
+                      fontFamily: 'Nunito',
+                      fontSize: 38,
+                      fontWeight: FontWeight.w900),
+                ),
                 SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 codeSent
                     ? Container()
@@ -157,14 +163,18 @@ class _SignInSellerState extends State<SignInSeller> {
         (FirebaseAuthException authException) {
       print('${authException.message}');
     };
-    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+    final PhoneCodeSent smsSent = (String verId, [int forceResend]) async {
       setState(() {
         this.codeSent = true;
+        print("code sent to " + phnNo);
       });
       this.verificationId = verId;
     };
     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
       this.verificationId = verId;
+      setState(() {
+        this.status = "Auto retreival time out";
+      });
     };
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phnNo,

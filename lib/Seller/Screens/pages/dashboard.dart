@@ -44,7 +44,7 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                             side: BorderSide(color: Colors.white70, width: 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          color: Color.fromRGBO(41, 74, 171, 0.98),
+                          color: Color.fromRGBO(84, 176, 243, 0.98),
                           child: Container(
                             height:
                                 MediaQuery.of(context).size.longestSide * 0.2,
@@ -77,7 +77,7 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                             side: BorderSide(color: Colors.white70, width: 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          color: Color.fromRGBO(41, 74, 171, 0.98),
+                          color: Color.fromRGBO(84, 176, 243, 0.98),
                           child: Container(
                             height:
                                 MediaQuery.of(context).size.longestSide * 0.2,

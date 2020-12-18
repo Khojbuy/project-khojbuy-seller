@@ -14,13 +14,25 @@ class HomePageSeller extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
+      appBar:
+          /* PreferredSize(
+        child: Stack(
+          children: [
+            CustomPaint(
+              size: Size(double.infinity, 100),
+              painter: RPSCustomPainter(),
+            ),
+          ],
+        ),
+        preferredSize: Size.fromWidth(double.infinity),
+      ), */
+          AppBar(
         centerTitle: true,
         title: Text(
           "KHOJBUY",
           style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
+        backgroundColor: Color.fromRGBO(84, 176, 243, 0.98),
         leading: IconButton(
             icon: Icon(
               Icons.menu_open_rounded,
@@ -38,7 +50,7 @@ class HomePageSeller extends StatelessWidget {
       drawer: Drawer(
         elevation: 20,
         child: Container(
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: BoxDecoration(color: Color.fromRGBO(84, 176, 243, 1)),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -47,7 +59,7 @@ class HomePageSeller extends StatelessWidget {
                 Divider(
                   height: 64,
                   thickness: 0.5,
-                  color: Colors.blue.withOpacity(0.7),
+                  color: Colors.white.withOpacity(0.7),
                   indent: 32,
                   endIndent: 32,
                 ),
@@ -69,7 +81,7 @@ class HomePageSeller extends StatelessWidget {
                 Divider(
                   height: 64,
                   thickness: 0.5,
-                  color: Colors.blue.withOpacity(0.7),
+                  color: Colors.white.withOpacity(0.7),
                   indent: 32,
                   endIndent: 32,
                 ),
@@ -104,6 +116,52 @@ class HomePageSeller extends StatelessWidget {
   }
 }
 
+class RPSCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint_0 = new Paint()
+      ..color = Color.fromARGB(255, 33, 150, 243)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    Path path_0 = Path();
+    path_0.moveTo(0, size.height * 0.79);
+    path_0.lineTo(0, 0);
+    path_0.lineTo(size.width, 0);
+    path_0.quadraticBezierTo(size.width * 0.84, size.height * 0.55,
+        size.width * 0.66, size.height * 0.39);
+    path_0.cubicTo(size.width * 0.60, size.height * 0.29, size.width * 0.54,
+        size.height * 0.25, size.width * 0.50, size.height * 0.36);
+    path_0.quadraticBezierTo(size.width * 0.42, size.height * 0.57,
+        size.width * 0.29, size.height * 0.51);
+    path_0.quadraticBezierTo(size.width * 0.17, size.height * 0.50,
+        size.width * 0.13, size.height * 0.64);
+    path_0.quadraticBezierTo(
+        size.width * 0.12, size.height * 0.79, 0, size.height * 0.79);
+    path_0.close();
+
+    canvas.drawPath(path_0, paint_0);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class BodyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: BlocBuilder<NavigatorBloc, NavigationStates>(
+        builder: (context, NavigationStates states) {
+          return states as Widget;
+        },
+      ),
+    );
+  }
+}
+
 class MenuItem extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -121,7 +179,7 @@ class MenuItem extends StatelessWidget {
           children: <Widget>[
             Icon(
               icon,
-              color: Color.fromRGBO(41, 74, 171, 0.98),
+              color: Colors.white,
               size: 36,
             ),
             SizedBox(
@@ -130,7 +188,7 @@ class MenuItem extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                  color: Color.fromRGBO(41, 74, 171, 1),
+                  color: Colors.white,
                   fontFamily: 'Nunito',
                   fontWeight: FontWeight.w600,
                   fontSize: 18),
@@ -166,7 +224,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       fontSize: 32,
-                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
@@ -175,7 +233,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       fontSize: 24,
-                      color: Color.fromRGBO(41, 74, 171, 0.98),
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito'),
                 ),
@@ -185,7 +243,7 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                         child: Icon(
                           Icons.home_filled,
                           size: 60,
-                          color: Color.fromRGBO(41, 74, 171, 0.98),
+                          color: Colors.white,
                         ),
                         radius: 40,
                       )

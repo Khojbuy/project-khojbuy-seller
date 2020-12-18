@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Seller/Initials/details_input_seller.dart';
-import 'package:khojbuy/Seller/Screens/homepage_seller.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
 import 'package:khojbuy/get_started.dart';
 
@@ -41,7 +40,7 @@ class AuthService {
         if (doc.exists) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePageSeller()),
+            MaterialPageRoute(builder: (context) => Home()),
           );
         } else {
           Navigator.push(

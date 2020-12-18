@@ -8,6 +8,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 18, bottom: 10),
@@ -15,7 +16,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
               "What is KHOJBUY ?",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Color.fromRGBO(41, 74, 171, 1),
+                  color: Color.fromRGBO(84, 176, 243, 1),
                   fontWeight: FontWeight.bold,
                   fontSize: 32),
             ),
@@ -33,7 +34,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
                   side: BorderSide(color: Colors.white70, width: 0.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: Color.fromRGBO(41, 74, 171, 0.98),
+                color: Color.fromRGBO(84, 176, 243, 0.98),
                 child: InkWell(
                   child: GestureDetector(
                     child: Container(
@@ -65,7 +66,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
                   side: BorderSide(color: Colors.white70, width: 0.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: Color.fromRGBO(41, 74, 171, 0.98),
+                color: Color.fromRGBO(84, 176, 243, 0.98),
                 child: InkWell(
                   child: GestureDetector(
                     child: Container(
@@ -99,7 +100,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
               side: BorderSide(color: Colors.white70, width: 0.5),
               borderRadius: BorderRadius.circular(10),
             ),
-            color: Color.fromRGBO(41, 74, 171, 0.98),
+            color: Color.fromRGBO(84, 176, 243, 0.98),
             child: InkWell(
               child: GestureDetector(
                 child: Container(
@@ -134,7 +135,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
 Text about() {
   final String aboutText =
       "We help you find the most appropriate shop where you can get your desired products, saving a lot of your precious time. Search for a product, and find the shop you can buy it from, and at the most suited price. Save the amount of time and effort!\n\n"
-      "Finding a particular product, the way you want it, and at the right price, from the numerous shops can be time-consuming and arduous. We, at Khojbhuj, make this process easy and direct for you. All you need to do is from among the enormous range (via name or picture), and in a particular category, and the app presents to you the store you can contact or reach to buy it, at the best possible price, at your fingertips. We are now functional in Sambalpur, Odisha.\n\n";
+      "Finding a particular product, the way you want it, and at the right price, from the numerous shops can be time-consuming and arduous. We, at Khojbhuy, make this process easy and direct for you. All you need to do is from among the enormous range (via name or picture), and in a particular category, and the app presents to you the store you can contact or reach to buy it, at the best possible price, at your fingertips. We are now functional in Sambalpur, Odisha.\n\n";
   return Text(
     aboutText,
     textAlign: TextAlign.justify,

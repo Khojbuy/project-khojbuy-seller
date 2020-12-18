@@ -8,7 +8,7 @@ class MyRequests extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
+          backgroundColor: Color.fromRGBO(84, 176, 243, 0.98),
           title: Text("REQUESTS",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
           centerTitle: true,

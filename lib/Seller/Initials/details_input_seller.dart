@@ -272,6 +272,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                         onPressed: () {
                           formkey.currentState.validate();
                           formkey.currentState.save();
+
                           DatabaseService(
                                   userId: FirebaseAuth.instance.currentUser.uid)
                               .updateUserData(Seller(

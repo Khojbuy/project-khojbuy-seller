@@ -22,7 +22,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
         floatingActionButton: Container(
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
-              color: Color.fromRGBO(41, 74, 171, 0.98),
+              color: Color.fromRGBO(84, 176, 243, 0.98),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25.0),
@@ -48,7 +48,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
-                  color: Color.fromRGBO(41, 74, 171, 1)),
+                  color: Color.fromRGBO(84, 176, 243, 1)),
             ),
           ),
         ));
