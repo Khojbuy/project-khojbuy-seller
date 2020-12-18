@@ -11,7 +11,11 @@ class MyOrders extends StatelessWidget {
           backgroundColor: Color.fromRGBO(84, 176, 243, 0.98),
           title: Text(
             "ORDERS",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              fontFamily: 'OpenSans',
+            ),
           ),
           centerTitle: true,
         ),
@@ -67,6 +71,7 @@ Column orderCard(String name, Function ontap, BuildContext context) {
                 name,
                 style: TextStyle(
                     color: Colors.white,
+                    fontFamily: 'OpenSans',
                     fontSize: 26,
                     fontWeight: FontWeight.bold),
               ),

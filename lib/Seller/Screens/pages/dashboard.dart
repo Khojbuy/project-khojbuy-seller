@@ -53,6 +53,7 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                                 'ORDERS',
                                 style: TextStyle(
                                     color: Colors.white,
+                                    fontFamily: 'OpenSans',
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -86,6 +87,7 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                                 'REQUESTS',
                                 style: TextStyle(
                                     color: Colors.white,
+                                    fontFamily: 'OpenSans',
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -99,8 +101,11 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                   return Container(
                     child: Text(
                       "You have not been authenticated yet. Keep Paitence. We will contact you within 24 hours.",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'OpenSans',
+                      ),
                     ),
                   );
                 }

@@ -39,7 +39,7 @@ class _SignInSellerState extends State<SignInSeller> {
                 Text(
                   "SIGN IN",
                   style: TextStyle(
-                      fontFamily: 'Nunito',
+                      fontFamily: 'OpenSans',
                       fontSize: 38,
                       fontWeight: FontWeight.w900),
                 ),
@@ -136,7 +136,7 @@ class _SignInSellerState extends State<SignInSeller> {
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w900,
-                              fontFamily: 'Nunito',
+                              fontFamily: 'OpenSans',
                               color: Colors.white,
                             ),
                           ),

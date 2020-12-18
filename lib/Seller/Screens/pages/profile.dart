@@ -32,7 +32,11 @@ class _ProfilePageState extends State<ProfilePage> {
           return Center(
             child: Text(
               "Check your Internet Connection",
-              style: TextStyle(color: Colors.black, fontSize: 24),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 24,
+                fontFamily: 'OpenSans',
+              ),
             ),
           );
         }
@@ -107,7 +111,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           )),
                       Text(
                         "The changes will be visible after you SAVE them",
-                        style: TextStyle(color: Colors.black, fontSize: 8),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 8,
+                          fontFamily: 'OpenSans',
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
@@ -116,6 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              fontFamily: 'OpenSans',
                               color: Color.fromRGBO(84, 176, 243, 1),
                               fontSize: 32,
                               letterSpacing: 2.5),
@@ -130,6 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
+                            fontFamily: 'OpenSans',
                             fontSize: 24,
                             color: Color.fromRGBO(84, 176, 243, 1),
                             letterSpacing: 1.5,
@@ -143,6 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
+                            fontFamily: 'OpenSans',
                             color: Color.fromRGBO(84, 176, 243, 1),
                           ),
                         ),
@@ -247,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w900,
-                                    fontFamily: 'Nunito',
+                                    fontFamily: 'OpenSans',
                                     color: Colors.white,
                                   ),
                                 ),

@@ -30,7 +30,11 @@ class HomePageSeller extends StatelessWidget {
         centerTitle: true,
         title: Text(
           "KHOJBUY",
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OpenSans',
+          ),
         ),
         backgroundColor: Color.fromRGBO(84, 176, 243, 0.98),
         leading: IconButton(
@@ -189,8 +193,8 @@ class MenuItem extends StatelessWidget {
               title,
               style: TextStyle(
                   color: Colors.white,
-                  fontFamily: 'Nunito',
                   fontWeight: FontWeight.w600,
+                  fontFamily: 'OpenSans',
                   fontSize: 18),
             )
           ],
@@ -223,19 +227,21 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                   data['ShopName'],
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontSize: 32,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Nunito'),
+                    fontSize: 32,
+                    fontFamily: 'OpenSans',
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 subtitle: Text(
                   data['Name'],
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Nunito'),
+                    fontSize: 24,
+                    fontFamily: 'OpenSans',
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 leading: (data['PhotoURL'] == "url")
                     ? CircleAvatar(

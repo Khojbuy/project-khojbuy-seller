@@ -44,7 +44,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                   child: Text(
                     "SELLER INFORMATION",
                     style: TextStyle(
-                        fontFamily: 'Nunito',
+                        fontFamily: 'OpenSans',
                         fontSize: 38,
                         fontWeight: FontWeight.w900),
                   ),
@@ -297,7 +297,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w900,
-                              fontFamily: 'Nunito',
+                              fontFamily: 'OpenSans',
                               color: Colors.white,
                             ),
                           ),

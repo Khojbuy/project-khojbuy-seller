@@ -62,6 +62,8 @@ flutter:
     - assets/images/4271981.png
     - assets/images/shop.png
     - assets/images/logo.jpg
+    - assets/images/shopping-list.png
+    - assets/images/searching.png
     - assets/markdowns/tnc.md
     - assets/markdowns/privacy.md
     - assets/markdowns/faq.md
@@ -80,9 +82,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Nunito
+    - family: OpenSans
       fonts:
-        - asset: assets/fonts/NunitoSans-Bold.ttf
+        - asset: assets/fonts/OpenSans-SemiBold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -16,6 +16,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
               "What is KHOJBUY ?",
               textAlign: TextAlign.center,
               style: TextStyle(
+                  fontFamily: 'OpenSans',
                   color: Color.fromRGBO(84, 176, 243, 1),
                   fontWeight: FontWeight.bold,
                   fontSize: 32),
@@ -45,6 +46,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
                           'Terms & Conditions',
                           style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'OpenSans',
                               fontSize: 12,
                               fontWeight: FontWeight.bold),
                         ),
@@ -77,6 +79,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
                           'Privacy Policy',
                           style: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'OpenSans',
                               fontSize: 12,
                               fontWeight: FontWeight.bold),
                         ),
@@ -110,6 +113,7 @@ class ContactInfo extends StatelessWidget with NavigationStates {
                     child: Text(
                       'Frequently Asked Questions',
                       style: TextStyle(
+                          fontFamily: 'OpenSans',
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.bold),
@@ -140,6 +144,9 @@ Text about() {
     aboutText,
     textAlign: TextAlign.justify,
     style: TextStyle(
-        color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16),
+        fontFamily: 'OpenSans',
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+        fontSize: 16),
   );
 }

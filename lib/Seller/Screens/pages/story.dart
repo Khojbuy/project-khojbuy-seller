@@ -34,6 +34,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
               "Upload New",
               style: TextStyle(
                 color: Colors.white,
+                fontFamily: 'OpenSans',
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -47,6 +48,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
               "THIS FEATURE WILL ARRIVE SOON",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans',
                   fontSize: 24,
                   color: Color.fromRGBO(84, 176, 243, 1)),
             ),

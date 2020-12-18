@@ -24,6 +24,7 @@ class GetStarted extends StatelessWidget {
                       "KHOJBUY",
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          fontFamily: 'OpenSans',
                           fontSize: 34,
                           fontWeight: FontWeight.w900,
                           color: Color.fromRGBO(0, 0, 58, 0.8)),
@@ -35,6 +36,7 @@ class GetStarted extends StatelessWidget {
                       "Connects to the entire market to your fingertips ",
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          fontFamily: 'OpenSans',
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
                           color: Color.fromRGBO(0, 0, 160, 0.8)),
@@ -69,7 +71,7 @@ class GetStarted extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'Nunito',
+                        fontFamily: 'OpenSans',
                         color: Colors.white),
                   ),
                 ),
@@ -79,7 +81,11 @@ class GetStarted extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                     text: 'By creating an account, you are agreeing to our\n',
-                    style: TextStyle(color: Colors.black, fontSize: 12),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontFamily: 'OpenSans',
+                    ),
                     children: <TextSpan>[
                       TextSpan(
                           recognizer: TapGestureRecognizer()
@@ -92,7 +98,10 @@ class GetStarted extends StatelessWidget {
                             },
                           text: 'Terms & Conditions',
                           style: TextStyle(
-                              color: Colors.blueAccent, fontSize: 12)),
+                            color: Colors.blueAccent,
+                            fontSize: 12,
+                            fontFamily: 'OpenSans',
+                          )),
                       TextSpan(text: " and "),
                       TextSpan(
                           recognizer: TapGestureRecognizer()
@@ -105,8 +114,11 @@ class GetStarted extends StatelessWidget {
                                   });
                             },
                           text: 'Privacy Policy',
-                          style:
-                              TextStyle(color: Colors.blueAccent, fontSize: 12))
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 12,
+                            fontFamily: 'OpenSans',
+                          ))
                     ]))
           ],
         ),
