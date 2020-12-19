@@ -46,7 +46,8 @@ class _ProfilePageState extends State<ProfilePage> {
           String addLoc = data["AddressLocation"];
           String addCity = data["AddressCity"];
           bool delivery = data["Delivery"];
-          String deliveryAmt = data["MinAmt"];
+          String dealsIn = data["DealsIn"];
+          String otherInfo = data["Other"];
 
           return StatefulBuilder(builder: (context, function) {
             return SingleChildScrollView(
@@ -172,6 +173,36 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: TextFormField(
+                                keyboardType: TextInputType.text,
+                                minLines: 2,
+                                maxLines: 4,
+                                autofocus: false,
+                                initialValue: dealsIn,
+                                decoration: new InputDecoration(
+                                    labelText: "Deals In",
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        20.0, 15.0, 20.0, 15.0),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(32.0)),
+                                    fillColor: Colors.white),
+                                onSaved: (val) {
+                                  setState(() {
+                                    dealsIn = val;
+                                  });
+                                },
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter this information';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: TextFormField(
                                 keyboardType: TextInputType.streetAddress,
                                 autofocus: false,
                                 initialValue: addLoc,
@@ -236,13 +267,37 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          minLines: 2,
+                          maxLines: 4,
+                          autofocus: false,
+                          initialValue: otherInfo,
+                          decoration: new InputDecoration(
+                              labelText: "Other Information",
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(32.0)),
+                              fillColor: Colors.white),
+                          onSaved: (val) {
+                            setState(() {
+                              otherInfo = val;
+                            });
+                          },
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ),
+                      Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 35, vertical: 25),
                           child: InkWell(
                             child: FloatingActionButton.extended(
                               onPressed: () {
+                                keyForm.currentState.validate();
                                 updateUserData(users, addLoc, addCity, delivery,
-                                        deliveryAmt, data)
+                                        data, dealsIn, otherInfo)
                                     .then((value) {
                                   Scaffold.of(context).showSnackBar(snackbar);
                                 });
@@ -280,8 +335,14 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-Future updateUserData(CollectionReference collectionReference, String addLoc,
-    String addCity, bool del, String minAmt, Map<String, dynamic> data) async {
+Future updateUserData(
+    CollectionReference collectionReference,
+    String addLoc,
+    String addCity,
+    bool del,
+    Map<String, dynamic> data,
+    String dealsIn,
+    String info) async {
   String imgURL =
       await reference.child("SellerData/${data["Name"]}").getDownloadURL();
   print(imgURL);
@@ -292,6 +353,8 @@ Future updateUserData(CollectionReference collectionReference, String addLoc,
     "AddressLocation": addLoc,
     "AddressCity": addCity,
     "Delivery": del,
+    "DealsIn": dealsIn,
+    "Other": info
   }).then((value) {
     print("User Added");
   }).catchError((error) => print(error));

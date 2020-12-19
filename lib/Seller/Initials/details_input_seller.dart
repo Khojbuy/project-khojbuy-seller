@@ -15,6 +15,8 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
       ownerName = " ",
       addressLoc = " ",
       addressCity = " ",
+      dealsIn = " ",
+      info = " ",
       minAmt = " ";
   bool delivery = false;
   String selectCategory = " ";
@@ -119,7 +121,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               TextFormField(
                                 keyboardType: TextInputType.phone,
                                 decoration: new InputDecoration(
-                                    hintText: "Enter Your Mobile Number",
+                                    hintText: "Enter Your Contact Number",
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
@@ -239,6 +241,54 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               SizedBox(
                                 height: 16,
                               ),
+                              TextFormField(
+                                keyboardType: TextInputType.text,
+                                maxLines: 5,
+                                decoration: new InputDecoration(
+                                    hintText: "Deal In",
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        20.0, 15.0, 20.0, 15.0),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(32.0)),
+                                    fillColor: Colors.white),
+                                onChanged: (val) {
+                                  setState(() {
+                                    this.dealsIn = val;
+                                  });
+                                },
+                                textInputAction: TextInputAction.next,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'This feild can not be empty';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.text,
+                                maxLines: 5,
+                                decoration: new InputDecoration(
+                                    hintText: "Other information(if any)",
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        20.0, 15.0, 20.0, 15.0),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(32.0)),
+                                    fillColor: Colors.white),
+                                onChanged: (val) {
+                                  setState(() {
+                                    this.info = val;
+                                  });
+                                },
+                                textInputAction: TextInputAction.next,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
                               ListTile(
                                 title: Text(
                                     " Do you have home delivery facility ? "),
@@ -282,7 +332,9 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                   selectCategory,
                                   delivery,
                                   addressLoc,
-                                  addressCity));
+                                  addressCity,
+                                  dealsIn,
+                                  info));
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Home()),

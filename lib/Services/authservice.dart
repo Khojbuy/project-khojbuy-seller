@@ -38,7 +38,7 @@ class AuthService {
           .get()
           .then((doc) {
         if (doc.exists) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Home()),
           );

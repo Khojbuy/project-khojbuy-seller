@@ -14,22 +14,132 @@ class HomePageSeller extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar:
-          /* PreferredSize(
-        child: Stack(
-          children: [
-            CustomPaint(
-              size: Size(double.infinity, 100),
-              painter: RPSCustomPainter(),
-            ),
-          ],
+      appBar: PreferredSize(
+        preferredSize: Size(
+            double.infinity, MediaQuery.of(context).size.longestSide * 0.2),
+        child: Container(
+          alignment: Alignment(-1, -1),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
+              boxShadow: [
+                BoxShadow(color: Colors.black12, spreadRadius: 5, blurRadius: 2)
+              ],
+              color: Color.fromRGBO(84, 176, 243, 1)),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                flex: 4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: [
+                          IconButton(
+                              icon: Icon(
+                                Icons.menu_open_rounded,
+                                size: 36,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _scaffoldKey.currentState.openDrawer();
+                              }),
+                          IconButton(
+                              icon: Icon(
+                                Icons.notifications_active,
+                                size: 36,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                _scaffoldKey.currentState.openDrawer();
+                              }),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 13.0, vertical: 10),
+                      child: Text(
+                        "Khojbuy",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize:
+                              MediaQuery.of(context).size.shortestSide * 0.12,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'OpenSans',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: MediaQuery.of(context).size.shortestSide * 0.1,
+                  child: Image.asset("assets/images/logo.png"),
+                ),
+              )
+              /*  Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                        icon: Icon(
+                          Icons.menu_open_rounded,
+                          size: 36,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _scaffoldKey.currentState.openDrawer();
+                        }),
+                    IconButton(
+                        icon: Icon(
+                          Icons.notifications_active,
+                          size: 36,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _scaffoldKey.currentState.openDrawer();
+                        }),
+                  ],
+                ),
+              ), */
+              /*  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10),
+                    child: Text(
+                      "Khojbuy",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize:
+                            MediaQuery.of(context).size.shortestSide * 0.12,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'OpenSans',
+                      ),
+                    ),
+                  ),
+                  
+                ], 
+              )*/
+            ],
+          ),
         ),
-        preferredSize: Size.fromWidth(double.infinity),
-      ), */
-          AppBar(
+      ),
+      /*  AppBar(
         centerTitle: true,
+        toolbarHeight: MediaQuery.of(context).size.longestSide * 0.2,
         title: Text(
-          "KHOJBUY",
+          "Khojbuy",
           style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
@@ -40,12 +150,19 @@ class HomePageSeller extends StatelessWidget {
         leading: IconButton(
             icon: Icon(
               Icons.menu_open_rounded,
+              size: 36,
               color: Colors.white,
             ),
             onPressed: () {
               _scaffoldKey.currentState.openDrawer();
             }),
-      ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
+      ), */
+
       body: BlocBuilder<NavigatorBloc, NavigationStates>(
         builder: (context, NavigationStates states) {
           return states as Widget;

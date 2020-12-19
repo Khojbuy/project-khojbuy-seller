@@ -61,7 +61,7 @@ flutter:
   assets:
     - assets/images/4271981.png
     - assets/images/shop.png
-    - assets/images/logo.jpg
+    - assets/images/logo.png
     - assets/images/shopping-list.png
     - assets/images/searching.png
     - assets/markdowns/tnc.md

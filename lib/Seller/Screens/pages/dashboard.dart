@@ -30,71 +30,21 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      InkWell(
-                        splashColor: Colors.white,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MyOrders()),
-                          );
-                        },
-                        child: Card(
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.white70, width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          color: Color.fromRGBO(84, 176, 243, 0.98),
-                          child: Container(
-                            height:
-                                MediaQuery.of(context).size.longestSide * 0.2,
-                            child: Center(
-                              child: Text(
-                                'ORDERS',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      cardTemp("ORDERS", "assets/images/shopping-list.png", () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyOrders()),
+                        );
+                      }, context),
                       SizedBox(
                         height: MediaQuery.of(context).size.longestSide * 0.05,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyRequests()),
-                          );
-                        },
-                        child: Card(
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.white70, width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          color: Color.fromRGBO(84, 176, 243, 0.98),
-                          child: Container(
-                            height:
-                                MediaQuery.of(context).size.longestSide * 0.2,
-                            child: Center(
-                              child: Text(
-                                'REQUESTS',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
+                      cardTemp("REQUESTS", "assets/images/searching.png", () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyRequests()),
+                        );
+                      }, context)
                     ],
                   );
                 } else {
@@ -117,4 +67,73 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
       ),
     ));
   }
+}
+
+cardTemp(String name, String image, Function onTapCall, BuildContext context) {
+  return InkWell(
+    onTap: onTapCall,
+    child: Card(
+      color: Color.fromRGBO(84, 176, 243, 1),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
+      child: Stack(
+        fit: StackFit.loose,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(24.0),
+            child: Container(
+              height: MediaQuery.of(context).size.longestSide * 0.15,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: ListTile(
+                      title: ShaderMask(
+                        shaderCallback: (rect) {
+                          return LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Colors.black, Colors.transparent],
+                          ).createShader(
+                              Rect.fromLTRB(0, 0, rect.width, rect.height));
+                        },
+                        blendMode: BlendMode.dstIn,
+                        child: Container(
+                          color: Colors.blue,
+                          padding: EdgeInsets.only(left: 18.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(name,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'OpenSans',
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10.0,
+            bottom: 8.0,
+            right: 8.0,
+            child: Image.asset(
+              image,
+              width: MediaQuery.of(context).size.shortestSide * 0.45,
+              height: MediaQuery.of(context).size.shortestSide * 0.45,
+              fit: BoxFit.contain,
+              alignment: Alignment.bottomRight,
+              colorBlendMode: BlendMode.color,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
