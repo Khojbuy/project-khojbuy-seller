@@ -214,7 +214,7 @@ class HomePageSeller extends StatelessWidget {
                 MenuItem(Icons.feedback_rounded, "Feedback", () async {
                   final Uri feedback = Uri(
                     scheme: 'mailto',
-                    path: 'nayakastha2911@gmail.com',
+                    path: 'contact.khojbuy1@gmail.com',
                     //add subject and body here
                   );
                   var url = feedback.toString();

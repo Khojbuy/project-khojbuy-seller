@@ -21,7 +21,7 @@ class GetStarted extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "KHOJBUY",
+                      "Khojbuy",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'OpenSans',
@@ -33,7 +33,7 @@ class GetStarted extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      "Connects to the entire market to your fingertips ",
+                      "Connects the entire market to your fingertips ",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'OpenSans',
@@ -65,7 +65,7 @@ class GetStarted extends StatelessWidget {
                     );
                   },
                   elevation: 10,
-                  backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                  backgroundColor: Color.fromRGBO(84, 176, 243, 0.8),
                   label: Text(
                     "GET STARTED",
                     style: TextStyle(

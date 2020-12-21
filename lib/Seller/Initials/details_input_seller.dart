@@ -341,7 +341,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                           );
                         },
                         elevation: 10,
-                        backgroundColor: Color.fromRGBO(41, 74, 171, 0.6),
+                        backgroundColor: Color.fromRGBO(84, 176, 243, 0.8),
                         label: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40.0),
                           child: Text(
