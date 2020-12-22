@@ -42,6 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data = snapshot.data.data();
+            String sellerName = data["Name"];
+            String phnNo = data["PhoneNo"];
             String imgURL = data["PhotoURL"];
             String addLoc = data["AddressLocation"];
             String addCity = data["AddressCity"];
@@ -90,28 +92,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     builder: (context) => PictureSelection(
                                         data["ShopName"].toString())),
                               );
-                              /*  print(imgURL);
-                            final picker = ImagePicker();
-                            final storage = FirebaseStorage.instance;
-
-                            PickedFile image = await picker.getImage(
-                                source: ImageSource.gallery);
-                            File img = File(image.path);
-                            if (img != null) {
-                              TaskSnapshot snapshot = await storage
-                                  .ref()
-                                  .child("SellerData/${data["Name"]}")
-                                  .putFile(img);
-                              String downloadURL =
-                                  await snapshot.ref.getDownloadURL();
-                              print(downloadURL);
-                              setState(() {
-                                imgURL = downloadURL;
-                                print(imgURL);
-                              });
-                            } else {
-                              print("No path recived");
-                            } */
                             },
                             child: Text(
                               "Change Photo",
@@ -135,22 +115,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Color.fromRGBO(84, 176, 243, 1),
                                 fontSize: 32,
                                 letterSpacing: 2.5),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            data["Name"] +
-                                " " +
-                                data["PhoneNo"].toString().substring(3),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'OpenSans',
-                              fontSize: 24,
-                              color: Color.fromRGBO(84, 176, 243, 1),
-                              letterSpacing: 1.5,
-                            ),
                           ),
                         ),
                         Padding(
@@ -180,11 +144,70 @@ class _ProfilePageState extends State<ProfilePage> {
                                 padding: const EdgeInsets.all(10.0),
                                 child: TextFormField(
                                   keyboardType: TextInputType.text,
+                                  autofocus: false,
+                                  initialValue: sellerName,
+                                  decoration: new InputDecoration(
+                                      labelText: "Name",
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          20.0, 15.0, 20.0, 15.0),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(32.0)),
+                                      fillColor: Colors.white),
+                                  onSaved: (val) {
+                                    setState(() {
+                                      sellerName = val;
+                                    });
+                                  },
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please enter your name';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.phone,
+                                  autofocus: false,
+                                  initialValue: phnNo,
+                                  decoration: new InputDecoration(
+                                      labelText: "Contact Number",
+                                      contentPadding: EdgeInsets.fromLTRB(
+                                          20.0, 15.0, 20.0, 15.0),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(32.0)),
+                                      fillColor: Colors.white),
+                                  onSaved: (val) {
+                                    setState(() {
+                                      phnNo = val;
+                                    });
+                                  },
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please enter your contact number';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.text,
                                   minLines: 2,
                                   maxLines: 4,
                                   autofocus: false,
                                   initialValue: dealsIn,
                                   decoration: new InputDecoration(
+                                      hintText:
+                                          "e.g. - Deals in children's books",
+                                      hintStyle: TextStyle(color: Colors.grey),
                                       labelText: "Deals In",
                                       contentPadding: EdgeInsets.fromLTRB(
                                           20.0, 15.0, 20.0, 15.0),
@@ -281,6 +304,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             autofocus: false,
                             initialValue: otherInfo,
                             decoration: new InputDecoration(
+                                hintText:
+                                    "e.g. - Home Delivery only for purchase more than 500 Rs.",
+                                hintStyle: TextStyle(color: Colors.grey),
                                 labelText: "Other Information",
                                 contentPadding:
                                     EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -302,8 +328,15 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: FloatingActionButton.extended(
                                 onPressed: () {
                                   keyForm.currentState.validate();
-                                  updateUserData(users, addLoc, addCity,
-                                          delivery, dealsIn, otherInfo)
+                                  updateUserData(
+                                          users,
+                                          addLoc,
+                                          addCity,
+                                          delivery,
+                                          dealsIn,
+                                          otherInfo,
+                                          phnNo,
+                                          sellerName)
                                       .then((value) {
                                     Scaffold.of(context).showSnackBar(snackbar);
                                   });
@@ -342,11 +375,20 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-Future updateUserData(CollectionReference collectionReference, String addLoc,
-    String addCity, bool del, String dealsIn, String info) async {
+Future updateUserData(
+    CollectionReference collectionReference,
+    String addLoc,
+    String addCity,
+    bool del,
+    String dealsIn,
+    String info,
+    String phnNo,
+    String sellerName) async {
   return await collectionReference
       .doc(FirebaseAuth.instance.currentUser.uid)
       .update({
+    "PhoneNo": phnNo,
+    "Name": sellerName,
     "AddressLocation": addLoc,
     "AddressCity": addCity,
     "Delivery": del,

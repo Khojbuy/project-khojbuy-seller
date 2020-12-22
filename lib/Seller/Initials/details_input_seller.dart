@@ -69,7 +69,11 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               TextFormField(
                                 keyboardType: TextInputType.text,
                                 decoration: new InputDecoration(
-                                    hintText: "Enter your Shop Name",
+                                    labelText: "Enter your Shop Name",
+                                    hintText: "John Enterprises",
+                                    hintStyle: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        color: Colors.grey),
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
@@ -95,7 +99,11 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               TextFormField(
                                 keyboardType: TextInputType.text,
                                 decoration: new InputDecoration(
-                                    hintText: "Enter your Name",
+                                    labelText: "Enter your Name",
+                                    hintText: "John Doe",
+                                    hintStyle: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        color: Colors.grey),
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
@@ -121,7 +129,11 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               TextFormField(
                                 keyboardType: TextInputType.phone,
                                 decoration: new InputDecoration(
-                                    hintText: "Enter Your Contact Number",
+                                    labelText: "Enter Your Contact Number",
+                                    hintText: "9996663333",
+                                    hintStyle: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        color: Colors.grey),
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
@@ -146,17 +158,22 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               ),
                               DropdownButtonFormField(
                                   items: [
-                                    'Electronics and Electricals',
-                                    'Clothing and Boutique',
-                                    'Daily Needs',
-                                    'Home Essentials and Decor',
-                                    'Health and Medicines',
-                                    'Motor Parts and Hardware',
-                                    'Grocery',
-                                    'Footwear',
-                                    'Stationery',
+                                    ' Stationary & Books',
+                                    'Tiles & Stationary Wares',
+                                    'Mobiles & Computers',
+                                    'Pets & Food',
+                                    'Home essentials',
+                                    'Jewellery',
+                                    'Hardware & Machinery',
+                                    'Health & Fitness',
                                     'Furniture',
-                                    'Sanitary Wares and Ceramics'
+                                    'Groceries',
+                                    'Electrical & Electronics',
+                                    'Fashion',
+                                    'Clothing',
+                                    'Daily needs',
+                                    'Automotive'
+                                        'Boutique personal'
                                   ].map((String category) {
                                     return new DropdownMenuItem(
                                         value: category,
@@ -188,7 +205,11 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               TextFormField(
                                 keyboardType: TextInputType.streetAddress,
                                 decoration: new InputDecoration(
-                                    hintText: "Enter your Shop's Location",
+                                    labelText: "Enter your Shop's Location",
+                                    hintText: "Laxmi Talkies Road",
+                                    hintStyle: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        color: Colors.grey),
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
@@ -245,7 +266,12 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                 keyboardType: TextInputType.text,
                                 maxLines: 5,
                                 decoration: new InputDecoration(
-                                    hintText: "Deal In",
+                                    labelText: "Deal In",
+                                    hintText:
+                                        "All sorts of school books and stationery",
+                                    hintStyle: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        color: Colors.grey),
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
@@ -272,7 +298,12 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                 keyboardType: TextInputType.text,
                                 maxLines: 5,
                                 decoration: new InputDecoration(
-                                    hintText: "Other information(if any)",
+                                    labelText: "Other information(if any)",
+                                    hintText:
+                                        "Home Delivery is not available on Weekends",
+                                    hintStyle: TextStyle(
+                                        fontFamily: "OpenSans",
+                                        color: Colors.grey),
                                     contentPadding: EdgeInsets.fromLTRB(
                                         20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(

@@ -13,7 +13,7 @@ class _OrderToPackState extends State<OrderToPack> {
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(84, 176, 243, 1),
           title: Text(
-            "Received Orders",
+            "Orders to Pack",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),

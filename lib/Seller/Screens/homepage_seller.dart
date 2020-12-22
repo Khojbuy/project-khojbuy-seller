@@ -86,83 +86,10 @@ class HomePageSeller extends StatelessWidget {
                   child: Image.asset("assets/images/logo.png"),
                 ),
               )
-              /*  Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                        icon: Icon(
-                          Icons.menu_open_rounded,
-                          size: 36,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          _scaffoldKey.currentState.openDrawer();
-                        }),
-                    IconButton(
-                        icon: Icon(
-                          Icons.notifications_active,
-                          size: 36,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          _scaffoldKey.currentState.openDrawer();
-                        }),
-                  ],
-                ),
-              ), */
-              /*  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10),
-                    child: Text(
-                      "Khojbuy",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize:
-                            MediaQuery.of(context).size.shortestSide * 0.12,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'OpenSans',
-                      ),
-                    ),
-                  ),
-                  
-                ], 
-              )*/
             ],
           ),
         ),
       ),
-      /*  AppBar(
-        centerTitle: true,
-        toolbarHeight: MediaQuery.of(context).size.longestSide * 0.2,
-        title: Text(
-          "Khojbuy",
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-        backgroundColor: Color.fromRGBO(84, 176, 243, 0.98),
-        leading: IconButton(
-            icon: Icon(
-              Icons.menu_open_rounded,
-              size: 36,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              _scaffoldKey.currentState.openDrawer();
-            }),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
-          ),
-        ),
-      ), */
-
       body: BlocBuilder<NavigatorBloc, NavigationStates>(
         builder: (context, NavigationStates states) {
           return states as Widget;
@@ -307,24 +234,16 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
               ),
               ListTile(
                 dense: true,
-                title: Text(
-                  data['ShopName'],
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontFamily: 'OpenSans',
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                subtitle: Text(
-                  data['Name'],
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: 'OpenSans',
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                title: Center(
+                  child: Text(
+                    data['ShopName'],
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontFamily: 'OpenSans',
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 leading: (data['PhotoURL'] == "url")

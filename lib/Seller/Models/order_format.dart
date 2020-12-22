@@ -15,8 +15,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
                 isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
             .where("Status", whereIn: ["received", "waiting"]).snapshots()
         : users
-            .where("Seller",
-                isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
+            .where("Seller", isEqualTo: "RfuXBlAhWZMCH4klwVEV1kl1tMc2")
             .where("Status", isEqualTo: orderStatus)
             .snapshots(),
     builder: (context, snapshot) {
@@ -38,7 +37,6 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
           children: snapshot.data.documents.map<Widget>((doc) {
             return InkWell(
               onTap: () {
-                print(doc);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -101,7 +99,7 @@ class _OrderPageState extends State<OrderPage> {
   _OrderPageState(this.documentSnapshot, this.orderStatus);
   @override
   Widget build(BuildContext context) {
-    String remark = documentSnapshot['Remarks'];
+    String sellerRemark = documentSnapshot['SellerRemark'];
     List<dynamic> items = documentSnapshot['Items'];
     String userID = documentSnapshot.id;
     print(items);
@@ -132,7 +130,8 @@ class _OrderPageState extends State<OrderPage> {
                           itemCount: documentSnapshot['Items'].length,
                           itemBuilder: (context, index) {
                             return CheckboxListTile(
-                              checkColor: Color.fromRGBO(41, 74, 171, 1),
+                              activeColor: Colors.transparent,
+                              checkColor: Color.fromRGBO(84, 176, 243, 1),
                               dense: true,
                               title: Text(
                                 items[index]['ItemName'],
@@ -171,6 +170,8 @@ class _OrderPageState extends State<OrderPage> {
                                     fontWeight: FontWeight.bold),
                               ),
                               subtitle: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     items[index]['Amount'],
@@ -180,17 +181,11 @@ class _OrderPageState extends State<OrderPage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   items[index]['Availability']
-                                      ? Text(
-                                          "Marked Available",
-                                          style: TextStyle(
-                                              color: Colors.black45,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600),
-                                        )
+                                      ? Container()
                                       : Text(
                                           "Marked Unavailable",
                                           style: TextStyle(
-                                              color: Colors.black45,
+                                              color: Colors.red,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600),
                                         ),
@@ -199,44 +194,75 @@ class _OrderPageState extends State<OrderPage> {
                             );
                           },
                         ),
-                  (documentSnapshot['image'] == 'url')
-                      ? Container(
-                          child: Text(
-                              "${documentSnapshot['CustomerName']} attached no image for this order."),
-                        )
-                      : Image.network(
-                          documentSnapshot['image'],
-                          fit: BoxFit.cover,
-                          height: 350,
-                          width: 350,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              child:
-                                  Text("Please check your internet connection"),
-                            );
-                          },
-                        ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 32.0, horizontal: 12.0),
-                    child: TextFormField(
-                      initialValue: remark,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                          labelText: "Additional details(if any)",
-                          contentPadding:
-                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(32.0)),
-                          fillColor: Colors.white),
-                      onChanged: (value) {
-                        setState(() {
-                          remark = value;
-                        });
-                      },
+                        horizontal: 24, vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Customer Remarks - ",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "OpenSans"),
+                        ),
+                        Text(
+                          documentSnapshot["BuyerRemark"],
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "OpenSans"),
+                        ),
+                      ],
                     ),
                   ),
+                  orderStatus == "received"
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 32.0, horizontal: 12.0),
+                          child: TextFormField(
+                            initialValue: sellerRemark,
+                            keyboardType: TextInputType.text,
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                                hintText: "Delivery before 8pm",
+                                labelText: "Additional details(if any)",
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(32.0)),
+                                fillColor: Colors.white),
+                            onChanged: (value) {
+                              setState(() {
+                                sellerRemark = value;
+                              });
+                            },
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Your Remarks - ",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "OpenSans"),
+                              ),
+                              Text(
+                                documentSnapshot["SellerRemark"],
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "OpenSans"),
+                              ),
+                            ],
+                          ),
+                        ),
                   orderStatus == "completed" || orderStatus == "waiting"
                       ? Container()
                       : Padding(
@@ -252,7 +278,7 @@ class _OrderPageState extends State<OrderPage> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               splashColor: Colors.blue,
-                              color: Color.fromRGBO(41, 74, 171, 1),
+                              color: Color.fromRGBO(84, 176, 243, 1),
                               onPressed: () {
                                 print(items);
                                 String newStats;
@@ -264,12 +290,37 @@ class _OrderPageState extends State<OrderPage> {
                                 print(newStats);
                                 users.doc(userID).update({
                                   "Items": items,
-                                  "Remarks": remark,
                                   "Status": newStats,
+                                  "SellerRemark": sellerRemark
                                 });
                                 Navigator.of(context).pop();
                               }),
+                        ),
+                  orderStatus == "completed"
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 12),
+                          child: RaisedButton(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0),
+                              ),
+                              textColor: Colors.white,
+                              child: Text(
+                                "DELETE",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              splashColor: Colors.blue,
+                              color: Color.fromRGBO(84, 176, 243, 1),
+                              onPressed: () {
+                                users.doc(userID).delete();
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text("Order Deleted"),
+                                  elevation: 20,
+                                ));
+                                Navigator.of(context).pop();
+                              }),
                         )
+                      : Container()
                 ],
               ),
             );

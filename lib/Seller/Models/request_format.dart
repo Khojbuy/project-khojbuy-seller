@@ -96,10 +96,10 @@ class _RequestPageState extends State<RequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    String remark = documentSnapshot['Remarks'];
     List<dynamic> items = documentSnapshot['Items'];
+    String sellerRemark = documentSnapshot['SellerRemark'];
     String userID = documentSnapshot.id;
-    print(items);
+    print(documentSnapshot);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -109,7 +109,8 @@ class _RequestPageState extends State<RequestPage> {
         backgroundColor: Color.fromRGBO(84, 176, 243, 1),
         actions: [
           IconButton(
-              icon: Icon(Icons.delete),
+              color: Colors.white,
+              icon: Icon(Icons.delete_forever),
               onPressed: () {
                 users.doc(userID).delete();
                 Scaffold.of(context).showSnackBar(SnackBar(
@@ -143,7 +144,7 @@ class _RequestPageState extends State<RequestPage> {
                           fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      items[index]['ItemNo'],
+                      items[index]['Amount'],
                       style: TextStyle(
                           color: Colors.black45,
                           fontSize: 14,
@@ -151,42 +152,93 @@ class _RequestPageState extends State<RequestPage> {
                     ),
                   );
                 }),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Customer Remarks - ",
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "OpenSans"),
+                  ),
+                  Text(
+                    documentSnapshot["BuyerRemark"],
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "OpenSans"),
+                  ),
+                ],
+              ),
+            ),
+            (documentSnapshot["Status"] == 'new')
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 32.0, horizontal: 12.0),
+                    child: TextFormField(
+                      initialValue: sellerRemark,
+                      keyboardType: TextInputType.text,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                          hintText: "Delivery before 8pm",
+                          labelText: "Additional details(if any)",
+                          contentPadding:
+                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          fillColor: Colors.white),
+                      onChanged: (value) {
+                        setState(() {
+                          sellerRemark = value;
+                        });
+                      },
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Your Remarks - ",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "OpenSans"),
+                        ),
+                        Text(
+                          documentSnapshot["SellerRemark"],
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "OpenSans"),
+                        ),
+                      ],
+                    ),
+                  ),
             (documentSnapshot['Image'] == 'url')
                 ? Container(
                     child: Text(
-                        "${documentSnapshot['Customer']} attached no image for this request."),
+                        "${documentSnapshot['CustomerName']} attached no image for this request."),
                   )
-                : Image.network(
-                    documentSnapshot['Image'],
-                    fit: BoxFit.cover,
-                    height: 350,
-                    width: 350,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        child: Text("Please check your internet connection"),
-                      );
-                    },
+                : Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Image.network(
+                      documentSnapshot['Image'],
+                      fit: BoxFit.contain,
+                      height: MediaQuery.of(context).size.longestSide * 0.3,
+                      width: MediaQuery.of(context).size.longestSide * 0.3,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          child: Text("Please check your internet connection"),
+                        );
+                      },
+                    ),
                   ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 32.0, horizontal: 12.0),
-              child: TextFormField(
-                initialValue: remark,
-                keyboardType: TextInputType.multiline,
-                maxLines: 5,
-                decoration: InputDecoration(
-                    labelText: "Additional details(if any)",
-                    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32.0)),
-                    fillColor: Colors.white),
-                onChanged: (value) {
-                  setState(() {
-                    remark = value;
-                  });
-                },
-              ),
-            ),
             documentSnapshot["Status"] == "new"
                 ? Padding(
                     padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
@@ -200,10 +252,12 @@ class _RequestPageState extends State<RequestPage> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         splashColor: Colors.blue,
-                        color: Color.fromRGBO(41, 74, 171, 1),
+                        color: Color.fromRGBO(84, 176, 243, 1),
                         onPressed: () {
-                          users.doc(userID).update(
-                              {"Remarks": remark, "Status": "responded"});
+                          users.doc(userID).update({
+                            "Status": "responded",
+                            "SellerRemark": sellerRemark
+                          });
                           Navigator.of(context).pop();
                         }),
                   )
