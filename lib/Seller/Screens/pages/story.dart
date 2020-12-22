@@ -19,7 +19,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: Container(
+        /*  floatingActionButton: Container(
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
               color: Color.fromRGBO(84, 176, 243, 0.98),
@@ -40,20 +40,20 @@ class _StoryAddPageState extends State<StoryAddPage> {
               ),
             ),
           ),
-        ),
+        ), */
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "THIS FEATURE WILL ARRIVE SOON",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'OpenSans',
-                  fontSize: 24,
-                  color: Color.fromRGBO(84, 176, 243, 1)),
-            ),
-          ),
-        ));
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          "THIS FEATURE WILL ARRIVE SOON",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'OpenSans',
+              fontSize: 24,
+              color: Color.fromRGBO(84, 176, 243, 1)),
+        ),
+      ),
+    ));
   }
 }
 

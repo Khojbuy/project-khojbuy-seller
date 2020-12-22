@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 final CollectionReference users =
     FirebaseFirestore.instance.collection('Request');
 
-List<String> stats = ["new", "responded"];
+//List<String> stats = ["new", "responded"];
 
 Future<String> getCategory() async {
   final DocumentSnapshot category = await FirebaseFirestore.instance
@@ -66,7 +66,7 @@ StreamBuilder requestTile(String status, BuildContext context) {
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(doc["Customer"]),
+                    title: Text(doc["CustomerName"]),
                     subtitle: Text("has ordered " +
                         doc['Items'].length.toString() +
                         " items"),
@@ -103,10 +103,10 @@ class _RequestPageState extends State<RequestPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          documentSnapshot['Customer'],
+          documentSnapshot['CustomerName'],
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
-        backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
+        backgroundColor: Color.fromRGBO(84, 176, 243, 1),
         actions: [
           IconButton(
               icon: Icon(Icons.delete),

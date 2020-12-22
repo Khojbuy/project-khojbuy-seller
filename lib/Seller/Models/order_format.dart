@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 final CollectionReference users =
     FirebaseFirestore.instance.collection('Order');
-List<String> stats = ["received", "waiting", "to pack", "completed"];
+//List<String> stats = ["received", "waiting", "to pack", "completed"];
 
 StreamBuilder orderTile(String orderStatus, BuildContext context) {
   return StreamBuilder(
@@ -111,7 +111,7 @@ class _OrderPageState extends State<OrderPage> {
             documentSnapshot['CustomerName'],
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
-          backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
+          backgroundColor: Color.fromRGBO(84, 176, 243, 1),
         ),
         body: StatefulBuilder(
           builder: (context, setState) {
@@ -264,7 +264,7 @@ class _OrderPageState extends State<OrderPage> {
                                 print(newStats);
                                 users.doc(userID).update({
                                   "Items": items,
-                                  "Remark": remark,
+                                  "Remarks": remark,
                                   "Status": newStats,
                                 });
                                 Navigator.of(context).pop();

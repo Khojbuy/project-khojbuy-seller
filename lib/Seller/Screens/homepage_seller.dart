@@ -214,7 +214,7 @@ class HomePageSeller extends StatelessWidget {
                 MenuItem(Icons.feedback_rounded, "Feedback", () async {
                   final Uri feedback = Uri(
                     scheme: 'mailto',
-                    path: 'contact.khojbuy1@gmail.com',
+                    path: 'contact.khojbuy@gmail.com',
                     //add subject and body here
                   );
                   var url = feedback.toString();
@@ -234,39 +234,6 @@ class HomePageSeller extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class RPSCustomPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint_0 = new Paint()
-      ..color = Color.fromARGB(255, 33, 150, 243)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-
-    Path path_0 = Path();
-    path_0.moveTo(0, size.height * 0.79);
-    path_0.lineTo(0, 0);
-    path_0.lineTo(size.width, 0);
-    path_0.quadraticBezierTo(size.width * 0.84, size.height * 0.55,
-        size.width * 0.66, size.height * 0.39);
-    path_0.cubicTo(size.width * 0.60, size.height * 0.29, size.width * 0.54,
-        size.height * 0.25, size.width * 0.50, size.height * 0.36);
-    path_0.quadraticBezierTo(size.width * 0.42, size.height * 0.57,
-        size.width * 0.29, size.height * 0.51);
-    path_0.quadraticBezierTo(size.width * 0.17, size.height * 0.50,
-        size.width * 0.13, size.height * 0.64);
-    path_0.quadraticBezierTo(
-        size.width * 0.12, size.height * 0.79, 0, size.height * 0.79);
-    path_0.close();
-
-    canvas.drawPath(path_0, paint_0);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }
 

@@ -11,7 +11,7 @@ class _RequestNewState extends State<RequestNew> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(41, 74, 171, 0.98),
+          backgroundColor: Color.fromRGBO(84, 176, 243, 1),
           title: Text(
             "New Requests",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
