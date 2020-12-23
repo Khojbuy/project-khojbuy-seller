@@ -13,10 +13,14 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
         ? users
             .where("Seller",
                 isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
-            .where("Status", whereIn: ["received", "waiting"]).snapshots()
+            .where("Status", whereIn: ["received", "waiting"])
+            //.orderBy("Time")
+            .snapshots()
         : users
-            .where("Seller", isEqualTo: "RfuXBlAhWZMCH4klwVEV1kl1tMc2")
+            .where("Seller",
+                isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
             .where("Status", isEqualTo: orderStatus)
+            //.orderBy("Time")
             .snapshots(),
     builder: (context, snapshot) {
       if (snapshot.hasError) {
@@ -102,34 +106,37 @@ class _OrderPageState extends State<OrderPage> {
     String sellerRemark = documentSnapshot['SellerRemark'];
     List<dynamic> items = documentSnapshot['Items'];
     String userID = documentSnapshot.id;
-    print(items);
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            documentSnapshot['CustomerName'],
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-          backgroundColor: Color.fromRGBO(84, 176, 243, 1),
+      appBar: AppBar(
+        title: Text(
+          documentSnapshot['CustomerName'],
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
-        body: StatefulBuilder(
-          builder: (context, setState) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  (orderStatus == 'received')
-                      ? Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text("Choose the items available with you"),
-                        )
-                      : Container(),
-                  (orderStatus == 'received')
-                      ? ListView.builder(
-                          padding: EdgeInsets.all(12.0),
-                          shrinkWrap: true,
-                          itemCount: documentSnapshot['Items'].length,
-                          itemBuilder: (context, index) {
-                            return CheckboxListTile(
+        backgroundColor: Color.fromRGBO(84, 176, 243, 1),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            (orderStatus == 'received')
+                ? Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text("Choose the items available with you"),
+                  )
+                : Container(),
+            (orderStatus == 'received')
+                ? ListView.builder(
+                    padding: EdgeInsets.all(12.0),
+                    shrinkWrap: true,
+                    itemCount: documentSnapshot['Items'].length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: CheckboxListTile(
                               activeColor: Colors.transparent,
                               checkColor: Color.fromRGBO(84, 176, 243, 1),
                               dense: true,
@@ -152,63 +159,158 @@ class _OrderPageState extends State<OrderPage> {
                               onChanged: (value) {
                                 setState(() {
                                   items[index]['Availability'] = value;
+                                  if (!value) {
+                                    items[index]['Price'] = 0;
+                                  }
                                 });
                               },
-                            );
-                          })
-                      : ListView.builder(
-                          padding: EdgeInsets.all(12.0),
-                          shrinkWrap: true,
-                          itemCount: documentSnapshot['Items'].length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(
-                                items[index]['ItemName'],
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    items[index]['Amount'],
+                            ),
+                          ),
+                          items[index]['Availability']
+                              ? Expanded(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          "₹",
+                                          style: TextStyle(
+                                              fontFamily: 'OpenSans',
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 5,
+                                        child: TextFormField(
+                                          initialValue:
+                                              items[index]['Price'].toString(),
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                              hintText: "Cost",
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontFamily: 'OpenSans')),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              items[index]['Price'] =
+                                                  int.parse(value);
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  flex: 1,
+                                )
+                              : Expanded(
+                                  child: Container(),
+                                  flex: 1,
+                                )
+                        ],
+                      );
+                    })
+                : ListView.builder(
+                    padding: EdgeInsets.all(12.0),
+                    shrinkWrap: true,
+                    itemCount: documentSnapshot['Items'].length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(
+                          items[index]['ItemName'],
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              items[index]['Amount'],
+                              style: TextStyle(
+                                  color: Colors.black45,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            items[index]['Availability']
+                                ? Text(
+                                    '₹' + items[index]['Price'].toString(),
                                     style: TextStyle(
-                                        color: Colors.black45,
+                                        color: Colors.blue,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                : Text(
+                                    "Marked Unavailable",
+                                    style: TextStyle(
+                                        color: Colors.red,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  items[index]['Availability']
-                                      ? Container()
-                                      : Text(
-                                          "Marked Unavailable",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                ],
-                              ),
-                            );
-                          },
+                          ],
                         ),
-                  Padding(
+                      );
+                    },
+                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Customer Remarks - ",
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "OpenSans"),
+                  ),
+                  Text(
+                    documentSnapshot["BuyerRemark"],
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: "OpenSans"),
+                  ),
+                ],
+              ),
+            ),
+            orderStatus == "received"
+                ? Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 20),
+                        vertical: 32.0, horizontal: 12.0),
+                    child: TextFormField(
+                      initialValue: sellerRemark,
+                      keyboardType: TextInputType.text,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                          hintText: "Delivery before 8pm",
+                          labelText: "Additional details(if any)",
+                          contentPadding:
+                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
+                          fillColor: Colors.white),
+                      onChanged: (value) {
+                        setState(() {
+                          sellerRemark = value;
+                        });
+                      },
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "Customer Remarks - ",
+                          "Your Remarks - ",
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               fontFamily: "OpenSans"),
                         ),
                         Text(
-                          documentSnapshot["BuyerRemark"],
+                          documentSnapshot["SellerRemark"],
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -217,114 +319,65 @@ class _OrderPageState extends State<OrderPage> {
                       ],
                     ),
                   ),
-                  orderStatus == "received"
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 32.0, horizontal: 12.0),
-                          child: TextFormField(
-                            initialValue: sellerRemark,
-                            keyboardType: TextInputType.text,
-                            maxLines: 5,
-                            decoration: InputDecoration(
-                                hintText: "Delivery before 8pm",
-                                labelText: "Additional details(if any)",
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(32.0)),
-                                fillColor: Colors.white),
-                            onChanged: (value) {
-                              setState(() {
-                                sellerRemark = value;
-                              });
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Your Remarks - ",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "OpenSans"),
-                              ),
-                              Text(
-                                documentSnapshot["SellerRemark"],
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "OpenSans"),
-                              ),
-                            ],
-                          ),
+            orderStatus == "completed" || orderStatus == "waiting"
+                ? Container()
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
                         ),
-                  orderStatus == "completed" || orderStatus == "waiting"
-                      ? Container()
-                      : Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 12),
-                          child: RaisedButton(
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0),
-                              ),
-                              textColor: Colors.white,
-                              child: Text(
-                                "PROCEED",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              splashColor: Colors.blue,
-                              color: Color.fromRGBO(84, 176, 243, 1),
-                              onPressed: () {
-                                print(items);
-                                String newStats;
-                                if (orderStatus == "received") {
-                                  newStats = "waiting";
-                                } else {
-                                  newStats = "completed";
-                                }
-                                print(newStats);
-                                users.doc(userID).update({
-                                  "Items": items,
-                                  "Status": newStats,
-                                  "SellerRemark": sellerRemark
-                                });
-                                Navigator.of(context).pop();
-                              }),
+                        textColor: Colors.white,
+                        child: Text(
+                          "PROCEED",
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                  orderStatus == "completed"
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 12),
-                          child: RaisedButton(
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0),
-                              ),
-                              textColor: Colors.white,
-                              child: Text(
-                                "DELETE",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              splashColor: Colors.blue,
-                              color: Color.fromRGBO(84, 176, 243, 1),
-                              onPressed: () {
-                                users.doc(userID).delete();
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                  content: Text("Order Deleted"),
-                                  elevation: 20,
-                                ));
-                                Navigator.of(context).pop();
-                              }),
-                        )
-                      : Container()
-                ],
-              ),
-            );
-          },
-        ));
+                        splashColor: Colors.blue,
+                        color: Color.fromRGBO(84, 176, 243, 1),
+                        onPressed: () {
+                          print(items);
+                          String newStats;
+                          if (orderStatus == "received") {
+                            newStats = "waiting";
+                          } else {
+                            newStats = "completed";
+                          }
+                          print(newStats);
+                          users.doc(userID).update({
+                            "Items": items,
+                            "Status": newStats,
+                            "SellerRemark": sellerRemark
+                          });
+                          Navigator.of(context).pop();
+                        }),
+                  ),
+            orderStatus == "completed"
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    child: RaisedButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                        ),
+                        textColor: Colors.white,
+                        child: Text(
+                          "DELETE",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        splashColor: Colors.blue,
+                        color: Color.fromRGBO(84, 176, 243, 1),
+                        onPressed: () {
+                          users.doc(userID).delete();
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text("Order Deleted"),
+                            elevation: 20,
+                          ));
+                          Navigator.of(context).pop();
+                        }),
+                  )
+                : Container()
+          ],
+        ),
+      ),
+    );
   }
 }

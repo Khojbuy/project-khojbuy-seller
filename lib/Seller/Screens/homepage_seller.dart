@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khojbuy/Seller/Screens/pages/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
@@ -56,7 +57,11 @@ class HomePageSeller extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                _scaffoldKey.currentState.openDrawer();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Notifications()),
+                                );
                               }),
                         ],
                       ),
