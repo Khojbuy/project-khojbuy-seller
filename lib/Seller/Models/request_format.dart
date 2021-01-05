@@ -6,25 +6,22 @@ final CollectionReference users =
     FirebaseFirestore.instance.collection('Request');
 
 //List<String> stats = ["new", "responded"];
-
+String city, categoryName;
 Future<String> getCategory() async {
   final DocumentSnapshot category = await FirebaseFirestore.instance
       .collection("SellerData")
       .doc(FirebaseAuth.instance.currentUser.uid)
       .get();
 
-  return category["Category"];
+  categoryName = category["Category"];
+  city = category['AddressCity'];
 }
 
 StreamBuilder requestTile(String status, BuildContext context) {
-  String cat;
-  getCategory().then((value) {
-    cat = value;
-  });
   return StreamBuilder(
       stream: users
-          .where("Category", isEqualTo: cat)
-          .where("Status", isEqualTo: status)
+          .where("Category", isEqualTo: categoryName)
+          .where("City", isEqualTo: city)
           //.orderBy("Time")
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

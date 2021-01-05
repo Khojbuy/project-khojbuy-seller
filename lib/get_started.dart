@@ -120,6 +120,7 @@ class GetStarted extends StatelessWidget {
                             fontFamily: 'OpenSans',
                           ))
                     ]))
+
           ],
         ),
       ),
