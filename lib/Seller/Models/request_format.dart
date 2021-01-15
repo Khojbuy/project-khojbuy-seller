@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 final CollectionReference users =
     FirebaseFirestore.instance.collection('Request');
 
-//List<String> stats = ["new", "responded"];
 String city, categoryName;
 Future<String> getCategory() async {
   final DocumentSnapshot category = await FirebaseFirestore.instance
@@ -19,11 +18,17 @@ Future<String> getCategory() async {
 
 StreamBuilder requestTile(String status, BuildContext context) {
   return StreamBuilder(
-      stream: users
-          .where("Category", isEqualTo: categoryName)
-          .where("City", isEqualTo: city)
-          //.orderBy("Time")
-          .snapshots(),
+      stream: status == 'new'
+          ? users
+              .where("Category", isEqualTo: categoryName)
+              .where("City", isEqualTo: city)
+              .where(FirebaseAuth.instance.currentUser.uid, isEqualTo: 0)
+              .snapshots()
+          : users
+              .where("Category", isEqualTo: categoryName)
+              .where("City", isEqualTo: city)
+              .where(FirebaseAuth.instance.currentUser.uid, isEqualTo: 1)
+              .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -59,10 +64,8 @@ StreamBuilder requestTile(String status, BuildContext context) {
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(doc["CustomerName"]),
-                    subtitle: Text("has ordered " +
-                        doc['Items'].length.toString() +
-                        " items"),
+                    title: Text(doc["Customer"]),
+                    subtitle: Text("has requested " + doc['Item'].toString()),
                   ),
                 ),
               );
@@ -85,7 +88,7 @@ class RequestPage extends StatefulWidget {
 
 class _RequestPageState extends State<RequestPage> {
   DocumentSnapshot documentSnapshot;
-  List<dynamic> items;
+  String items;
   String sellerRemark;
   String userID;
 
@@ -93,7 +96,7 @@ class _RequestPageState extends State<RequestPage> {
 
   @override
   void initState() {
-    items = documentSnapshot['Items'];
+    items = documentSnapshot['Item'];
     sellerRemark = documentSnapshot['SellerRemark'];
     userID = documentSnapshot.id;
     super.initState();
@@ -113,7 +116,9 @@ class _RequestPageState extends State<RequestPage> {
                 color: Colors.white,
                 icon: Icon(Icons.delete_forever),
                 onPressed: () {
-                  users.doc(userID).delete();
+                  users
+                      .doc(userID)
+                      .update({FirebaseAuth.instance.currentUser.uid: -1});
                   Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text("Request Deleted"),
                     elevation: 20,
@@ -121,7 +126,8 @@ class _RequestPageState extends State<RequestPage> {
                 })
           ],
         ),
-        body: StatefulBuilder(
+        body: Container()
+        /*  StatefulBuilder(
           builder: (context, setstate) {
             return SingleChildScrollView(
               child: Column(
@@ -323,14 +329,7 @@ class _RequestPageState extends State<RequestPage> {
               ),
             );
           },
-        ));
-  }
-
-  void updateRequest(List<dynamic> items, String remark, String userID) {
-    users.doc(userID).update({
-      "Status": "responded",
-      "SellerRemark": remark,
-      "Items": items,
-    });
+        ) */
+        );
   }
 }
