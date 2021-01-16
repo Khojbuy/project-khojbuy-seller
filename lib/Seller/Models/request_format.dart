@@ -54,6 +54,7 @@ StreamBuilder requestTile(String status, BuildContext context) {
                     MaterialPageRoute(
                         builder: (context) => RequestPage(
                               documentSnapshot: doc,
+                              status: status,
                             )),
                   );
                 },
@@ -79,35 +80,40 @@ StreamBuilder requestTile(String status, BuildContext context) {
 
 class RequestPage extends StatefulWidget {
   final DocumentSnapshot documentSnapshot;
+  final String status;
 
-  const RequestPage({Key key, this.documentSnapshot}) : super(key: key);
+  const RequestPage({Key key, this.documentSnapshot, this.status})
+      : super(key: key);
 
   @override
-  _RequestPageState createState() => _RequestPageState(documentSnapshot);
+  _RequestPageState createState() =>
+      _RequestPageState(documentSnapshot, status);
 }
 
 class _RequestPageState extends State<RequestPage> {
   DocumentSnapshot documentSnapshot;
+  String status;
   String items;
-  String sellerRemark;
-  String userID;
+  String image;
+  String requestID;
 
-  _RequestPageState(this.documentSnapshot);
+  _RequestPageState(this.documentSnapshot, this.status);
 
   @override
   void initState() {
     items = documentSnapshot['Item'];
-    sellerRemark = documentSnapshot['SellerRemark'];
-    userID = documentSnapshot.id;
+    image = documentSnapshot['Image'];
+    requestID = documentSnapshot.id;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.shortestSide;
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            documentSnapshot['CustomerName'],
+            status.toUpperCase() + ' REQUESTS',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           backgroundColor: Color.fromRGBO(84, 176, 243, 1),
@@ -117,16 +123,126 @@ class _RequestPageState extends State<RequestPage> {
                 icon: Icon(Icons.delete_forever),
                 onPressed: () {
                   users
-                      .doc(userID)
+                      .doc(requestID)
                       .update({FirebaseAuth.instance.currentUser.uid: -1});
+
                   Scaffold.of(context).showSnackBar(SnackBar(
                     content: Text("Request Deleted"),
                     elevation: 20,
                   ));
+
+                  (status == 'new')
+                      ? Navigator.of(context).pop()
+                      : users
+                          .doc(requestID)
+                          .collection('SellerResponses')
+                          .doc(FirebaseAuth.instance.currentUser.uid)
+                          .delete()
+                          .then((value) => Navigator.of(context).pop());
                 })
           ],
         ),
-        body: Container()
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'REQUEST ID - ',
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: width * 0.06),
+                    ),
+                    Text(
+                      requestID.toLowerCase(),
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w500,
+                          fontSize: width * 0.05),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'ITEM - ',
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: width * 0.06),
+                    ),
+                    Text(
+                      items,
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w500,
+                          fontSize: width * 0.05),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: image == 'url'
+                    ? Center(
+                        child: Text(
+                          'Customer has attached no image',
+                          style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.w500,
+                              fontSize: width * 0.05),
+                        ),
+                      )
+                    : Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40.0),
+                            child: Image.network(
+                              image,
+                              fit: BoxFit.cover,
+                              height: 200,
+                              width: 200,
+                            ),
+                          ),
+                        ),
+                      ),
+              ),
+              // Enter Price
+              // Comment
+              status == 'new'
+                  ? Center(
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        child: RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            textColor: Colors.white,
+                            child: Text(
+                              "CONFIRM",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            splashColor: Colors.blue,
+                            color: Color.fromRGBO(84, 176, 243, 1),
+                            onPressed: () {}),
+                      ),
+                    )
+                  : Container()
+            ],
+          ),
+        )
         /*  StatefulBuilder(
           builder: (context, setstate) {
             return SingleChildScrollView(

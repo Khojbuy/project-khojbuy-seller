@@ -120,6 +120,26 @@ class _OrderPageState extends State<OrderPage> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'ORDER ID - ',
+                    style: TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    documentSnapshot.id,
+                    style: TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16),
+                  )
+                ],
+              ),
               (orderStatus == 'received')
                   ? Padding(
                       padding: EdgeInsets.all(10),
