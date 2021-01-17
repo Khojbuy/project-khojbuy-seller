@@ -6,7 +6,20 @@ final CollectionReference users =
     FirebaseFirestore.instance.collection('Request');
 
 String city, categoryName;
-Future<String> getCategory() async {
+String remark;
+String price;
+
+getSellerValues(String id) async {
+  final snapShot = await users
+      .doc(id)
+      .collection('SellerResponses')
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .get();
+  remark = snapShot['Remark'];
+  price = snapShot['Price'];
+}
+
+getCategory() async {
   final DocumentSnapshot category = await FirebaseFirestore.instance
       .collection("SellerData")
       .doc(FirebaseAuth.instance.currentUser.uid)
@@ -65,7 +78,7 @@ StreamBuilder requestTile(String status, BuildContext context) {
                   child: ListTile(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(doc["Customer"]),
+                    title: Text(doc["CustomerName"]),
                     subtitle: Text("has requested " + doc['Item'].toString()),
                   ),
                 ),
@@ -96,6 +109,8 @@ class _RequestPageState extends State<RequestPage> {
   String items;
   String image;
   String requestID;
+  String newRemark = '';
+  String newPrice = '₹ 0 ';
 
   _RequestPageState(this.documentSnapshot, this.status);
 
@@ -104,11 +119,16 @@ class _RequestPageState extends State<RequestPage> {
     items = documentSnapshot['Item'];
     image = documentSnapshot['Image'];
     requestID = documentSnapshot.id;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (status != 'new') {
+      getSellerValues(requestID);
+      print(price);
+    }
     var width = MediaQuery.of(context).size.shortestSide;
     return Scaffold(
         appBar: AppBar(
@@ -125,11 +145,6 @@ class _RequestPageState extends State<RequestPage> {
                   users
                       .doc(requestID)
                       .update({FirebaseAuth.instance.currentUser.uid: -1});
-
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text("Request Deleted"),
-                    elevation: 20,
-                  ));
 
                   (status == 'new')
                       ? Navigator.of(context).pop()
@@ -210,6 +225,10 @@ class _RequestPageState extends State<RequestPage> {
                             borderRadius: BorderRadius.circular(40.0),
                             child: Image.network(
                               image,
+                              /*  loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                return CircularProgressIndicator();
+                              }, */
                               fit: BoxFit.cover,
                               height: 200,
                               width: 200,
@@ -218,6 +237,103 @@ class _RequestPageState extends State<RequestPage> {
                         ),
                       ),
               ),
+              status == 'new'
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 12.0),
+                          child: TextFormField(
+                            initialValue: newPrice,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                labelText: "Enter the price for the request",
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(32.0)),
+                                fillColor: Colors.white),
+                            onChanged: (value) {
+                              setState(() {
+                                newPrice = value;
+                              });
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 24.0, horizontal: 12.0),
+                          child: TextFormField(
+                            initialValue: newRemark,
+                            keyboardType: TextInputType.text,
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                                hintText: "Delivery before 8pm",
+                                labelText: "Additional details(if any)",
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(32.0)),
+                                fillColor: Colors.white),
+                            onChanged: (value) {
+                              setState(() {
+                                newRemark = value;
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Your suggested price - ",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "OpenSans"),
+                              ),
+                              Text(
+                                price.toString(),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "OpenSans"),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Your Remarks - ",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "OpenSans"),
+                              ),
+                              Text(
+                                remark,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "OpenSans"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
               // Enter Price
               // Comment
               status == 'new'
@@ -232,11 +348,28 @@ class _RequestPageState extends State<RequestPage> {
                             textColor: Colors.white,
                             child: Text(
                               "CONFIRM",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'OpenSans'),
                             ),
                             splashColor: Colors.blue,
                             color: Color.fromRGBO(84, 176, 243, 1),
-                            onPressed: () {}),
+                            onPressed: () {
+                              print(newPrice);
+                              users.doc(requestID).update(
+                                  {FirebaseAuth.instance.currentUser.uid: 1});
+                              FirebaseFirestore.instance
+                                  .collection('Request')
+                                  .doc(requestID)
+                                  .collection('SellerResponses')
+                                  .doc(FirebaseAuth.instance.currentUser.uid)
+                                  .set({
+                                'Remark': newRemark,
+                                'Price': newPrice,
+                              }).then((value) {
+                                Navigator.of(context).pop();
+                              });
+                            }),
                       ),
                     )
                   : Container()
