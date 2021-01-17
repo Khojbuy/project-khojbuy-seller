@@ -5,19 +5,9 @@ import 'package:flutter/material.dart';
 final CollectionReference users =
     FirebaseFirestore.instance.collection('Request');
 
-String city, categoryName;
+String city, categoryName, shopName;
 String remark;
 String price;
-
-getSellerValues(String id) async {
-  final snapShot = await users
-      .doc(id)
-      .collection('SellerResponses')
-      .doc(FirebaseAuth.instance.currentUser.uid)
-      .get();
-  remark = snapShot['Remark'];
-  price = snapShot['Price'];
-}
 
 getCategory() async {
   final DocumentSnapshot category = await FirebaseFirestore.instance
@@ -27,6 +17,7 @@ getCategory() async {
 
   categoryName = category["Category"];
   city = category['AddressCity'];
+  shopName = category['ShopName'];
 }
 
 StreamBuilder requestTile(String status, BuildContext context) {
@@ -61,7 +52,17 @@ StreamBuilder requestTile(String status, BuildContext context) {
           return Column(
             children: snapshot.data.documents.map<Widget>((doc) {
               return InkWell(
-                onTap: () {
+                onTap: () async {
+                  if (status != 'new') {
+                    final snapShot = await users
+                        .doc(doc.id)
+                        .collection('SellerResponses')
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .get();
+                    remark = snapShot['Remark'];
+                    price = snapShot['Price'];
+                    print(remark);
+                  }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -106,29 +107,13 @@ class RequestPage extends StatefulWidget {
 class _RequestPageState extends State<RequestPage> {
   DocumentSnapshot documentSnapshot;
   String status;
-  String items;
-  String image;
-  String requestID;
   String newRemark = '';
   String newPrice = '₹ 0 ';
 
   _RequestPageState(this.documentSnapshot, this.status);
 
   @override
-  void initState() {
-    items = documentSnapshot['Item'];
-    image = documentSnapshot['Image'];
-    requestID = documentSnapshot.id;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (status != 'new') {
-      getSellerValues(requestID);
-      print(price);
-    }
     var width = MediaQuery.of(context).size.shortestSide;
     return Scaffold(
         appBar: AppBar(
@@ -143,13 +128,13 @@ class _RequestPageState extends State<RequestPage> {
                 icon: Icon(Icons.delete_forever),
                 onPressed: () {
                   users
-                      .doc(requestID)
+                      .doc(documentSnapshot.id)
                       .update({FirebaseAuth.instance.currentUser.uid: -1});
 
                   (status == 'new')
                       ? Navigator.of(context).pop()
                       : users
-                          .doc(requestID)
+                          .doc(documentSnapshot.id)
                           .collection('SellerResponses')
                           .doc(FirebaseAuth.instance.currentUser.uid)
                           .delete()
@@ -174,7 +159,7 @@ class _RequestPageState extends State<RequestPage> {
                           fontSize: width * 0.06),
                     ),
                     Text(
-                      requestID.toLowerCase(),
+                      documentSnapshot.id.toLowerCase(),
                       style: TextStyle(
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.w500,
@@ -197,7 +182,7 @@ class _RequestPageState extends State<RequestPage> {
                           fontSize: width * 0.06),
                     ),
                     Text(
-                      items,
+                      documentSnapshot['Item'],
                       style: TextStyle(
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.w500,
@@ -208,7 +193,7 @@ class _RequestPageState extends State<RequestPage> {
               ),
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: image == 'url'
+                child: documentSnapshot['Image'] == 'url'
                     ? Center(
                         child: Text(
                           'Customer has attached no image',
@@ -224,7 +209,7 @@ class _RequestPageState extends State<RequestPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(40.0),
                             child: Image.network(
-                              image,
+                              documentSnapshot['Image'],
                               /*  loadingBuilder:
                                   (context, child, loadingProgress) {
                                 return CircularProgressIndicator();
@@ -310,28 +295,45 @@ class _RequestPageState extends State<RequestPage> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Your Remarks - ",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "OpenSans"),
-                              ),
-                              Text(
-                                remark,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "OpenSans"),
-                              ),
-                            ],
-                          ),
-                        ),
+                        remark != ''
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          "Your Remarks - ",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "OpenSans"),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Text(
+                                          remark,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "OpenSans"),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
               // Enter Price
@@ -354,16 +356,25 @@ class _RequestPageState extends State<RequestPage> {
                             ),
                             splashColor: Colors.blue,
                             color: Color.fromRGBO(84, 176, 243, 1),
-                            onPressed: () {
+                            onPressed: () async {
+                              final DocumentSnapshot category =
+                                  await FirebaseFirestore.instance
+                                      .collection("SellerData")
+                                      .doc(
+                                          FirebaseAuth.instance.currentUser.uid)
+                                      .get();
+
+                              shopName = category['ShopName'];
                               print(newPrice);
-                              users.doc(requestID).update(
+                              users.doc(documentSnapshot.id).update(
                                   {FirebaseAuth.instance.currentUser.uid: 1});
                               FirebaseFirestore.instance
                                   .collection('Request')
-                                  .doc(requestID)
+                                  .doc(documentSnapshot.id)
                                   .collection('SellerResponses')
                                   .doc(FirebaseAuth.instance.currentUser.uid)
                                   .set({
+                                'ShopName': shopName,
                                 'Remark': newRemark,
                                 'Price': newPrice,
                               }).then((value) {
@@ -375,210 +386,6 @@ class _RequestPageState extends State<RequestPage> {
                   : Container()
             ],
           ),
-        )
-        /*  StatefulBuilder(
-          builder: (context, setstate) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  (documentSnapshot["Status"] == 'new')
-                      ? Padding(
-                          padding: EdgeInsets.all(10),
-                          child:
-                              Text("If you have all the listed items, PROCEED"),
-                        )
-                      : Container(),
-                  ListView.builder(
-                      padding: EdgeInsets.all(12.0),
-                      shrinkWrap: true,
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            items[index]['ItemName'],
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            items[index]['Amount'],
-                            style: TextStyle(
-                                color: Colors.black45,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          trailing: SizedBox(
-                              width: MediaQuery.of(context).size.shortestSide *
-                                  0.4,
-                              child: (documentSnapshot["Status"] == 'new')
-                                  ? Row(
-                                      children: [
-                                        Text(
-                                          "₹  ",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .shortestSide *
-                                              0.3,
-                                          child: TextFormField(
-                                            initialValue: items[index]['Price']
-                                                .toString(),
-                                            keyboardType: TextInputType.number,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                            decoration: InputDecoration(
-                                                hintText: "Cost",
-                                                hintStyle: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontFamily: 'OpenSans')),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                print(value);
-                                                items[index]['Price'] = value;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : Container(
-                                      child: Text(
-                                        '₹' + items[index]['Price'].toString(),
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    )),
-                        );
-                      }),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Customer Remarks - ",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: "OpenSans"),
-                        ),
-                        Text(
-                          documentSnapshot["BuyerRemark"],
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: "OpenSans"),
-                        ),
-                      ],
-                    ),
-                  ),
-                  (documentSnapshot["Status"] == 'new')
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 32.0, horizontal: 12.0),
-                          child: TextFormField(
-                            initialValue: sellerRemark,
-                            keyboardType: TextInputType.text,
-                            maxLines: 5,
-                            decoration: InputDecoration(
-                                hintText: "Delivery before 8pm",
-                                labelText: "Additional details(if any)",
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(32.0)),
-                                fillColor: Colors.white),
-                            onChanged: (value) {
-                              setState(() {
-                                sellerRemark = value;
-                              });
-                            },
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Your Remarks - ",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "OpenSans"),
-                              ),
-                              Text(
-                                documentSnapshot["SellerRemark"],
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "OpenSans"),
-                              ),
-                            ],
-                          ),
-                        ),
-                  (documentSnapshot['Image'] == 'url')
-                      ? Container(
-                          child: Text(
-                              "${documentSnapshot['CustomerName']} attached no image for this request."),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Image.network(
-                            documentSnapshot['Image'],
-                            fit: BoxFit.contain,
-                            height:
-                                MediaQuery.of(context).size.longestSide * 0.3,
-                            width:
-                                MediaQuery.of(context).size.longestSide * 0.3,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                child: Text(
-                                    "Please check your internet connection"),
-                              );
-                            },
-                          ),
-                        ),
-                  documentSnapshot["Status"] == "new"
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 12),
-                          child: RaisedButton(
-                              shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0),
-                              ),
-                              textColor: Colors.white,
-                              child: Text(
-                                "PROCEED",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              splashColor: Colors.blue,
-                              color: Color.fromRGBO(84, 176, 243, 1),
-                              onPressed: () {
-                                print(items);
-                                updateRequest(items, sellerRemark, userID);
-                                Navigator.of(context).pop();
-                              }),
-                        )
-                      : Container()
-                ],
-              ),
-            );
-          },
-        ) */
-        );
+        ));
   }
 }
