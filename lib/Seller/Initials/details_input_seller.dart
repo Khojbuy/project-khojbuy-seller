@@ -158,22 +158,22 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                               ),
                               DropdownButtonFormField(
                                   items: [
-                                    ' Stationary & Books',
-                                    'Tiles & Stationary Wares',
-                                    'Mobiles & Computers',
-                                    'Pets & Food',
-                                    'Home essentials',
-                                    'Jewellery',
-                                    'Hardware & Machinery',
-                                    'Health & Fitness',
-                                    'Furniture',
-                                    'Groceries',
-                                    'Electrical & Electronics',
-                                    'Fashion',
-                                    'Clothing',
-                                    'Daily needs',
-                                    'Automotive'
-                                        'Boutique personal'
+                                    "Automotive",
+                                    "Boutique & Personal Care",
+                                    "Clothing",
+                                    "Daily Needs",
+                                    "Electrical & Electronics",
+                                    "Fashion",
+                                    "Furniture",
+                                    "Grocery",
+                                    "Hardware & Machinery",
+                                    "Health & Fitness",
+                                    "Home Essesntials & Decor",
+                                    "Jewellery",
+                                    "Mobile & Computers",
+                                    "Pets & Food",
+                                    "Stationery & Books",
+                                    "Tiles & Sanitary Wares"
                                   ].map((String category) {
                                     return new DropdownMenuItem(
                                         value: category,
