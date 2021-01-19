@@ -20,6 +20,7 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
             .where("Seller",
                 isEqualTo: FirebaseAuth.instance.currentUser.uid.toString())
             .where("Status", isEqualTo: orderStatus)
+
             //.orderBy("Time")
             .snapshots(),
     builder: (context, snapshot) {
@@ -374,7 +375,7 @@ class _OrderPageState extends State<OrderPage> {
                             Navigator.of(context).pop();
                           }),
                     ),
-              orderStatus == "completed"
+              /*  orderStatus == "completed"
                   ? Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 32, vertical: 12),
@@ -398,7 +399,7 @@ class _OrderPageState extends State<OrderPage> {
                             Navigator.of(context).pop();
                           }),
                     )
-                  : Container()
+                  : Container() */
             ],
           );
         },
