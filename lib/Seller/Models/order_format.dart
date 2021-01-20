@@ -141,6 +141,29 @@ class _OrderPageState extends State<OrderPage> {
                   )
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'ORDER TIME - ',
+                    style: TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ),
+                  Text(
+                    documentSnapshot['Time']
+                        .toDate()
+                        .toString()
+                        .substring(0, 16),
+                    style: TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16),
+                  )
+                ],
+              ),
               (orderStatus == 'received')
                   ? Padding(
                       padding: EdgeInsets.all(10),

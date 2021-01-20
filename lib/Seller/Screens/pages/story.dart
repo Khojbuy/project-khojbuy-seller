@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Seller/Services/home_seller.dart';
 
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
@@ -41,16 +42,22 @@ class _StoryAddPageState extends State<StoryAddPage> {
             ),
           ),
         ), */
-        body: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          "THIS FEATURE WILL ARRIVE SOON",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
-              fontSize: 24,
-              color: Color.fromRGBO(84, 176, 243, 1)),
+        body: WillPopScope(
+      onWillPop: () {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+      },
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            "THIS FEATURE WILL ARRIVE SOON",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'OpenSans',
+                fontSize: 24,
+                color: Color.fromRGBO(84, 176, 243, 1)),
+          ),
         ),
       ),
     ));

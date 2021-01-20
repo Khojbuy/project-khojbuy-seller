@@ -26,13 +26,13 @@ StreamBuilder requestTile(String status, BuildContext context) {
           ? users
               .where("Category", isEqualTo: categoryName)
               .where("City", isEqualTo: city)
-              .where('Status', isEqualTo: 'active')
+              //.where('Status', isEqualTo: 'active')
               .where(FirebaseAuth.instance.currentUser.uid, isEqualTo: 0)
               .snapshots()
           : users
               .where("Category", isEqualTo: categoryName)
               .where("City", isEqualTo: city)
-              .where('Status', isEqualTo: 'active')
+              //.where('Status', isEqualTo: 'active')
               .where(FirebaseAuth.instance.currentUser.uid, isEqualTo: 1)
               .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -53,39 +53,42 @@ StreamBuilder requestTile(String status, BuildContext context) {
             snapshot.connectionState == ConnectionState.active) {
           return Column(
             children: snapshot.data.documents.map<Widget>((doc) {
-              return InkWell(
-                onTap: () async {
-                  if (status != 'new') {
-                    final snapShot = await users
-                        .doc(doc.id)
-                        .collection('SellerResponses')
-                        .doc(FirebaseAuth.instance.currentUser.uid)
-                        .get();
-                    remark = snapShot['Remark'];
-                    price = snapShot['Price'];
-                    print(remark);
-                  }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RequestPage(
-                              documentSnapshot: doc,
-                              status: status,
-                            )),
-                  );
-                },
-                child: Card(
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                  elevation: 20,
-                  child: ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    title: Text(doc["CustomerName"]),
-                    subtitle: Text("has requested " + doc['Item'].toString()),
-                  ),
-                ),
-              );
+              return doc['Status'] == 'active'
+                  ? InkWell(
+                      onTap: () async {
+                        if (status != 'new') {
+                          final snapShot = await users
+                              .doc(doc.id)
+                              .collection('SellerResponses')
+                              .doc(FirebaseAuth.instance.currentUser.uid)
+                              .get();
+                          remark = snapShot['Remark'];
+                          price = snapShot['Price'];
+                          print(remark);
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RequestPage(
+                                    documentSnapshot: doc,
+                                    status: status,
+                                  )),
+                        );
+                      },
+                      child: Card(
+                        margin: new EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 6.0),
+                        elevation: 20,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          title: Text(doc["CustomerName"]),
+                          subtitle:
+                              Text("has requested " + doc['Item'].toString()),
+                        ),
+                      ),
+                    )
+                  : Container();
             }).toList(),
           );
         }
@@ -125,23 +128,25 @@ class _RequestPageState extends State<RequestPage> {
           ),
           backgroundColor: Color.fromRGBO(84, 176, 243, 1),
           actions: [
-            IconButton(
-                color: Colors.white,
-                icon: Icon(Icons.delete_forever),
-                onPressed: () {
-                  users
-                      .doc(documentSnapshot.id)
-                      .update({FirebaseAuth.instance.currentUser.uid: -1});
-
-                  (status == 'new')
-                      ? Navigator.of(context).pop()
-                      : users
+            documentSnapshot['Status'] == 'active'
+                ? IconButton(
+                    color: Colors.white,
+                    icon: Icon(Icons.delete_forever),
+                    onPressed: () {
+                      users
                           .doc(documentSnapshot.id)
-                          .collection('SellerResponses')
-                          .doc(FirebaseAuth.instance.currentUser.uid)
-                          .delete()
-                          .then((value) => Navigator.of(context).pop());
-                })
+                          .update({FirebaseAuth.instance.currentUser.uid: -1});
+
+                      (status == 'new')
+                          ? Navigator.of(context).pop()
+                          : users
+                              .doc(documentSnapshot.id)
+                              .collection('SellerResponses')
+                              .doc(FirebaseAuth.instance.currentUser.uid)
+                              .delete()
+                              .then((value) => Navigator.of(context).pop());
+                    })
+                : Container()
           ],
         ),
         body: SingleChildScrollView(
@@ -162,6 +167,32 @@ class _RequestPageState extends State<RequestPage> {
                     ),
                     Text(
                       documentSnapshot.id.toLowerCase(),
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w500,
+                          fontSize: width * 0.05),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'REQUEST TIME - ',
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: width * 0.06),
+                    ),
+                    Text(
+                      documentSnapshot['Time']
+                          .toDate()
+                          .toString()
+                          .substring(0, 16),
                       style: TextStyle(
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.w500,
