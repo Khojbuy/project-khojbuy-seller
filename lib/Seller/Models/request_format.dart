@@ -26,13 +26,11 @@ StreamBuilder requestTile(String status, BuildContext context) {
           ? users
               .where("Category", isEqualTo: categoryName)
               .where("City", isEqualTo: city)
-              //.where('Status', isEqualTo: 'active')
               .where(FirebaseAuth.instance.currentUser.uid, isEqualTo: 0)
               .snapshots()
           : users
               .where("Category", isEqualTo: categoryName)
               .where("City", isEqualTo: city)
-              //.where('Status', isEqualTo: 'active')
               .where(FirebaseAuth.instance.currentUser.uid, isEqualTo: 1)
               .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -53,7 +51,7 @@ StreamBuilder requestTile(String status, BuildContext context) {
             snapshot.connectionState == ConnectionState.active) {
           return Column(
             children: snapshot.data.documents.map<Widget>((doc) {
-              return doc['Status'] == 'active'
+              return doc['Status'] == 'active' || status == 'responded'
                   ? InkWell(
                       onTap: () async {
                         if (status != 'new') {

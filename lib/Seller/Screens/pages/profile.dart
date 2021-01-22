@@ -278,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             borderRadius:
                                                 BorderRadius.circular(32.0)),
                                         fillColor: Colors.white),
-                                    onChanged: (val) {
+                                    onSaved: (val) {
                                       setState(() {
                                         addCity = val;
                                       });
@@ -336,19 +336,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: FloatingActionButton.extended(
                                   onPressed: () {
                                     keyForm.currentState.validate();
+                                    keyForm.currentState.save();
+
                                     updateUserData(
-                                            users,
-                                            addLoc,
-                                            addCity,
-                                            delivery,
-                                            dealsIn,
-                                            otherInfo,
-                                            phnNo,
-                                            sellerName)
-                                        .then((value) {
-                                      Scaffold.of(context)
-                                          .showSnackBar(snackbar);
-                                    });
+                                        users,
+                                        addLoc,
+                                        addCity,
+                                        delivery,
+                                        dealsIn,
+                                        otherInfo,
+                                        phnNo,
+                                        sellerName);
                                   },
                                   elevation: 10,
                                   backgroundColor:
