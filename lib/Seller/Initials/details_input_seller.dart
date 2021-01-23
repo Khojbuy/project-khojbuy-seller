@@ -80,7 +80,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                onChanged: (val) {
+                                onSaved: (val) {
                                   setState(() {
                                     this.shopName = val;
                                   });
@@ -110,7 +110,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                onChanged: (val) {
+                                onSaved: (val) {
                                   setState(() {
                                     this.ownerName = val;
                                   });
@@ -140,15 +140,15 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                onChanged: (val) {
+                                onSaved: (val) {
                                   setState(() {
                                     this.phnNo = "+91" + val;
                                   });
                                 },
                                 textInputAction: TextInputAction.next,
                                 validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please enter mobile number';
+                                  if (value.isEmpty && value.length != 10) {
+                                    return 'Please enter a valid mobile number';
                                   }
                                   return null;
                                 },
@@ -216,7 +216,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                onChanged: (val) {
+                                onSaved: (val) {
                                   setState(() {
                                     this.addressLoc = val;
                                   });
@@ -278,7 +278,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                onChanged: (val) {
+                                onSaved: (val) {
                                   setState(() {
                                     this.dealsIn = val;
                                   });
@@ -310,7 +310,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                         borderRadius:
                                             BorderRadius.circular(32.0)),
                                     fillColor: Colors.white),
-                                onChanged: (val) {
+                                onSaved: (val) {
                                   setState(() {
                                     this.info = val;
                                   });
