@@ -63,5 +63,6 @@ toJsonSeller(Seller seller) {
     "PhoneNo": seller.contact,
     "DealsIn": seller.dealsIn,
     "Other": seller.info,
+    'Priority': false
   };
 }
