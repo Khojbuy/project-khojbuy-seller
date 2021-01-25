@@ -241,10 +241,6 @@ class _RequestPageState extends State<RequestPage> {
                             borderRadius: BorderRadius.circular(40.0),
                             child: Image.network(
                               documentSnapshot['Image'],
-                              /*  loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                return CircularProgressIndicator();
-                              }, */
                               fit: BoxFit.cover,
                               height: 200,
                               width: 200,
