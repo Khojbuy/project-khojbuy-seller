@@ -123,6 +123,7 @@ class _SignInSellerState extends State<SignInSeller> {
                                   verificationId,
                                   context,
                                 )
+
                               : verifyPhone(
                                   phnNo,
                                 );
