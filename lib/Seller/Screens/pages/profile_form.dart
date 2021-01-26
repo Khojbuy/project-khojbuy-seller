@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Seller/Services/home_seller.dart';
 
 // ignore: must_be_immutable
 class ProfileForm extends StatefulWidget {
@@ -204,12 +203,17 @@ class _ProfileFormState extends State<ProfileForm> {
                         .doc(FirebaseAuth.instance.currentUser.uid)
                         .update(data)
                         .then((value) {
-                      print("User Added");
-                    }).catchError((error) => print(error));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Home()),
-                    );
+                          print("User Added");
+                        })
+                        .catchError((error) => print(error))
+                        .then((value) {
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                            'Your profile has been updated',
+                            style:
+                                TextStyle(fontFamily: 'OpenSans', fontSize: 14),
+                          )));
+                        });
                   },
                   elevation: 10,
                   backgroundColor: Color.fromRGBO(84, 176, 243, 0.6),

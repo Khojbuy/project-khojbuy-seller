@@ -49,45 +49,47 @@ StreamBuilder requestTile(String status, BuildContext context) {
         }
         if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.active) {
-          return Column(
-            children: snapshot.data.documents.map<Widget>((doc) {
-              return doc['Status'] == 'active' || status == 'responded'
-                  ? InkWell(
-                      onTap: () async {
-                        if (status != 'new') {
-                          final snapShot = await users
-                              .doc(doc.id)
-                              .collection('SellerResponses')
-                              .doc(FirebaseAuth.instance.currentUser.uid)
-                              .get();
-                          remark = snapShot['Remark'];
-                          price = snapShot['Price'];
-                          print(remark);
-                        }
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RequestPage(
-                                    documentSnapshot: doc,
-                                    status: status,
-                                  )),
-                        );
-                      },
-                      child: Card(
-                        margin: new EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 6.0),
-                        elevation: 20,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 10.0),
-                          title: Text(doc["CustomerName"]),
-                          subtitle:
-                              Text("has requested " + doc['Item'].toString()),
+          return SingleChildScrollView(
+            child: Column(
+              children: snapshot.data.documents.map<Widget>((doc) {
+                return doc['Status'] == 'active' || status == 'responded'
+                    ? InkWell(
+                        onTap: () async {
+                          if (status != 'new') {
+                            final snapShot = await users
+                                .doc(doc.id)
+                                .collection('SellerResponses')
+                                .doc(FirebaseAuth.instance.currentUser.uid)
+                                .get();
+                            remark = snapShot['Remark'];
+                            price = snapShot['Price'];
+                            print(remark);
+                          }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RequestPage(
+                                      documentSnapshot: doc,
+                                      status: status,
+                                    )),
+                          );
+                        },
+                        child: Card(
+                          margin: new EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 6.0),
+                          elevation: 20,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 10.0),
+                            title: Text(doc["CustomerName"]),
+                            subtitle:
+                                Text("has requested " + doc['Item'].toString()),
+                          ),
                         ),
-                      ),
-                    )
-                  : Container();
-            }).toList(),
+                      )
+                    : Container();
+              }).toList(),
+            ),
           );
         }
         print(snapshot.hasData.toString());
@@ -329,11 +331,11 @@ class _RequestPageState extends State<RequestPage> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: Expanded(
-                                        flex: 2,
+                                    Expanded(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
                                         child: Text(
                                           "Your Remarks - ",
                                           style: TextStyle(
@@ -345,7 +347,7 @@ class _RequestPageState extends State<RequestPage> {
                                     ),
                                     Expanded(
                                       flex: 3,
-                                      child: Padding(
+                                      child: Container(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0),
                                         child: Text(

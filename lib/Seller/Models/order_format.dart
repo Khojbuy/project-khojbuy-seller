@@ -38,47 +38,49 @@ StreamBuilder orderTile(String orderStatus, BuildContext context) {
         );
       }
       if (snapshot.hasData) {
-        return Column(
-          children: snapshot.data.documents.map<Widget>((doc) {
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OrderPage(
-                            snapshot: doc,
-                            orderStatus: doc["Status"],
-                          )),
-                );
-              },
-              child: Card(
-                margin:
-                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                elevation: 20,
-                child: ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(doc['CustomerName']),
-                      doc["Status"] == "waiting"
-                          ? Text(
-                              "waiting for customer's response",
-                              style: TextStyle(
-                                  color: Color.fromRGBO(41, 74, 171, 1),
-                                  fontSize: 12),
-                            )
-                          : Container(),
-                    ],
+        return SingleChildScrollView(
+          child: Column(
+            children: snapshot.data.documents.map<Widget>((doc) {
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OrderPage(
+                              snapshot: doc,
+                              orderStatus: doc["Status"],
+                            )),
+                  );
+                },
+                child: Card(
+                  margin:
+                      new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                  elevation: 20,
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(doc['CustomerName']),
+                        doc["Status"] == "waiting"
+                            ? Text(
+                                "waiting for customer's response",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(41, 74, 171, 1),
+                                    fontSize: 12),
+                              )
+                            : Container(),
+                      ],
+                    ),
+                    subtitle: Text("has ordered " +
+                        doc['Items'].length.toString() +
+                        " items"),
                   ),
-                  subtitle: Text("has ordered " +
-                      doc['Items'].length.toString() +
-                      " items"),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         );
       }
 
@@ -169,7 +171,18 @@ class _OrderPageState extends State<OrderPage> {
                       padding: EdgeInsets.all(10),
                       child: Text("Choose the items available with you"),
                     )
-                  : Container(),
+                  : Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(top: 10.0, left: 24),
+                      child: Text(
+                        "ITEMS",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
               (orderStatus == 'received')
                   ? ListView.builder(
                       padding: EdgeInsets.all(12.0),
@@ -302,19 +315,26 @@ class _OrderPageState extends State<OrderPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "Customer Remarks - ",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "OpenSans"),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Customer Remarks - ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "OpenSans"),
+                      ),
                     ),
-                    Text(
-                      documentSnapshot["BuyerRemark"],
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "OpenSans"),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        documentSnapshot["BuyerRemark"],
+                        softWrap: true,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "OpenSans"),
+                      ),
                     ),
                   ],
                 ),
@@ -348,19 +368,27 @@ class _OrderPageState extends State<OrderPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            "Your Remarks - ",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "OpenSans"),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              "Your Remarks - ",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: "OpenSans"),
+                            ),
                           ),
-                          Text(
-                            documentSnapshot["SellerRemark"],
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "OpenSans"),
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              child: Text(
+                                documentSnapshot["SellerRemark"],
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: "OpenSans"),
+                              ),
+                            ),
                           ),
                         ],
                       ),
