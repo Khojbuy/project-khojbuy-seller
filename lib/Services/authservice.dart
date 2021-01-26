@@ -21,7 +21,7 @@ class AuthService {
 
   signOut(BuildContext context) {
     FirebaseAuth.instance.signOut();
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => GetStarted()),
     );

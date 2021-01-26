@@ -33,7 +33,7 @@ class _SignInSellerState extends State<SignInSeller> {
                   radius: 100,
                   backgroundColor: Colors.transparent,
                   child: Image.asset(
-                    "assets/images/logo.jpg",
+                    "assets/images/logo.png",
                   ),
                 ),
                 Text(
