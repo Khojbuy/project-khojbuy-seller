@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khojbuy/Seller/Screens/pages/notification.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:khojbuy/Services/authservice.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
@@ -261,19 +262,26 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                         ),
                         radius: 40,
                       )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(40.0),
-                        child: Image.network(
-                          data['PhotoURL'],
-                          fit: BoxFit.cover,
-                          height: 50,
-                          width: 50,
-                          errorBuilder: (context, object, stackTrace) {
-                            return Container(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                        ),
+                    : Container(
+                        height: 50,
+                        width: 50,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(40.0),
+                            child: PinchZoom(
+                              maxScale: 5.0,
+                              zoomedBackgroundColor:
+                                  Colors.black.withOpacity(0.5),
+                              resetDuration: Duration(microseconds: 100),
+                              image: Image.network(
+                                data['PhotoURL'],
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, object, stackTrace) {
+                                  return Container(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                              ),
+                            )),
                       ),
               ),
             ],

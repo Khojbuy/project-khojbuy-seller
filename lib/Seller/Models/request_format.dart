@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 final CollectionReference users =
     FirebaseFirestore.instance.collection('Request');
@@ -237,18 +238,21 @@ class _RequestPageState extends State<RequestPage> {
                         ),
                       )
                     : Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: ClipRRect(
+                        height: 200,
+                        width: 200,
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: ClipRRect(
                             borderRadius: BorderRadius.circular(40.0),
-                            child: Image.network(
-                              documentSnapshot['Image'],
-                              fit: BoxFit.cover,
-                              height: 200,
-                              width: 200,
-                            ),
-                          ),
-                        ),
+                            child: PinchZoom(
+                              maxScale: 3.5,
+                              resetDuration: Duration(microseconds: 100),
+                              zoomedBackgroundColor:
+                                  Colors.black.withOpacity(0.5),
+                              image: Image.network(
+                                documentSnapshot['Image'],
+                                fit: BoxFit.cover,
+                              ),
+                            )),
                       ),
               ),
               status == 'new'

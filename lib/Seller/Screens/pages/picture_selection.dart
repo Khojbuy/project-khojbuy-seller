@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:animated_button/animated_button.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 File image;
 
@@ -39,17 +40,21 @@ class _PictureSelectionState extends State<PictureSelection> {
           children: [
             Container(
               padding: const EdgeInsets.only(top: 20.0),
+              height: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.8,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(40.0),
-                child: (image == null)
-                    ? Text("Choose and image")
-                    : Image.file(
-                        image,
-                        height: MediaQuery.of(context).size.width * 0.8,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        fit: BoxFit.cover,
-                      ),
-              ),
+                  borderRadius: BorderRadius.circular(40.0),
+                  child: (image == null)
+                      ? Text("Choose and image")
+                      : PinchZoom(
+                          maxScale: 4.0,
+                          zoomedBackgroundColor: Colors.black.withOpacity(0.4),
+                          resetDuration: Duration(microseconds: 100),
+                          image: Image.file(
+                            image,
+                            fit: BoxFit.cover,
+                          ),
+                        )),
             ),
             Container(
               padding: EdgeInsets.only(
@@ -71,7 +76,7 @@ class _PictureSelectionState extends State<PictureSelection> {
                       final CollectionReference collectionReference =
                           FirebaseFirestore.instance.collection('SellerData');
                       if (image != null) {
-                        TaskSnapshot snapshot = await storage
+                        await storage
                             .ref()
                             .child("SellerData/$sellerName")
                             .putFile(image)

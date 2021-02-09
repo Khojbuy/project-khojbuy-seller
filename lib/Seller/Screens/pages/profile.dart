@@ -8,6 +8,7 @@ import 'package:khojbuy/Seller/Screens/pages/profile_form.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
 
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 final CollectionReference users =
     FirebaseFirestore.instance.collection('SellerData');
@@ -70,17 +71,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                               )
-                            : Padding(
+                            : Container(
                                 padding: const EdgeInsets.only(top: 20.0),
+                                height: 200,
+                                width: 200,
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  child: Image.network(
-                                    imgURL,
-                                    fit: BoxFit.cover,
-                                    height: 200,
-                                    width: 200,
-                                  ),
-                                ),
+                                    borderRadius: BorderRadius.circular(40.0),
+                                    child: PinchZoom(
+                                      maxScale: 3.5,
+                                      resetDuration:
+                                          Duration(microseconds: 100),
+                                      zoomedBackgroundColor:
+                                          Colors.black.withOpacity(0.5),
+                                      image: Image.network(
+                                        imgURL,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )),
                               ),
                         FlatButton(
                             textColor: Colors.blueAccent,
