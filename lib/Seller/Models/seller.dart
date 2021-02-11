@@ -64,6 +64,7 @@ toJsonSeller(Seller seller) {
     "DealsIn": seller.dealsIn,
     "Other": seller.info,
     'Priority': false,
-    'Rating': 0
+    'Rating': 0,
+    'Menu': []
   };
 }

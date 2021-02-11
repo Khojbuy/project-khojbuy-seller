@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khojbuy/Seller/Screens/pages/dashboard.dart';
-import 'package:khojbuy/Seller/Screens/pages/profile.dart';
+import 'package:khojbuy/Seller/Screens/pages/menu/view.dart';
+import 'package:khojbuy/Seller/Screens/pages/profile_pages/profile.dart';
 import 'package:khojbuy/Seller/Screens/pages/about_us.dart';
 import 'package:khojbuy/Seller/Screens/pages/story.dart';
 
@@ -8,6 +9,7 @@ enum NavigationEvents {
   DashBoardClickEvent,
   ProfileClickEvent,
   AboutEvent,
+  MenuEvent,
   StoryAddEvent
 }
 
@@ -32,7 +34,9 @@ class NavigatorBloc extends Bloc<NavigationEvents, NavigationStates> {
         break;
       case NavigationEvents.AboutEvent:
         yield ContactInfo();
-
+        break;
+      case NavigationEvents.MenuEvent:
+        yield ShopMenu();
         break;
     }
   }

@@ -3,8 +3,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:khojbuy/Seller/Screens/pages/picture_selection.dart';
-import 'package:khojbuy/Seller/Screens/pages/profile_form.dart';
+import 'package:khojbuy/Seller/Screens/pages/profile_pages/picture_selection.dart';
+import 'package:khojbuy/Seller/Screens/pages/profile_pages/profile_form.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
 
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';

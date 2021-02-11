@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Seller/Screens/pages/orders.dart';
+import 'package:khojbuy/Seller/Screens/pages/order_sub/orders.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/new.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/sent.dart';
 

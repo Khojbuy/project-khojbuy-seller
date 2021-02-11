@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khojbuy/Seller/Screens/pages/orders.dart';
-import 'package:khojbuy/Seller/Screens/pages/requests.dart';
+import 'package:khojbuy/Seller/Screens/pages/order_sub/orders.dart';
+import 'package:khojbuy/Seller/Screens/pages/request_sub/requests.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 final CollectionReference users =

@@ -132,6 +132,11 @@ class HomePageSeller extends StatelessWidget {
                   BlocProvider.of<NavigatorBloc>(context)
                       .add(NavigationEvents.StoryAddEvent);
                 }),
+                MenuItem(Icons.menu_book_rounded, "My Catalouge", () {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<NavigatorBloc>(context)
+                      .add(NavigationEvents.MenuEvent);
+                }),
                 Divider(
                   height: 64,
                   thickness: 0.5,
