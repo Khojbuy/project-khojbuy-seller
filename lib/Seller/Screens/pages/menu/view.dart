@@ -87,37 +87,81 @@ class _ShopMenuState extends State<ShopMenu> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              child: Text('HERE IS YOUR CATALOUGE'),
+                              padding: EdgeInsets.only(left: 10.0),
+                              child: Text(
+                                'HERE IS YOUR CATALOUGE',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18),
+                              ),
                             ),
-                            RaisedButton.icon(
+                            FloatingActionButton(
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 28,
+                                ),
+                                tooltip: 'Edit',
+                                backgroundColor:
+                                    Color.fromRGBO(84, 176, 243, 1),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            MenuEdit(snapshot.data.documents)),
+                                            MenuEdit(snapshot.data['Menu'])),
                                   );
-                                },
-                                icon: Icon(Icons.edit_attributes_rounded),
-                                label: Text('Edit'))
+                                })
                           ],
                         ),
                         ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: snapshot.data.documents.length,
+                            itemCount: snapshot.data['Menu'].length,
                             itemBuilder: (context, index) {
-                              return Row(
-                                children: [
-                                  Text(snapshot.data.documents[index]['Item']
-                                      .toString()),
-                                  Text(snapshot.data.documents[index]['Detail']
-                                      .toString()),
-                                  Text(snapshot.data.documents[index]['Price']
-                                      .toString())
-                                ],
+                              return ListTile(
+                                dense: true,
+                                enabled: true,
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        snapshot.data['Menu'][index]
+                                            ['ItemName'],
+                                        style: TextStyle(
+                                            color: Colors.black87,
+                                            fontFamily: 'OpenSans',
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        '₹ ' +
+                                            snapshot.data['Menu'][index]
+                                                ['Price'],
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontFamily: 'OpenSans',
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Container(
+                                  child: Text(
+                                    snapshot.data['Menu'][index]['Detail'],
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontFamily: 'OpenSans',
+                                        fontSize: 14),
+                                  ),
+                                ),
                               );
                             })
                       ],
@@ -126,109 +170,6 @@ class _ShopMenuState extends State<ShopMenu> {
                 );
               },
             ),
-
-            /*  
-            StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('SellerData')
-                  .doc(FirebaseAuth.instance.currentUser.uid)
-                  .collection('Menu')
-                  .snapshots(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasError ||
-                    snapshot.connectionState == ConnectionState.none) {
-                  return Center(
-                    child: Text(
-                      'Please check your internet connection',
-                      style: TextStyle(
-                          fontFamily: 'OpenSans',
-                          fontSize: 24,
-                          color: Colors.black87),
-                    ),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.data.documents.toString() == '[]') {
-                  return Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                          text:
-                              'You can use this feature to show your products to your customers. This can be a great marketing tool.\n',
-                          style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontSize: 12,
-                              color: Colors.black87),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: 'Make Your Catalouge',
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => MenuEdit(
-                                              snapshot.data.documents)),
-                                    );
-                                  },
-                                style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 12,
-                                    color: Colors.blue))
-                          ]),
-                    ),
-                  );
-                }
-                return Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              child: Text('HERE IS YOUR CATALOUGE'),
-                            ),
-                            RaisedButton.icon(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            MenuEdit(snapshot.data.documents)),
-                                  );
-                                },
-                                icon: Icon(Icons.edit_attributes_rounded),
-                                label: Text('Edit'))
-                          ],
-                        ),
-                        ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index) {
-                              return Row(
-                                children: [
-                                  Text(snapshot.data.documents[index]['Item']
-                                      .toString()),
-                                  Text(snapshot.data.documents[index]['Detail']
-                                      .toString()),
-                                  Text(snapshot.data.documents[index]['Price']
-                                      .toString())
-                                ],
-                              );
-                            })
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ), */
           ),
         ));
   }
