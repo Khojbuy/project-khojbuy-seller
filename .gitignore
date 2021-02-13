@@ -29,6 +29,8 @@
 .pub-cache/
 .pub/
 /build/
+/node_modules
+/functions/node_modules
 /key.jks
 
 
