@@ -45,7 +45,7 @@ class _PictureSelectionState extends State<PictureSelection> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(40.0),
                   child: (image == null)
-                      ? Text("Choose and image")
+                      ? Center(child: Text("Choose an image"))
                       : PinchZoom(
                           maxScale: 4.0,
                           zoomedBackgroundColor: Colors.black.withOpacity(0.4),

@@ -121,50 +121,59 @@ class _OrderPageState extends State<OrderPage> {
       body: SingleChildScrollView(child: StatefulBuilder(
         builder: (context, setState) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'ORDER ID - ',
-                    style: TextStyle(
-                        fontFamily: 'OpenSans',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  Text(
-                    documentSnapshot.id,
-                    style: TextStyle(
-                        fontFamily: 'OpenSans',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
-                  )
-                ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Order ID - ',
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                    Text(
+                      documentSnapshot.id,
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12),
+                    )
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'ORDER TIME - ',
-                    style: TextStyle(
-                        fontFamily: 'OpenSans',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  ),
-                  Text(
-                    documentSnapshot['Time']
-                        .toDate()
-                        .toString()
-                        .substring(0, 16),
-                    style: TextStyle(
-                        fontFamily: 'OpenSans',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
-                  )
-                ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Date - ',
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14),
+                    ),
+                    Text(
+                      documentSnapshot['Time']
+                          .toDate()
+                          .toString()
+                          .substring(0, 10),
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12),
+                    )
+                  ],
+                ),
               ),
               (orderStatus == 'received')
                   ? Padding(
@@ -175,11 +184,11 @@ class _OrderPageState extends State<OrderPage> {
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(top: 10.0, left: 24),
                       child: Text(
-                        "ITEMS",
+                        "Items",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: 'OpenSans',
-                          fontSize: 20,
+                          fontSize: 14,
                         ),
                       ),
                     ),
@@ -201,16 +210,16 @@ class _OrderPageState extends State<OrderPage> {
                                 title: Text(
                                   items[index]['ItemName'],
                                   style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                  ),
                                 ),
                                 subtitle: Text(
                                   items[index]['Amount'],
                                   style: TextStyle(
-                                      color: Colors.black45,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
+                                    color: Colors.black45,
+                                    fontSize: 12,
+                                  ),
                                 ),
                                 value: items[index]['Availability'],
                                 selected: items[index]['Availability'],
@@ -233,7 +242,7 @@ class _OrderPageState extends State<OrderPage> {
                                             "₹",
                                             style: TextStyle(
                                                 fontFamily: 'OpenSans',
-                                                fontSize: 16),
+                                                fontSize: 12),
                                           ),
                                         ),
                                         Expanded(
@@ -272,11 +281,12 @@ class _OrderPageState extends State<OrderPage> {
                       itemCount: documentSnapshot['Items'].length,
                       itemBuilder: (context, index) {
                         return ListTile(
+                          dense: true,
                           title: Text(
                             items[index]['ItemName'],
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 16,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold),
                           ),
                           subtitle: Row(
@@ -286,7 +296,7 @@ class _OrderPageState extends State<OrderPage> {
                                 items[index]['Amount'],
                                 style: TextStyle(
                                     color: Colors.black45,
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w600),
                               ),
                               items[index]['Availability']
@@ -294,14 +304,14 @@ class _OrderPageState extends State<OrderPage> {
                                       '₹' + items[index]['Price'].toString(),
                                       style: TextStyle(
                                           color: Colors.blue,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w600),
                                     )
                                   : Text(
                                       "Marked Unavailable",
                                       style: TextStyle(
                                           color: Colors.red,
-                                          fontSize: 14,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w600),
                                     ),
                             ],
@@ -331,7 +341,7 @@ class _OrderPageState extends State<OrderPage> {
                         documentSnapshot["BuyerRemark"],
                         softWrap: true,
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
                             fontFamily: "OpenSans"),
                       ),
@@ -365,29 +375,23 @@ class _OrderPageState extends State<OrderPage> {
                   : Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 10),
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(
-                            flex: 2,
+                          Text(
+                            "Your Remarks - ",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: "OpenSans"),
+                          ),
+                          Container(
                             child: Text(
-                              "Your Remarks - ",
+                              documentSnapshot["SellerRemark"],
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: "OpenSans"),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                              child: Text(
-                                documentSnapshot["SellerRemark"],
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "OpenSans"),
-                              ),
                             ),
                           ),
                         ],

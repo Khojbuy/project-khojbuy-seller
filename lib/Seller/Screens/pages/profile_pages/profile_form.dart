@@ -22,7 +22,8 @@ class _ProfileFormState extends State<ProfileForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
               autofocus: false,

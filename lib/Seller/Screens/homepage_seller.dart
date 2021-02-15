@@ -132,7 +132,12 @@ class HomePageSeller extends StatelessWidget {
                   BlocProvider.of<NavigatorBloc>(context)
                       .add(NavigationEvents.StoryAddEvent);
                 }),
-                MenuItem(Icons.menu_book_rounded, "My Catalouge", () {
+                MenuItem(Icons.menu_book_rounded, "My Product List", () {
+                  Navigator.of(context).pop();
+                  BlocProvider.of<NavigatorBloc>(context)
+                      .add(NavigationEvents.MenuEvent);
+                }),
+                MenuItem(Icons.rate_review_rounded, "My Reviews", () {
                   Navigator.of(context).pop();
                   BlocProvider.of<NavigatorBloc>(context)
                       .add(NavigationEvents.MenuEvent);
@@ -217,7 +222,7 @@ class MenuItem extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'OpenSans',
-                  fontSize: 18),
+                  fontSize: 16),
             )
           ],
         ),
@@ -244,17 +249,14 @@ FutureBuilder names(CollectionReference users, BuildContext context) {
                 height: 100,
               ),
               ListTile(
-                dense: true,
-                title: Center(
-                  child: Text(
-                    data['ShopName'],
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontFamily: 'OpenSans',
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                title: Text(
+                  data['ShopName'],
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontFamily: 'OpenSans',
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 leading: (data['PhotoURL'] == "url")

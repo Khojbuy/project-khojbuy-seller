@@ -22,8 +22,8 @@ class _MenuEditState extends State<MenuEdit> {
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(84, 176, 243, 1),
           title: Text(
-            "Edit Your Catalouge",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            "Edit Your Product List",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         body: SingleChildScrollView(
@@ -47,7 +47,7 @@ class _MenuEditState extends State<MenuEdit> {
                           style: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.w700,
-                              fontSize: 20),
+                              fontSize: 16),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,6 +66,7 @@ class _MenuEditState extends State<MenuEdit> {
                                         hintText: 'Item Name',
                                         isDense: true,
                                         hintStyle: TextStyle(
+                                            fontSize: 12,
                                             fontFamily: 'OpenSans',
                                             color: Colors.grey,
                                             fontWeight: FontWeight.w600)),
@@ -88,6 +89,7 @@ class _MenuEditState extends State<MenuEdit> {
                                         hintText: 'Item Price',
                                         isDense: true,
                                         hintStyle: TextStyle(
+                                            fontSize: 12,
                                             fontFamily: 'OpenSans',
                                             color: Colors.grey,
                                             fontWeight: FontWeight.w600)),
@@ -111,6 +113,7 @@ class _MenuEditState extends State<MenuEdit> {
                                     hintText: 'Item Detail',
                                     isDense: true,
                                     hintStyle: TextStyle(
+                                        fontSize: 12,
                                         fontFamily: 'OpenSans',
                                         color: Colors.grey,
                                         fontWeight: FontWeight.w600)),
@@ -159,11 +162,11 @@ class _MenuEditState extends State<MenuEdit> {
                   padding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
                   child: Text(
-                    'Here are the existing items in your catalouge',
+                    'Here are the existing items in your product list',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         fontFamily: 'OpenSans',
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.black87),
                   ),
                 ),
@@ -182,14 +185,14 @@ class _MenuEditState extends State<MenuEdit> {
                               menu[index]['ItemName'],
                               style: TextStyle(
                                   fontFamily: 'OpenSans',
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: Colors.black87),
                             ),
                             Text(
                               '₹ ' + menu[index]['Price'],
                               style: TextStyle(
                                   fontFamily: 'OpenSans',
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   color: Colors.black54),
                             ),
                           ],
@@ -198,7 +201,7 @@ class _MenuEditState extends State<MenuEdit> {
                           menu[index]['Detail'],
                           style: TextStyle(
                               fontFamily: 'OpenSans',
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Colors.black54),
                         ),
                         trailing: SizedBox(
@@ -210,7 +213,7 @@ class _MenuEditState extends State<MenuEdit> {
                             },
                             child: Icon(
                               Icons.delete,
-                              size: 24,
+                              size: 20,
                             ),
                           ),
                         ),

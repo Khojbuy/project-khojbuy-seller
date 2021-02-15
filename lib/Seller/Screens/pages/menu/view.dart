@@ -92,12 +92,12 @@ class _ShopMenuState extends State<ShopMenu> {
                             Container(
                               padding: EdgeInsets.only(left: 10.0),
                               child: Text(
-                                'HERE IS YOUR CATALOUGE',
+                                'Here is your catalouge',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Colors.black87,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 18),
+                                    fontSize: 14),
                               ),
                             ),
                             FloatingActionButton(
@@ -137,7 +137,8 @@ class _ShopMenuState extends State<ShopMenu> {
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontFamily: 'OpenSans',
-                                            fontSize: 16),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12),
                                       ),
                                     ),
                                     Container(
@@ -148,7 +149,7 @@ class _ShopMenuState extends State<ShopMenu> {
                                         style: TextStyle(
                                             color: Colors.black54,
                                             fontFamily: 'OpenSans',
-                                            fontSize: 14),
+                                            fontSize: 12),
                                       ),
                                     ),
                                   ],
@@ -159,7 +160,7 @@ class _ShopMenuState extends State<ShopMenu> {
                                     style: TextStyle(
                                         color: Colors.black54,
                                         fontFamily: 'OpenSans',
-                                        fontSize: 14),
+                                        fontSize: 12),
                                   ),
                                 ),
                               );

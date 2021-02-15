@@ -58,38 +58,80 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        (imgURL == "url")
-                            ? Padding(
-                                padding: const EdgeInsets.only(top: 20.0),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.transparent,
-                                  radius: 80,
-                                  child: Image.asset(
-                                    "assets/images/shop.png",
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                padding: const EdgeInsets.only(top: 20.0),
-                                height: 200,
-                                width: 200,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                    child: PinchZoom(
-                                      maxScale: 3.5,
-                                      resetDuration:
-                                          Duration(microseconds: 100),
-                                      zoomedBackgroundColor:
-                                          Colors.black.withOpacity(0.5),
-                                      image: Image.network(
-                                        imgURL,
-                                        fit: BoxFit.cover,
+                        Stack(
+                          children: [
+                            (imgURL == "url")
+                                ? Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 20.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        radius: 80,
+                                        child: Image.asset(
+                                          "assets/images/shop.png",
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
-                                    )),
-                              ),
-                        FlatButton(
+                                    ),
+                                  )
+                                : Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.only(top: 20.0),
+                                      height: 200,
+                                      width: 200,
+                                      child: Stack(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              child: PinchZoom(
+                                                maxScale: 3.5,
+                                                resetDuration:
+                                                    Duration(microseconds: 100),
+                                                zoomedBackgroundColor: Colors
+                                                    .black
+                                                    .withOpacity(0.5),
+                                                image: Image.network(
+                                                  imgURL,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              )),
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.white
+                                                    .withOpacity(0.5),
+                                                child: IconButton(
+                                                  onPressed: () async {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              PictureSelection(data[
+                                                                      "ShopName"]
+                                                                  .toString())),
+                                                    );
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.edit_rounded,
+                                                    color: Colors.black87,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
+                        /* FlatButton(
                             textColor: Colors.blueAccent,
                             onPressed: () async {
                               Navigator.push(
@@ -101,37 +143,33 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: Text(
                               "Change Photo",
-                            )),
-                        Text(
-                          "The changes will be visible after you SAVE them",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 8,
-                            fontFamily: 'OpenSans',
+                            )), */
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              data["ShopName"],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'OpenSans',
+                                  color: Colors.black87,
+                                  fontSize: 32,
+                                  letterSpacing: 1.5),
+                            ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            data["ShopName"],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              "Category :   " + data["Category"],
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18,
                                 fontFamily: 'OpenSans',
-                                color: Color.fromRGBO(84, 176, 243, 1),
-                                fontSize: 32,
-                                letterSpacing: 2.5),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "Shop Category : " + data["Category"],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'OpenSans',
-                              color: Color.fromRGBO(84, 176, 243, 1),
+                                color: Colors.black87,
+                              ),
                             ),
                           ),
                         ),
