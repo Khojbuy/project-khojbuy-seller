@@ -140,7 +140,7 @@ class HomePageSeller extends StatelessWidget {
                 MenuItem(Icons.rate_review_rounded, "My Reviews", () {
                   Navigator.of(context).pop();
                   BlocProvider.of<NavigatorBloc>(context)
-                      .add(NavigationEvents.MenuEvent);
+                      .add(NavigationEvents.ReviewEvent);
                 }),
                 Divider(
                   height: 64,

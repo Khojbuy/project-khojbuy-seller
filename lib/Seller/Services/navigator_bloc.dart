@@ -3,6 +3,7 @@ import 'package:khojbuy/Seller/Screens/pages/dashboard.dart';
 import 'package:khojbuy/Seller/Screens/pages/menu/view.dart';
 import 'package:khojbuy/Seller/Screens/pages/profile_pages/profile.dart';
 import 'package:khojbuy/Seller/Screens/pages/about_us.dart';
+import 'package:khojbuy/Seller/Screens/pages/review.dart';
 import 'package:khojbuy/Seller/Screens/pages/story.dart';
 
 enum NavigationEvents {
@@ -10,7 +11,8 @@ enum NavigationEvents {
   ProfileClickEvent,
   AboutEvent,
   MenuEvent,
-  StoryAddEvent
+  StoryAddEvent,
+  ReviewEvent
 }
 
 abstract class NavigationStates {}
@@ -37,6 +39,9 @@ class NavigatorBloc extends Bloc<NavigationEvents, NavigationStates> {
         break;
       case NavigationEvents.MenuEvent:
         yield ShopMenu();
+        break;
+      case NavigationEvents.ReviewEvent:
+        yield ReviewPage();
         break;
     }
   }
