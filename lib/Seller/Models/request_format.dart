@@ -120,7 +120,6 @@ class _RequestPageState extends State<RequestPage> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.shortestSide;
     return Scaffold(
         appBar: AppBar(
           title: Text(

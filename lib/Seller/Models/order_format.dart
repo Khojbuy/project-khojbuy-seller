@@ -287,40 +287,49 @@ class _OrderPageState extends State<OrderPage> {
                       shrinkWrap: true,
                       itemCount: documentSnapshot['Items'].length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          dense: true,
-                          title: Text(
-                            items[index]['ItemName'],
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 12.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                items[index]['Amount'],
+                                items[index]['ItemName'],
                                 style: TextStyle(
-                                    color: Colors.black45,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600),
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              items[index]['Availability']
-                                  ? Text(
-                                      '₹' + items[index]['Price'].toString(),
-                                      style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
-                                    )
-                                  : Text(
-                                      "Marked Unavailable",
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
-                                    ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    items[index]['Amount'],
+                                    style: TextStyle(
+                                        color: Colors.black45,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  items[index]['Availability']
+                                      ? Text(
+                                          '₹' +
+                                              items[index]['Price'].toString(),
+                                          style: TextStyle(
+                                              color: Colors.blue,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600),
+                                        )
+                                      : Text(
+                                          "Marked Unavailable",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                ],
+                              ),
                             ],
                           ),
                         );
