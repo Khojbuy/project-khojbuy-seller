@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Services/authservice.dart';
 
@@ -11,6 +12,7 @@ class _SignInSellerState extends State<SignInSeller> {
   final formkey = new GlobalKey<FormState>();
   String phnNo, verificationId, smsCode;
   bool codeSent = false;
+  bool loading = false;
   String status;
   @override
   Widget build(BuildContext context) {
@@ -123,7 +125,6 @@ class _SignInSellerState extends State<SignInSeller> {
                                   verificationId,
                                   context,
                                 )
-
                               : verifyPhone(
                                   phnNo,
                                 );
@@ -144,6 +145,29 @@ class _SignInSellerState extends State<SignInSeller> {
                         ),
                       ),
                     )),
+                (loading)
+                    ? Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : Container(),
+                (!codeSent && !loading)
+                    ? Container()
+                    : Container(
+                        child: RichText(
+                            text: TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    verifyPhone(phnNo);
+                                  },
+                                text: 'RESEND OTP',
+                                style: TextStyle(
+                                    fontFamily: 'OpenSans',
+                                    fontSize: 10,
+                                    color: Colors.blue,
+                                    fontStyle: FontStyle.italic))),
+                      ),
                 SizedBox(
                   height: MediaQuery.of(context).size.longestSide * 0.15,
                 ),
@@ -156,6 +180,7 @@ class _SignInSellerState extends State<SignInSeller> {
   }
 
   Future<void> verifyPhone(String phnNo) async {
+    this.loading = true;
     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
       AuthService().signInSeller(authResult, context);
     };

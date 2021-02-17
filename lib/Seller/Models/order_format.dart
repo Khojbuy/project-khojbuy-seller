@@ -177,8 +177,15 @@ class _OrderPageState extends State<OrderPage> {
               ),
               (orderStatus == 'received')
                   ? Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Choose the items available with you"),
+                      padding: EdgeInsets.symmetric(horizontal: 22),
+                      child: Text(
+                        "Choose the items available with you",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontSize: 14,
+                        ),
+                      ),
                     )
                   : Container(
                       alignment: Alignment.centerLeft,
@@ -188,13 +195,13 @@ class _OrderPageState extends State<OrderPage> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: 'OpenSans',
-                          fontSize: 14,
+                          fontSize: 18,
                         ),
                       ),
                     ),
               (orderStatus == 'received')
                   ? ListView.builder(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
                       shrinkWrap: true,
                       itemCount: documentSnapshot['Items'].length,
                       itemBuilder: (context, index) {
@@ -211,7 +218,7 @@ class _OrderPageState extends State<OrderPage> {
                                   items[index]['ItemName'],
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                   ),
                                 ),
                                 subtitle: Text(
@@ -276,7 +283,7 @@ class _OrderPageState extends State<OrderPage> {
                         );
                       })
                   : ListView.builder(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
                       shrinkWrap: true,
                       itemCount: documentSnapshot['Items'].length,
                       itemBuilder: (context, index) {
@@ -286,7 +293,7 @@ class _OrderPageState extends State<OrderPage> {
                             items[index]['ItemName'],
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold),
                           ),
                           subtitle: Row(
@@ -322,29 +329,24 @@ class _OrderPageState extends State<OrderPage> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        "Customer Remarks - ",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: "OpenSans"),
-                      ),
+                    Text(
+                      "Customer Remarks - ",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "OpenSans"),
                     ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        documentSnapshot["BuyerRemark"],
-                        softWrap: true,
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: "OpenSans"),
-                      ),
+                    Text(
+                      documentSnapshot["BuyerRemark"],
+                      softWrap: true,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "OpenSans"),
                     ),
                   ],
                 ),
@@ -376,7 +378,8 @@ class _OrderPageState extends State<OrderPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24, vertical: 10),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Your Remarks - ",

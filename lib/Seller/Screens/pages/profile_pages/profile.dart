@@ -65,16 +65,56 @@ class _ProfilePageState extends State<ProfilePage> {
                             (imgURL == "url")
                                 ? Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(top: 20.0),
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        radius: 80,
-                                        child: Image.asset(
-                                          "assets/images/shop.png",
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
-                                    ),
+                                        padding:
+                                            const EdgeInsets.only(top: 20.0),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              height: 150,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                fit: BoxFit.contain,
+                                                colorFilter:
+                                                    new ColorFilter.mode(
+                                                        Colors.white
+                                                            .withOpacity(0.3),
+                                                        BlendMode.dstATop),
+                                                image: AssetImage(
+                                                  "assets/images/shop.png",
+                                                ),
+                                              )),
+                                            ),
+                                            Positioned(
+                                              top: 100,
+                                              left: 200,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.white
+                                                      .withOpacity(0.0),
+                                                  child: IconButton(
+                                                    onPressed: () async {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                PictureSelection(
+                                                                    data["ShopName"]
+                                                                        .toString())),
+                                                      );
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.edit_rounded,
+                                                      color: Colors.black87,
+                                                      size: 30,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
                                   )
                                 : Center(
                                     child: Container(
