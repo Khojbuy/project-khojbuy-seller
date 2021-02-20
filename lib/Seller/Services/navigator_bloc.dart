@@ -32,7 +32,7 @@ class NavigatorBloc extends Bloc<NavigationEvents, NavigationStates> {
         yield ProfilePage();
         break;
       case NavigationEvents.StoryAddEvent:
-        yield StoryAddPage();
+        yield StoryAdd();
         break;
       case NavigationEvents.AboutEvent:
         yield ContactInfo();

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:khojbuy/Seller/Screens/pages/profile_pages/picture_selection.dart';
 import 'package:khojbuy/Seller/Screens/pages/profile_pages/profile_form.dart';
@@ -133,9 +134,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 zoomedBackgroundColor: Colors
                                                     .black
                                                     .withOpacity(0.5),
-                                                image: Image.network(
-                                                  imgURL,
+                                                image: CachedNetworkImage(
+                                                  imageUrl: imgURL,
+                                                  fadeInCurve: Curves.easeIn,
                                                   fit: BoxFit.cover,
+                                                  fadeOutDuration: Duration(
+                                                      microseconds: 100),
+                                                  progressIndicatorBuilder: (context,
+                                                          url,
+                                                          downloadProgress) =>
+                                                      Container(
+                                                          height: 10,
+                                                          child: CircularProgressIndicator(
+                                                              value:
+                                                                  downloadProgress
+                                                                      .progress)),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
                                                 ),
                                               )),
                                           Align(

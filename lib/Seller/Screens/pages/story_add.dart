@@ -1,38 +1,30 @@
 import 'dart:io';
 
+import 'package:animated_button/animated_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:animated_button/animated_button.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 
-File image;
-
-class PictureSelection extends StatefulWidget {
-  final String sellerName;
-  PictureSelection(this.sellerName);
+class StoryAddPage extends StatefulWidget {
+  final List<dynamic> storylist;
+  StoryAddPage(this.storylist);
   @override
-  _PictureSelectionState createState() => _PictureSelectionState(sellerName);
+  _StoryAddPageState createState() => _StoryAddPageState(storylist);
 }
 
-class _PictureSelectionState extends State<PictureSelection> {
-  final String sellerName;
-  _PictureSelectionState(this.sellerName);
+class _StoryAddPageState extends State<StoryAddPage> {
+  List<dynamic> storyList;
+  _StoryAddPageState(this.storyList);
+  File image;
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(84, 176, 243, 1),
-        title: Text(
-          "Profile Picture Selector",
-          style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-              fontSize: 24,
-              fontWeight: FontWeight.bold),
-        ),
       ),
       body: Center(
         child: Column(
@@ -52,7 +44,7 @@ class _PictureSelectionState extends State<PictureSelection> {
                           resetDuration: Duration(microseconds: 100),
                           image: Image.file(
                             image,
-                            fit: BoxFit.contain,
+                            fit: BoxFit.cover,
                           ),
                         )),
             ),
@@ -72,33 +64,53 @@ class _PictureSelectionState extends State<PictureSelection> {
                         0.35, // Button Height, default is 64
                     height: MediaQuery.of(context).size.width * 0.1,
                     onPressed: () async {
+                      setState(() {
+                        loading = true;
+                      });
                       final storage = FirebaseStorage.instance;
-                      final CollectionReference collectionReference =
-                          FirebaseFirestore.instance.collection('SellerData');
+                      DocumentSnapshot documentSnapshot =
+                          await FirebaseFirestore.instance
+                              .collection('SellerData')
+                              .doc(FirebaseAuth.instance.currentUser.uid)
+                              .get();
+                      Map<String, dynamic> mp = documentSnapshot.data();
+                      String city = mp['AddressCity'];
+                      String category = mp['Category'];
+                      String seller = mp['ShopName'];
+                      var timestamp = DateTime.now();
                       if (image != null) {
                         await storage
                             .ref()
-                            .child("SellerData/$sellerName")
+                            .child("Story/$city/$category/$seller/$timestamp")
                             .putFile(image)
                             .whenComplete(() async {
                           print("Image Uploaded");
                         });
+
+                        var img = await image.length();
+                        print(img);
                         String imgURL = await storage
                             .ref()
-                            .child("SellerData/$sellerName")
+                            .child("Story/$city/$category/$seller/$timestamp")
                             .getDownloadURL();
 
-                        collectionReference
+                        setState(() {
+                          storyList.add({
+                            'url': imgURL,
+                            'time': timestamp,
+                          });
+                        });
+                        print(storyList);
+                        FirebaseFirestore.instance
+                            .collection('Story')
+                            .doc(category)
+                            .collection(city)
                             .doc(FirebaseAuth.instance.currentUser.uid)
                             .update({
-                          "PhotoURL": imgURL,
-                        }).whenComplete(() {
-                          print("Added to firebase storage");
+                          'stories': storyList,
+                        }).then((value) {
+                          Navigator.of(context).pop();
                         });
-                        Navigator.of(context).pop();
-                      } else {
-                        Scaffold.of(context).showSnackBar(
-                            SnackBar(content: Text("Please choose an image!")));
                       }
                     },
                     child: Text(
@@ -121,10 +133,9 @@ class _PictureSelectionState extends State<PictureSelection> {
                     onPressed: () async {
                       final picker = ImagePicker();
                       PickedFile imageFile = await picker.getImage(
-                          source: ImageSource.gallery, 
-                                                  
-                          maxWidth: 250,
-                          maxHeight: 250);
+                        source: ImageSource.gallery,
+                        imageQuality: 80,
+                      );
 
                       int size = await File(imageFile.path).length();
                       print(size);
@@ -145,6 +156,13 @@ class _PictureSelectionState extends State<PictureSelection> {
                 ],
               ),
             ),
+            loading
+                ? Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

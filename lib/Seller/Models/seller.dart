@@ -16,6 +16,21 @@ class DatabaseService {
     }).catchError((error) => print(error));
   }
 
+  Future updateStoryData(
+      String contact, String name, String city, String category) async {
+    return await FirebaseFirestore.instance
+        .collection('Story')
+        .doc(category)
+        .collection(city)
+        .doc(userId)
+        .set(toJsonStory(contact, name))
+        .then((value) {
+      print('Story Data');
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
   getDisplay() async {
     var document = collectionReference.doc(userId);
     document.get().then((document) {
@@ -42,12 +57,15 @@ class Seller {
     contact = phnNo;
     category = cat;
     delivery = del;
-
     addressLoc = aloc;
     addressCity = aCity;
     dealsIn = deal;
     info = information;
   }
+}
+
+toJsonStory(String contact, String name) {
+  return {'contact': contact, 'name': name, 'stories': []};
 }
 
 toJsonSeller(Seller seller) {
