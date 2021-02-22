@@ -161,17 +161,17 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                     "Automotive",
                                     "Boutique & Personal Care",
                                     "Clothing",
-                                    "Daily Needs",
                                     "Electrical & Electronics",
                                     "Fashion",
+                                    "Food & Restaurant",
                                     "Furniture",
-                                    "Grocery",
+                                    "Grocery & Daily Needs",
                                     "Hardware & Machinery",
                                     "Health & Fitness",
-                                    "Home Essesntials & Decor",
+                                    "Home Essentials & Decor",
                                     "Jewellery",
                                     "Mobile & Computers",
-                                    "Pets & Food",
+                                    "Pets & Care",
                                     "Stationery & Books",
                                     "Tiles & Sanitary Wares"
                                   ].map((String category) {
@@ -366,6 +366,10 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                   addressCity,
                                   dealsIn,
                                   info));
+                          DatabaseService(
+                                  userId: FirebaseAuth.instance.currentUser.uid)
+                              .updateStoryData(
+                                  phnNo, shopName, addressCity, selectCategory);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Home()),

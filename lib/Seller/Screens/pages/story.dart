@@ -31,14 +31,12 @@ class _StoryAddState extends State<StoryAdd> {
           );
         } else {
           String city = snapshot.data['AddressCity'];
+          String phnNo = snapshot.data['PhoneNo'];
+          String name = snapshot.data['ShopName'];
           String category = snapshot.data['Category'];
           String userID = snapshot.data.id;
           return FutureBuilder(
-            future: referenceStories
-                .doc(category)
-                .collection(city)
-                .doc(userID)
-                .get(),
+            future: referenceStories.doc(city).get(),
             builder: (BuildContext context, AsyncSnapshot snap) {
               if (snapshot.connectionState == ConnectionState.waiting ||
                   !snap.hasData) {
@@ -46,7 +44,7 @@ class _StoryAddState extends State<StoryAdd> {
                   child: CircularProgressIndicator(),
                 );
               } else {
-                List<dynamic> storyList = snap.data['stories'];
+                List<dynamic> storyList = snap.data[userID]['stories'];
                 return Scaffold(
                     key: _scaffoldKey,
                     floatingActionButton: FloatingActionButton(
@@ -82,6 +80,7 @@ class _StoryAddState extends State<StoryAdd> {
                       },
                       child: Container(
                         padding: EdgeInsets.all(12.0),
+                        color: Colors.pink,
                         child: Column(
                           children: [
                             ListView.builder(
@@ -122,12 +121,15 @@ class _StoryAddState extends State<StoryAdd> {
                                                 storyList.removeAt(index);
                                                 FirebaseFirestore.instance
                                                     .collection('Story')
-                                                    .doc(category)
-                                                    .collection(city)
-                                                    .doc(FirebaseAuth.instance
-                                                        .currentUser.uid)
-                                                    .update(
-                                                        {'stories': storyList});
+                                                    .doc(city)
+                                                    .update({
+                                                  userID: {
+                                                    'contact': phnNo,
+                                                    'name': name,
+                                                    'stories': storyList,
+                                                    'category': category
+                                                  }
+                                                });
                                               });
                                             }),
                                       ),

@@ -10,7 +10,10 @@ import 'package:pinch_zoom/pinch_zoom.dart';
 
 class StoryAddPage extends StatefulWidget {
   final List<dynamic> storylist;
-  StoryAddPage(this.storylist);
+
+  StoryAddPage(
+    this.storylist,
+  );
   @override
   _StoryAddPageState createState() => _StoryAddPageState(storylist);
 }
@@ -77,6 +80,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
                       String city = mp['AddressCity'];
                       String category = mp['Category'];
                       String seller = mp['ShopName'];
+                      String phnNo = mp['PhoneNo'];
                       var timestamp = DateTime.now();
                       if (image != null) {
                         await storage
@@ -103,11 +107,14 @@ class _StoryAddPageState extends State<StoryAddPage> {
                         print(storyList);
                         FirebaseFirestore.instance
                             .collection('Story')
-                            .doc(category)
-                            .collection(city)
-                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .doc(city)
                             .update({
-                          'stories': storyList,
+                          FirebaseAuth.instance.currentUser.uid: {
+                            'contact': phnNo,
+                            'name': seller,
+                            'stories': storyList,
+                            'category': category
+                          }
                         }).then((value) {
                           Navigator.of(context).pop();
                         });
@@ -152,7 +159,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
