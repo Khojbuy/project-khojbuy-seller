@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseService {
   final String userId;
@@ -20,9 +19,10 @@ class DatabaseService {
   Future updateStoryData(
       String contact, String name, String city, String category) async {
     return await FirebaseFirestore.instance
-        .collection('Story')
-        .doc(city)
-        .update({userId: toJsonStory(contact, name, category)}).then((value) {
+        .collection(city)
+        .doc(userId)
+        .set(toJsonStory(contact, name, category))
+        .then((value) {
       print('Story Data');
     }).catchError((error) {
       print(error);

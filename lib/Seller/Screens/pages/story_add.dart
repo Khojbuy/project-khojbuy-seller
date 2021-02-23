@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:animated_button/animated_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,17 +10,24 @@ import 'package:pinch_zoom/pinch_zoom.dart';
 
 class StoryAddPage extends StatefulWidget {
   final List<dynamic> storylist;
+  final String city;
+  final String userID;
 
   StoryAddPage(
     this.storylist,
+    this.city,
+    this.userID,
   );
   @override
-  _StoryAddPageState createState() => _StoryAddPageState(storylist);
+  _StoryAddPageState createState() =>
+      _StoryAddPageState(storylist, city, userID);
 }
 
 class _StoryAddPageState extends State<StoryAddPage> {
   List<dynamic> storyList;
-  _StoryAddPageState(this.storyList);
+  String city;
+  String userID;
+  _StoryAddPageState(this.storyList, this.city, this.userID);
   File image;
   bool loading = false;
   @override
@@ -71,21 +78,12 @@ class _StoryAddPageState extends State<StoryAddPage> {
                         loading = true;
                       });
                       final storage = FirebaseStorage.instance;
-                      DocumentSnapshot documentSnapshot =
-                          await FirebaseFirestore.instance
-                              .collection('SellerData')
-                              .doc(FirebaseAuth.instance.currentUser.uid)
-                              .get();
-                      Map<String, dynamic> mp = documentSnapshot.data();
-                      String city = mp['AddressCity'];
-                      String category = mp['Category'];
-                      String seller = mp['ShopName'];
-                      String phnNo = mp['PhoneNo'];
+
                       var timestamp = DateTime.now();
                       if (image != null) {
                         await storage
                             .ref()
-                            .child("Story/$city/$category/$seller/$timestamp")
+                            .child("Story/$city/$userID/$timestamp")
                             .putFile(image)
                             .whenComplete(() async {
                           print("Image Uploaded");
@@ -95,7 +93,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
                         print(img);
                         String imgURL = await storage
                             .ref()
-                            .child("Story/$city/$category/$seller/$timestamp")
+                            .child("Story/$city/$userID/$timestamp")
                             .getDownloadURL();
 
                         setState(() {
@@ -104,18 +102,11 @@ class _StoryAddPageState extends State<StoryAddPage> {
                             'time': timestamp,
                           });
                         });
-                        print(storyList);
+
                         FirebaseFirestore.instance
-                            .collection('Story')
-                            .doc(city)
-                            .update({
-                          FirebaseAuth.instance.currentUser.uid: {
-                            'contact': phnNo,
-                            'name': seller,
-                            'stories': storyList,
-                            'category': category
-                          }
-                        }).then((value) {
+                            .collection(city)
+                            .doc(userID)
+                            .update({'stories': storyList}).then((value) {
                           Navigator.of(context).pop();
                         });
                       }
@@ -141,7 +132,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
                       final picker = ImagePicker();
                       PickedFile imageFile = await picker.getImage(
                         source: ImageSource.gallery,
-                        imageQuality: 80,
+                        imageQuality: 60,
                       );
 
                       int size = await File(imageFile.path).length();

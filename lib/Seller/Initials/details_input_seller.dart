@@ -370,7 +370,7 @@ class _DetailsInputSellerState extends State<DetailsInputSeller> {
                                   userId: FirebaseAuth.instance.currentUser.uid)
                               .updateStoryData(
                                   phnNo, shopName, addressCity, selectCategory);
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => Home()),
                           );
