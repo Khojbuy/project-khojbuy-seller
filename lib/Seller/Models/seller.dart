@@ -1,4 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+String fcmToken;
+getToken() async {
+  fcmToken = await _firebaseMessaging.getToken();
+}
 
 class DatabaseService {
   final String userId;
@@ -72,6 +79,7 @@ toJsonStory(String contact, String name, String category) {
 }
 
 toJsonSeller(Seller seller) {
+  getToken();
   return {
     "PhotoURL": "url",
     "display": false,
@@ -86,6 +94,7 @@ toJsonSeller(Seller seller) {
     "Other": seller.info,
     'Priority': false,
     'Rating': 0,
-    'Menu': []
+    'Menu': [],
+    'FCM': fcmToken
   };
 }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Seller/Screens/pages/order_sub/orders.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/requests.dart';
@@ -7,6 +8,15 @@ import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
 
 final CollectionReference users =
     FirebaseFirestore.instance.collection('SellerData');
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+String fcm;
+getToken() async {
+  fcm = await _firebaseMessaging.getToken();
+  FirebaseFirestore.instance
+      .collection('SellerData')
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .update({'FCM': fcm});
+}
 
 class DashBoardPage extends StatelessWidget with NavigationStates {
   @override
@@ -23,7 +33,9 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 Map<String, dynamic> data = snapshot.data.data();
-
+                if (data['FCM'] == '') {
+                  getToken();
+                }
                 if (data["display"] == true) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
