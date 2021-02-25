@@ -1,26 +1,18 @@
-
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
-admin.initializeApp();
 
-exports.scheduledFunction = functions.pubsub
-    .schedule("00 00 * * *")
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
+exports.scheduledFunction = functions.pubsub.schedule("every 1 minute")
     .timeZone("Asia/Kolkata")
     .onRun((context) => {
-      console.log("Code triggered");
-      const db = admin.firestore();
-      const eventAngul = db.collection("Angul");
-      eventAngul.get().then((querySnapshot)=>{
-        querySnapshot.forEach((doc)=>{
-          const list = doc.data()["stories"];
-          for (let index = 0; index < list.length; index++) {
-            if (list[index]["time"]) {
-              console.log(admin.firestore.FieldValue.serverTimestamp());
-            }
-          }
-        });
+      const ref = admin.firestore().collection("Trial").doc("a");
+      const data = ref.get();
+      const value = data["num"]++;
+      ref.update({
+        num: value,
       });
-
+      console.log("This will be run every 60 minutes!");
       return null;
     });

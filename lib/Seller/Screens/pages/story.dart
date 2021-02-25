@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:khojbuy/Seller/Screens/pages/story_add.dart';
@@ -42,6 +43,32 @@ class _StoryAddState extends State<StoryAdd> {
                 );
               } else {
                 List<dynamic> storyList = snap.data['stories'];
+                var present = Timestamp.now();
+
+                for (var i = 0; i < storyList.length; i++) {
+                  if (present
+                          .toDate()
+                          .difference(storyList[i]['time'].toDate())
+                          .inDays >=
+                      7) {
+                    FirebaseStorage.instance
+                        .ref()
+                        .child("Story/$city/$userID/$i")
+                        .delete();
+                    storyList.removeWhere((element) {
+                      return present
+                              .toDate()
+                              .difference(element['time'].toDate())
+                              .inDays >=
+                          7;
+                    });
+                  }
+                }
+
+                FirebaseFirestore.instance
+                    .collection(city)
+                    .doc(userID)
+                    .update({'stories': storyList});
                 return Scaffold(
                     key: _scaffoldKey,
                     floatingActionButton: FloatingActionButton(

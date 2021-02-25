@@ -83,7 +83,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
                       if (image != null) {
                         await storage
                             .ref()
-                            .child("Story/$city/$userID/$timestamp")
+                            .child("Story/$city/$userID/${storyList.length}")
                             .putFile(image)
                             .whenComplete(() async {
                           print("Image Uploaded");
@@ -93,7 +93,7 @@ class _StoryAddPageState extends State<StoryAddPage> {
                         print(img);
                         String imgURL = await storage
                             .ref()
-                            .child("Story/$city/$userID/$timestamp")
+                            .child("Story/$city/$userID/${storyList.length}")
                             .getDownloadURL();
 
                         setState(() {
