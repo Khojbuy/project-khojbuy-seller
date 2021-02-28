@@ -73,9 +73,7 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                   );
                 }
               }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Center(child: CircularProgressIndicator());
             }),
       ),
     ));
