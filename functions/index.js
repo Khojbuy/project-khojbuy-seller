@@ -2,10 +2,14 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 // const db = admin.firestore();
 const fcm = admin.messaging();
+var options = {
+  priority: 'high',
+  timeToLive: 60 * 60 * 24
+};
 
 exports.orderCreate = functions.firestore
   .document('Order/{id}')
@@ -24,7 +28,14 @@ exports.orderCreate = functions.firestore
         body: 'Check out your recent order',
       },
     };
-    fcm.sendToCondition(sellerToken.data().FCM, payload);
+    fcm.send()
+    fcm.sendToCondition(sellerToken.data().FCM, payload, options)
+      .then(function (response) {
+      console.log('Successfully sent message:', response);
+    })
+    .catch(function(error) {
+      console.log('Error sending message:', error);
+    });
   });
 
   exports.orderUpdate = functions.firestore
@@ -52,10 +63,22 @@ exports.orderCreate = functions.firestore
       };
   
       if (newValue.status === 'waiting') {
-        fcm.sendToDevice(customerToken.data().FCM, payload);
+        fcm.sendToDevice(customerToken.data().FCM, payload, options)
+          .then(function (response) {
+          console.log('Successfully sent message:', response);
+        })
+        .catch(function(error) {
+          console.log('Error sending message:', error);
+        });
       }
       if (newValue.status === 'to pack') {
-        fcm.sendToDevice(sellerToken.data().FCM, payload);
+        fcm.sendToDevice(sellerToken.data().FCM, payload, options)
+          .then(function (response) {
+          console.log('Successfully sent message:', response);
+        })
+        .catch(function(error) {
+          console.log('Error sending message:', error);
+        });
       }
     });
 
@@ -81,7 +104,13 @@ exports.orderCreate = functions.firestore
         },
       };
   
-      fcm.sendToDevice(buyer.data().FCM, payload); 
+      fcm.sendToDevice(buyer.data().FCM, payload, options)
+        .then(function (response) {
+        console.log('Successfully sent message:', response);
+      })
+      .catch(function(error) {
+        console.log('Error sending message:', error);
+      }); 
     });
 
     exports.displayDevice = functions.firestore
@@ -102,7 +131,13 @@ exports.orderCreate = functions.firestore
             body: 'You have been authorised as a seller by Khojbuy',
           },
         };
-        fcm.sendToDevice(token, payload);
+        fcm.sendToDevice(token, payload, options)
+          .then(function (response) {
+          console.log('Successfully sent message:', response);
+        })
+        .catch(function(error) {
+          console.log('Error sending message:', error);
+        });
       }
     });
 
