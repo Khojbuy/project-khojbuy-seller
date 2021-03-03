@@ -128,19 +128,34 @@ class _StoryAddPageState extends State<StoryAddPage> {
                     width: MediaQuery.of(context).size.width *
                         0.35, // Button Height, default is 64
                     height: MediaQuery.of(context).size.width * 0.1,
-                    onPressed: () async {
-                      final picker = ImagePicker();
-                      PickedFile imageFile = await picker.getImage(
-                        source: ImageSource.gallery,
-                        imageQuality: 60,
-                      );
-
-                      int size = await File(imageFile.path).length();
-                      print(size);
-
-                      setState(() {
-                        image = File(imageFile.path);
-                      });
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SafeArea(
+                              child: Container(
+                                child: new Wrap(
+                                  children: <Widget>[
+                                    new ListTile(
+                                        leading: new Icon(Icons.photo_library),
+                                        title: new Text('Gallery'),
+                                        onTap: () {
+                                          imgfromGallery();
+                                          Navigator.of(context).pop();
+                                        }),
+                                    new ListTile(
+                                      leading: new Icon(Icons.photo_camera),
+                                      title: new Text('Camera'),
+                                      onTap: () {
+                                        imgfromCam();
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
                     },
                     child: Text(
                       "CHOOSE",
@@ -165,5 +180,25 @@ class _StoryAddPageState extends State<StoryAddPage> {
         ),
       ),
     );
+  }
+
+  imgfromCam() async {
+    PickedFile img = await ImagePicker()
+        .getImage(source: ImageSource.camera, imageQuality: 50);
+    int size = await File(img.path).length();
+    print(size);
+    setState(() {
+      image = File(img.path);
+    });
+  }
+
+  imgfromGallery() async {
+    PickedFile img = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
+    int size = await File(img.path).length();
+    print(size);
+    setState(() {
+      image = File(img.path);
+    });
   }
 }

@@ -33,7 +33,7 @@ class _MenuEditState extends State<MenuEdit> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.longestSide * 0.27,
+                  height: 200,
                   padding: EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
@@ -55,9 +55,7 @@ class _MenuEditState extends State<MenuEdit> {
                             Row(
                               children: [
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.shortestSide *
-                                          0.55,
+                                  width: 200,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 10.0),
                                   child: TextFormField(
@@ -78,9 +76,7 @@ class _MenuEditState extends State<MenuEdit> {
                                   ),
                                 ),
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.shortestSide *
-                                          0.3,
+                                  width: 100,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 10.0),
                                   child: TextFormField(
@@ -103,8 +99,7 @@ class _MenuEditState extends State<MenuEdit> {
                               ],
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.shortestSide *
-                                  0.7,
+                              width: 250,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 10.0),
                               child: TextFormField(

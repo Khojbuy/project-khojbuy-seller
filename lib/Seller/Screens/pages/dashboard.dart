@@ -36,7 +36,7 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                 if (data['FCM'] == '') {
                   getToken();
                 }
-                _firebaseMessaging.onTokenRefresh.listen(getToken());
+                //_firebaseMessaging.onTokenRefresh.listen(getToken());
                 if (data["display"] == true) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,

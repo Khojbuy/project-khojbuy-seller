@@ -115,9 +115,9 @@ exports.orderCreate = functions.firestore
 
     exports.displayDevice = functions.firestore
     .document('SellerData/{id}')
-    .onUpdate((change, context) => {
-      const newValue = change.after.data();
-      const previousValue = change.before.data();
+    .onUpdate(async (change, context) => {
+      const newValue = await change.after.data();
+      const previousValue = await change.before.data();
   
       const oldPriority = previousValue.Priority;
       const newPriority = newValue.Priority;
@@ -131,6 +131,8 @@ exports.orderCreate = functions.firestore
             body: 'You have been authorised as a seller by Khojbuy',
           },
         };
+        console.log(token);
+
         fcm.sendToDevice(token, payload, options)
           .then(function (response) {
           console.log('Successfully sent message:', response);
