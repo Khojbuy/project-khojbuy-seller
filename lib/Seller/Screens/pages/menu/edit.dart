@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MenuEdit extends StatefulWidget {
   final List<dynamic> menu;
@@ -14,7 +17,8 @@ class _MenuEditState extends State<MenuEdit> {
   _MenuEditState(this.menu);
   final formkey = new GlobalKey<FormState>();
   final scaffoldkey = new GlobalKey<ScaffoldState>();
-  String itemName, detail = '', price = '';
+  String itemName, detail = '', price = '', imageURL = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,34 +102,94 @@ class _MenuEditState extends State<MenuEdit> {
                                 ),
                               ],
                             ),
-                            Container(
-                              width: 250,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 10.0),
-                              child: TextFormField(
-                                initialValue: detail,
-                                decoration: InputDecoration(
-                                    hintText: 'Item Detail',
-                                    isDense: true,
-                                    hintStyle: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: 'OpenSans',
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w600)),
-                                onChanged: (value) {
-                                  setState(() {
-                                    detail = value;
-                                  });
-                                },
-                              ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 250,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 10.0),
+                                  child: TextFormField(
+                                    initialValue: detail,
+                                    decoration: InputDecoration(
+                                        hintText: 'Item Detail',
+                                        isDense: true,
+                                        hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'OpenSans',
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w600)),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        detail = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                InkWell(
+                                  hoverColor: Colors.blue,
+                                  onTap: () async {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return SafeArea(
+                                            child: Container(
+                                              child: new Wrap(
+                                                children: <Widget>[
+                                                  new ListTile(
+                                                      leading: new Icon(
+                                                          Icons.photo_library),
+                                                      title:
+                                                          new Text('Gallery'),
+                                                      onTap: () {
+                                                        imgfromGallery();
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      }),
+                                                  new ListTile(
+                                                    leading: new Icon(
+                                                        Icons.photo_camera),
+                                                    title: new Text('Camera'),
+                                                    onTap: () {
+                                                      imgfromCam();
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.only(left: 16.0, top: 8.0),
+                                    height: 50,
+                                    width: 50,
+                                    alignment: Alignment(-4.5, -1),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color.fromRGBO(84, 176, 243, 1)
+                                            .withOpacity(0.2)),
+                                    child: Icon(
+                                      Icons.add_a_photo_rounded,
+                                      color: Color.fromRGBO(84, 176, 243, 1),
+                                      size: 30,
+                                      semanticLabel: 'Add an image for detail',
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ],
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
                               ),
                               child: Text(
                                 "ADD",
@@ -141,7 +205,8 @@ class _MenuEditState extends State<MenuEdit> {
                                     menu.add({
                                       'ItemName': itemName,
                                       'Detail': detail,
-                                      'Price': price
+                                      'Price': price,
+                                      'Image': imageURL
                                     });
                                     formkey.currentState.reset();
                                   }
@@ -254,5 +319,25 @@ class _MenuEditState extends State<MenuEdit> {
             ),
           ),
         ));
+  }
+
+  imgfromCam() async {
+    PickedFile img = await ImagePicker()
+        .getImage(source: ImageSource.camera, imageQuality: 50);
+    int size = await File(img.path).length();
+    print(size);
+    setState(() {
+      imageURL = File(img.path).path;
+    });
+  }
+
+  imgfromGallery() async {
+    PickedFile img = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
+    int size = await File(img.path).length();
+    print(size);
+    setState(() {
+      imageURL = File(img.path).path;
+    });
   }
 }
