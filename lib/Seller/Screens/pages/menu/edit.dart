@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class MenuEdit extends StatefulWidget {
   final List<dynamic> menu;
@@ -18,7 +21,7 @@ class _MenuEditState extends State<MenuEdit> {
   final formkey = new GlobalKey<FormState>();
   final scaffoldkey = new GlobalKey<ScaffoldState>();
   String itemName, detail = '', price = '', imageURL = '';
-
+  File image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,8 +145,6 @@ class _MenuEditState extends State<MenuEdit> {
                                                           new Text('Gallery'),
                                                       onTap: () {
                                                         imgfromGallery();
-                                                        Navigator.of(context)
-                                                            .pop();
                                                       }),
                                                   new ListTile(
                                                     leading: new Icon(
@@ -151,8 +152,6 @@ class _MenuEditState extends State<MenuEdit> {
                                                     title: new Text('Camera'),
                                                     onTap: () {
                                                       imgfromCam();
-                                                      Navigator.of(context)
-                                                          .pop();
                                                     },
                                                   ),
                                                 ],
@@ -160,6 +159,26 @@ class _MenuEditState extends State<MenuEdit> {
                                             ),
                                           );
                                         });
+                                    print(image.toString());
+                                    final storage = FirebaseStorage.instance;
+                                    if (image != null) {
+                                      await storage
+                                          .ref()
+                                          .child(
+                                              "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                          .putFile(image)
+                                          .whenComplete(() async {
+                                        print("Image Uploaded");
+                                      });
+
+                                      var img = await image.length();
+                                      print(img);
+                                      imageURL = await storage
+                                          .ref()
+                                          .child(
+                                              "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                          .getDownloadURL();
+                                    }
                                   },
                                   child: Container(
                                     padding:
@@ -183,6 +202,32 @@ class _MenuEditState extends State<MenuEdit> {
                             ),
                           ],
                         ),
+                        (image != null)
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(30.0),
+                                child: PinchZoom(
+                                  maxScale: 3.5,
+                                  resetDuration: Duration(microseconds: 100),
+                                  zoomedBackgroundColor:
+                                      Colors.black.withOpacity(0.5),
+                                  image: CachedNetworkImage(
+                                    imageUrl: imageURL,
+                                    fadeInCurve: Curves.easeIn,
+                                    fit: BoxFit.cover,
+                                    fadeOutDuration:
+                                        Duration(microseconds: 100),
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        Container(
+                                            height: 10,
+                                            child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress)),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ))
+                            : Container(),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: ElevatedButton(
@@ -209,6 +254,8 @@ class _MenuEditState extends State<MenuEdit> {
                                       'Image': imageURL
                                     });
                                     formkey.currentState.reset();
+                                    imageURL = '';
+                                    print(imageURL);
                                   }
                                   return;
                                 });
@@ -268,6 +315,11 @@ class _MenuEditState extends State<MenuEdit> {
                           child: InkWell(
                             onTap: () {
                               setState(() {
+                                FirebaseStorage.instance
+                                    .ref()
+                                    .child(
+                                        "ProductList/${FirebaseAuth.instance.currentUser.uid}/${menu[index]['ItemName']}")
+                                    .delete();
                                 menu.removeAt(index);
                               });
                             },
@@ -327,7 +379,7 @@ class _MenuEditState extends State<MenuEdit> {
     int size = await File(img.path).length();
     print(size);
     setState(() {
-      imageURL = File(img.path).path;
+      image = File(img.path);
     });
   }
 
@@ -337,7 +389,7 @@ class _MenuEditState extends State<MenuEdit> {
     int size = await File(img.path).length();
     print(size);
     setState(() {
-      imageURL = File(img.path).path;
+      image = File(img.path);
     });
   }
 }

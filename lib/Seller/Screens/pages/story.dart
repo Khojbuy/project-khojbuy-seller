@@ -142,6 +142,11 @@ class _StoryAddState extends State<StoryAdd> {
                                             ),
                                             onPressed: () {
                                               setState(() {
+                                                FirebaseStorage.instance
+                                                    .ref()
+                                                    .child(
+                                                        "Story/$city/$userID/$index")
+                                                    .delete();
                                                 storyList.removeAt(index);
                                                 FirebaseFirestore.instance
                                                     .collection(city)
