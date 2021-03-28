@@ -203,30 +203,35 @@ class _MenuEditState extends State<MenuEdit> {
                           ],
                         ),
                         (image != null)
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(30.0),
-                                child: PinchZoom(
-                                  maxScale: 3.5,
-                                  resetDuration: Duration(microseconds: 100),
-                                  zoomedBackgroundColor:
-                                      Colors.black.withOpacity(0.5),
-                                  image: CachedNetworkImage(
-                                    imageUrl: imageURL,
-                                    fadeInCurve: Curves.easeIn,
-                                    fit: BoxFit.cover,
-                                    fadeOutDuration:
-                                        Duration(microseconds: 100),
-                                    progressIndicatorBuilder: (context, url,
-                                            downloadProgress) =>
-                                        Container(
-                                            height: 10,
-                                            child: CircularProgressIndicator(
-                                                value:
-                                                    downloadProgress.progress)),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                  ),
-                                ))
+                            ? Container(
+                                height: 400,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    child: PinchZoom(
+                                      maxScale: 3.5,
+                                      resetDuration:
+                                          Duration(microseconds: 100),
+                                      zoomedBackgroundColor:
+                                          Colors.black.withOpacity(0.5),
+                                      image: CachedNetworkImage(
+                                        imageUrl: imageURL,
+                                        fadeInCurve: Curves.easeIn,
+                                        fit: BoxFit.cover,
+                                        fadeOutDuration:
+                                            Duration(microseconds: 100),
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>
+                                            Container(
+                                                height: 10,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        value: downloadProgress
+                                                            .progress)),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                    )),
+                              )
                             : Container(),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
