@@ -39,234 +39,238 @@ class _MenuEditState extends State<MenuEdit> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 200,
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Color.fromRGBO(84, 176, 243, 1).withOpacity(0.2)),
-                  child: Form(
-                    key: formkey,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Add the item details',
-                          style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 200,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 10.0),
-                                  child: TextFormField(
-                                    initialValue: itemName,
-                                    decoration: InputDecoration(
-                                        hintText: 'Item Name',
-                                        isDense: true,
-                                        hintStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'OpenSans',
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w600)),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        itemName = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  width: 100,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 10.0),
-                                  child: TextFormField(
-                                    initialValue: price,
-                                    decoration: InputDecoration(
-                                        hintText: 'Item Price',
-                                        isDense: true,
-                                        hintStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'OpenSans',
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w600)),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        price = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 250,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 10.0),
-                                  child: TextFormField(
-                                    initialValue: detail,
-                                    decoration: InputDecoration(
-                                        hintText: 'Item Detail',
-                                        isDense: true,
-                                        hintStyle: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'OpenSans',
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w600)),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        detail = value;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                InkWell(
-                                  hoverColor: Colors.blue,
-                                  onTap: () async {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return SafeArea(
-                                            child: Container(
-                                              child: new Wrap(
-                                                children: <Widget>[
-                                                  new ListTile(
-                                                      leading: new Icon(
-                                                          Icons.photo_library),
-                                                      title:
-                                                          new Text('Gallery'),
-                                                      onTap: () {
-                                                        imgfromGallery();
-                                                      }),
-                                                  new ListTile(
-                                                    leading: new Icon(
-                                                        Icons.photo_camera),
-                                                    title: new Text('Camera'),
-                                                    onTap: () {
-                                                      imgfromCam();
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color:
+                            Color.fromRGBO(84, 176, 243, 1).withOpacity(0.2)),
+                    child: Form(
+                      key: formkey,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Add the item details',
+                            style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 200,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 10.0),
+                                    child: TextFormField(
+                                      initialValue: itemName,
+                                      decoration: InputDecoration(
+                                          hintText: 'Item Name',
+                                          isDense: true,
+                                          hintStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'OpenSans',
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w600)),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          itemName = value;
                                         });
-                                    print(image.toString());
-                                    final storage = FirebaseStorage.instance;
-                                    if (image != null) {
-                                      await storage
-                                          .ref()
-                                          .child(
-                                              "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
-                                          .putFile(image)
-                                          .whenComplete(() async {
-                                        print("Image Uploaded");
-                                      });
-
-                                      var img = await image.length();
-                                      print(img);
-                                      imageURL = await storage
-                                          .ref()
-                                          .child(
-                                              "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
-                                          .getDownloadURL();
-                                    }
-                                  },
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.only(left: 16.0, top: 8.0),
-                                    height: 50,
-                                    width: 50,
-                                    alignment: Alignment(-4.5, -1),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color.fromRGBO(84, 176, 243, 1)
-                                            .withOpacity(0.2)),
-                                    child: Icon(
-                                      Icons.add_a_photo_rounded,
-                                      color: Color.fromRGBO(84, 176, 243, 1),
-                                      size: 30,
-                                      semanticLabel: 'Add an image for detail',
+                                      },
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        (image != null)
-                            ? Container(
-                                height: 400,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    child: PinchZoom(
-                                      maxScale: 3.5,
-                                      resetDuration:
-                                          Duration(microseconds: 100),
-                                      zoomedBackgroundColor:
-                                          Colors.black.withOpacity(0.5),
-                                      image: CachedNetworkImage(
-                                        imageUrl: imageURL,
-                                        fadeInCurve: Curves.easeIn,
-                                        fit: BoxFit.cover,
-                                        fadeOutDuration:
-                                            Duration(microseconds: 100),
-                                        progressIndicatorBuilder: (context, url,
-                                                downloadProgress) =>
-                                            Container(
-                                                height: 10,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                        value: downloadProgress
-                                                            .progress)),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
+                                  Container(
+                                    width: 100,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 10.0),
+                                    child: TextFormField(
+                                      initialValue: price,
+                                      decoration: InputDecoration(
+                                          hintText: 'Item Price',
+                                          isDense: true,
+                                          hintStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'OpenSans',
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w600)),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          price = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 250,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 10.0),
+                                    child: TextFormField(
+                                      initialValue: detail,
+                                      decoration: InputDecoration(
+                                          hintText: 'Item Detail',
+                                          isDense: true,
+                                          hintStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'OpenSans',
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w600)),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          detail = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  InkWell(
+                                    hoverColor: Colors.blue,
+                                    onTap: () async {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return SafeArea(
+                                              child: Container(
+                                                child: new Wrap(
+                                                  children: <Widget>[
+                                                    new ListTile(
+                                                        leading: new Icon(Icons
+                                                            .photo_library),
+                                                        title:
+                                                            new Text('Gallery'),
+                                                        onTap: () {
+                                                          imgfromGallery();
+                                                        }),
+                                                    new ListTile(
+                                                      leading: new Icon(
+                                                          Icons.photo_camera),
+                                                      title: new Text('Camera'),
+                                                      onTap: () {
+                                                        imgfromCam();
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                      print(image.toString());
+                                      final storage = FirebaseStorage.instance;
+                                      if (image != null) {
+                                        await storage
+                                            .ref()
+                                            .child(
+                                                "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                            .putFile(image)
+                                            .whenComplete(() async {
+                                          print("Image Uploaded");
+                                        });
+
+                                        var img = await image.length();
+                                        print(img);
+                                        imageURL = await storage
+                                            .ref()
+                                            .child(
+                                                "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                            .getDownloadURL();
+                                      }
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.only(left: 16.0, top: 8.0),
+                                      height: 50,
+                                      width: 50,
+                                      alignment: Alignment(-4.5, -1),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color.fromRGBO(84, 176, 243, 1)
+                                              .withOpacity(0.2)),
+                                      child: Icon(
+                                        Icons.add_a_photo_rounded,
+                                        color: Color.fromRGBO(84, 176, 243, 1),
+                                        size: 30,
+                                        semanticLabel:
+                                            'Add an image for detail',
                                       ),
-                                    )),
-                              )
-                            : Container(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                ),
+                                    ),
+                                  )
+                                ],
                               ),
-                              child: Text(
-                                "ADD",
-                                style: TextStyle(
-                                  fontFamily: 'OpenSans',
+                            ],
+                          ),
+                          (image != null)
+                              ? Container(
+                                  height: 200,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      child: PinchZoom(
+                                        maxScale: 3.5,
+                                        resetDuration:
+                                            Duration(microseconds: 100),
+                                        zoomedBackgroundColor:
+                                            Colors.black.withOpacity(0.5),
+                                        image: CachedNetworkImage(
+                                          imageUrl: imageURL,
+                                          fadeInCurve: Curves.easeIn,
+                                          fit: BoxFit.cover,
+                                          fadeOutDuration:
+                                              Duration(microseconds: 100),
+                                          progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>
+                                              Container(
+                                                  height: 10,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress)),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+                                        ),
+                                      )),
+                                )
+                              : Container(),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
                                 ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  formkey.currentState.save();
-                                  if (itemName != '') {
-                                    print(itemName);
-                                    menu.add({
-                                      'ItemName': itemName,
-                                      'Detail': detail,
-                                      'Price': price,
-                                      'Image': imageURL
-                                    });
-                                    formkey.currentState.reset();
-                                    imageURL = '';
-                                    print(imageURL);
-                                  }
-                                  return;
-                                });
-                              }),
-                        )
-                      ],
+                                child: Text(
+                                  "ADD",
+                                  style: TextStyle(
+                                    fontFamily: 'OpenSans',
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    formkey.currentState.save();
+                                    if (itemName != '') {
+                                      print(itemName);
+                                      menu.add({
+                                        'ItemName': itemName,
+                                        'Detail': detail,
+                                        'Price': price,
+                                        'Image': imageURL
+                                      });
+                                      formkey.currentState.reset();
+                                      imageURL = '';
+                                      print(imageURL);
+                                    }
+                                    return;
+                                  });
+                                }),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -317,21 +321,57 @@ class _MenuEditState extends State<MenuEdit> {
                               color: Colors.black54),
                         ),
                         trailing: SizedBox(
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                FirebaseStorage.instance
-                                    .ref()
-                                    .child(
-                                        "ProductList/${FirebaseAuth.instance.currentUser.uid}/${menu[index]['ItemName']}")
-                                    .delete();
-                                menu.removeAt(index);
-                              });
-                            },
-                            child: Icon(
-                              Icons.delete,
-                              size: 20,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                  child: (menu[index]['Image'] == '')
+                                      ? Image.asset('')
+                                      : PinchZoom(
+                                          maxScale: 3.5,
+                                          resetDuration:
+                                              Duration(microseconds: 100),
+                                          zoomedBackgroundColor:
+                                              Colors.black.withOpacity(0.5),
+                                          image: CachedNetworkImage(
+                                            imageUrl: menu[index]['Image'],
+                                            fadeInCurve: Curves.easeIn,
+                                            height: 40,
+                                            width: 40,
+                                            fit: BoxFit.cover,
+                                            fadeOutDuration:
+                                                Duration(microseconds: 100),
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Container(
+                                                    height: 10,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                            value:
+                                                                downloadProgress
+                                                                    .progress)),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          ),
+                                        )),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    FirebaseStorage.instance
+                                        .ref()
+                                        .child(
+                                            "ProductList/${FirebaseAuth.instance.currentUser.uid}/${menu[index]['ItemName']}")
+                                        .delete();
+                                    menu.removeAt(index);
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );

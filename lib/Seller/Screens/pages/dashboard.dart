@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:khojbuy/Seller/Screens/pages/menu/view.dart';
 import 'package:khojbuy/Seller/Screens/pages/order_sub/orders.dart';
 import 'package:khojbuy/Seller/Screens/pages/request_sub/requests.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
+import 'package:khojbuy/Seller/Screens/pages/story.dart';
 
 final CollectionReference users =
     FirebaseFirestore.instance.collection('SellerData');
@@ -49,10 +51,10 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                             MaterialPageRoute(builder: (context) => MyOrders()),
                           );
                         }, context),
-                        SizedBox(
+                        /*  SizedBox(
                           height:
                               MediaQuery.of(context).size.longestSide * 0.05,
-                        ),
+                        ), */
                         cardTemp("REQUESTS", "assets/images/searching.png", () {
                           Navigator.push(
                             context,
@@ -66,10 +68,22 @@ class DashBoardPage extends StatelessWidget with NavigationStates {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cardSmall(() {}, "Advertisement",
-                                "assets/images/ad.png", context),
-                            cardSmall(() {}, "Product List",
-                                "assets/images/list.png", context),
+                            cardSmall(() {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => StoryAdd()),
+                              );
+                            }, "Advertisement", "assets/images/ad.png",
+                                context),
+                            cardSmall(() {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ShopMenu()),
+                              );
+                            }, "Product List", "assets/images/list.png",
+                                context),
                           ],
                         )
                       ],

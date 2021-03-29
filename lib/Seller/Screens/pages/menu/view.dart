@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:khojbuy/Seller/Screens/pages/menu/edit.dart';
 import 'package:khojbuy/Seller/Services/home_seller.dart';
 import 'package:khojbuy/Seller/Services/navigator_bloc.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 class ShopMenu extends StatefulWidget with NavigationStates {
   @override
@@ -123,44 +125,86 @@ class _ShopMenuState extends State<ShopMenu> {
                             shrinkWrap: true,
                             itemCount: snapshot.data['Menu'].length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                dense: true,
-                                enabled: true,
-                                title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        snapshot.data['Menu'][index]
-                                            ['ItemName'],
-                                        style: TextStyle(
-                                            color: Colors.black87,
-                                            fontFamily: 'OpenSans',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12),
+                              return Expanded(
+                                child: ListTile(
+                                  dense: true,
+                                  enabled: true,
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          snapshot.data['Menu'][index]
+                                              ['ItemName'],
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontFamily: 'OpenSans',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12),
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '₹ ' +
-                                            snapshot.data['Menu'][index]
-                                                ['Price'],
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontFamily: 'OpenSans',
-                                            fontSize: 12),
+                                      Container(
+                                        child: Text(
+                                          '₹ ' +
+                                              snapshot.data['Menu'][index]
+                                                  ['Price'],
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontFamily: 'OpenSans',
+                                              fontSize: 12),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                subtitle: Container(
-                                  child: Text(
-                                    snapshot.data['Menu'][index]['Detail'],
-                                    style: TextStyle(
-                                        color: Colors.black54,
-                                        fontFamily: 'OpenSans',
-                                        fontSize: 12),
+                                    ],
+                                  ),
+                                  subtitle: Column(
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          snapshot.data['Menu'][index]
+                                              ['Detail'],
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontFamily: 'OpenSans',
+                                              fontSize: 12),
+                                        ),
+                                      ),
+                                      (snapshot.data['Menu'][index]['Image'] ==
+                                              '')
+                                          ? Container()
+                                          : Expanded(
+                                              child: Container(
+                                                  child: PinchZoom(
+                                                maxScale: 3.5,
+                                                resetDuration:
+                                                    Duration(microseconds: 100),
+                                                zoomedBackgroundColor: Colors
+                                                    .black
+                                                    .withOpacity(0.5),
+                                                image: CachedNetworkImage(
+                                                  imageUrl:
+                                                      snapshot.data['Menu']
+                                                          [index]['Image'],
+                                                  fadeInCurve: Curves.easeIn,
+                                                  fit: BoxFit.cover,
+                                                  fadeOutDuration: Duration(
+                                                      microseconds: 100),
+                                                  progressIndicatorBuilder: (context,
+                                                          url,
+                                                          downloadProgress) =>
+                                                      Container(
+                                                          height: 10,
+                                                          child: CircularProgressIndicator(
+                                                              value:
+                                                                  downloadProgress
+                                                                      .progress)),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(Icons.error),
+                                                ),
+                                              )),
+                                            ),
+                                    ],
                                   ),
                                 ),
                               );
