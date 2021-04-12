@@ -98,107 +98,112 @@ class _StoryAddState extends State<StoryAdd> {
                         }
                       },
                     ),
-                    body: WillPopScope(
-                      onWillPop: () {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => Home()));
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(12.0),
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                                itemCount: storyList.length,
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 12.0),
-                                    child: ListTile(
-                                      dense: true,
-                                      title: Text(
-                                        "Created at - " +
-                                            storyList[index]['time']
-                                                .toDate()
-                                                .toString()
-                                                .substring(0, 16),
-                                        style: TextStyle(
-                                            fontFamily: 'OpenSans',
-                                            fontSize: 14,
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      trailing: Container(
-                                        height: 40,
-                                        padding: EdgeInsets.only(left: 12.0),
-                                        child: IconButton(
-                                            icon: Icon(
-                                              Icons.delete,
-                                              size: 32,
-                                              color: Color.fromRGBO(
-                                                      84, 176, 243, 1)
-                                                  .withOpacity(0.85),
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                FirebaseStorage.instance
-                                                    .ref()
-                                                    .child(
-                                                        "Story/$city/$userID/$index")
-                                                    .delete();
-                                                storyList.removeAt(index);
-                                                FirebaseFirestore.instance
-                                                    .collection(city)
-                                                    .doc(userID)
-                                                    .update(
-                                                        {'stories': storyList});
-                                              });
-                                            }),
-                                      ),
-                                      leading: Container(
-                                        height: 100,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          border: Border.all(
-                                              width: 5.0,
-                                              color: Colors.black26),
+                    body: SafeArea(
+                      child: WillPopScope(
+                        onWillPop: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => Home()));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(12.0),
+                          child: Column(
+                            children: [
+                              ListView.builder(
+                                  itemCount: storyList.length,
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12.0),
+                                      child: ListTile(
+                                        dense: true,
+                                        title: Text(
+                                          "Created at - " +
+                                              storyList[index]['time']
+                                                  .toDate()
+                                                  .toString()
+                                                  .substring(0, 16),
+                                          style: TextStyle(
+                                              fontFamily: 'OpenSans',
+                                              fontSize: 14,
+                                              color: Colors.black87,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        child: CachedNetworkImage(
-                                          imageUrl: storyList[index]['url'],
-                                          fadeInCurve: Curves.easeIn,
-                                          fit: BoxFit.cover,
-                                          fadeOutDuration:
-                                              Duration(microseconds: 100),
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              SizedBox(
-                                                  height: 10,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                          value:
-                                                              downloadProgress
-                                                                  .progress)),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
+                                        trailing: Container(
+                                          height: 40,
+                                          padding: EdgeInsets.only(left: 12.0),
+                                          child: IconButton(
+                                              icon: Icon(
+                                                Icons.delete,
+                                                size: 32,
+                                                color: Color.fromRGBO(
+                                                        84, 176, 243, 1)
+                                                    .withOpacity(0.85),
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  FirebaseStorage.instance
+                                                      .ref()
+                                                      .child(
+                                                          "Story/$city/$userID/$index")
+                                                      .delete();
+                                                  storyList.removeAt(index);
+                                                  FirebaseFirestore.instance
+                                                      .collection(city)
+                                                      .doc(userID)
+                                                      .update({
+                                                    'stories': storyList
+                                                  });
+                                                });
+                                              }),
+                                        ),
+                                        leading: Container(
+                                          height: 100,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            border: Border.all(
+                                                width: 5.0,
+                                                color: Colors.black26),
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: storyList[index]['url'],
+                                            fadeInCurve: Curves.easeIn,
+                                            fit: BoxFit.cover,
+                                            fadeOutDuration:
+                                                Duration(microseconds: 100),
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                SizedBox(
+                                                    height: 10,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                            value:
+                                                                downloadProgress
+                                                                    .progress)),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                            Container(
-                              padding: EdgeInsets.only(top: 20.0),
-                              child: Text(
-                                "You can add maximum 5 stories and each would last for 7 days at max.",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 14,
-                                    color: Colors.black87),
-                              ),
-                            )
-                          ],
+                                    );
+                                  }),
+                              Container(
+                                padding: EdgeInsets.only(top: 20.0),
+                                child: Text(
+                                  "You can add maximum 5 stories and each would last for 7 days at max.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'OpenSans',
+                                      fontSize: 14,
+                                      color: Colors.black87),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ));

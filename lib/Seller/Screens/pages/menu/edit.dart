@@ -38,98 +38,99 @@ class _MenuEditState extends State<MenuEdit> {
             padding: EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color:
-                            Color.fromRGBO(84, 176, 243, 1).withOpacity(0.2)),
-                    child: Form(
-                      key: formkey,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Add the item details',
-                            style: TextStyle(
-                                fontFamily: 'OpenSans',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 10.0),
-                                    child: TextFormField(
-                                      initialValue: itemName,
-                                      decoration: InputDecoration(
-                                          hintText: 'Item Name',
-                                          isDense: true,
-                                          hintStyle: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'OpenSans',
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w600)),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          itemName = value;
-                                        });
-                                      },
-                                    ),
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: Color.fromRGBO(84, 176, 243, 1).withOpacity(0.2)),
+                  child: Form(
+                    key: formkey,
+                    child: Column(
+                      children: [
+                        Text(
+                          'Add the item details',
+                          style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 200,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 10.0),
+                                  child: TextFormField(
+                                    initialValue: itemName,
+                                    decoration: InputDecoration(
+                                        hintText: 'Item Name',
+                                        isDense: true,
+                                        hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'OpenSans',
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w600)),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        itemName = value;
+                                      });
+                                    },
                                   ),
-                                  Container(
-                                    width: 100,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 10.0),
-                                    child: TextFormField(
-                                      initialValue: price,
-                                      decoration: InputDecoration(
-                                          hintText: 'Item Price',
-                                          isDense: true,
-                                          hintStyle: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'OpenSans',
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w600)),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          price = value;
-                                        });
-                                      },
-                                    ),
+                                ),
+                                Container(
+                                  width: 100,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 10.0),
+                                  child: TextFormField(
+                                    initialValue: price,
+                                    decoration: InputDecoration(
+                                        hintText: 'Item Price',
+                                        isDense: true,
+                                        hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'OpenSans',
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w600)),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        price = value;
+                                      });
+                                    },
                                   ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 250,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 10.0),
-                                    child: TextFormField(
-                                      initialValue: detail,
-                                      decoration: InputDecoration(
-                                          hintText: 'Item Detail',
-                                          isDense: true,
-                                          hintStyle: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'OpenSans',
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w600)),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          detail = value;
-                                        });
-                                      },
-                                    ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 250,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 10.0),
+                                  child: TextFormField(
+                                    initialValue: detail,
+                                    decoration: InputDecoration(
+                                        hintText: 'Item Detail',
+                                        isDense: true,
+                                        hintStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'OpenSans',
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w600)),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        detail = value;
+                                      });
+                                    },
                                   ),
-                                  InkWell(
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(left: 6),
+                                  child: InkWell(
                                     hoverColor: Colors.blue,
                                     onTap: () async {
                                       showModalBottomSheet(
@@ -146,6 +147,8 @@ class _MenuEditState extends State<MenuEdit> {
                                                             new Text('Gallery'),
                                                         onTap: () {
                                                           imgfromGallery();
+                                                          Navigator.of(context)
+                                                              .pop();
                                                         }),
                                                     new ListTile(
                                                       leading: new Icon(
@@ -153,6 +156,8 @@ class _MenuEditState extends State<MenuEdit> {
                                                       title: new Text('Camera'),
                                                       onTap: () {
                                                         imgfromCam();
+                                                        Navigator.of(context)
+                                                            .pop();
                                                       },
                                                     ),
                                                   ],
@@ -160,26 +165,29 @@ class _MenuEditState extends State<MenuEdit> {
                                               ),
                                             );
                                           });
-                                      print(image.toString());
-                                      final storage = FirebaseStorage.instance;
-                                      if (image != null) {
-                                        await storage
-                                            .ref()
-                                            .child(
-                                                "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
-                                            .putFile(image)
-                                            .whenComplete(() async {
-                                          print("Image Uploaded");
-                                        });
+                                      /* setState(() async {
+                                        print(image.toString());
+                                        final storage =
+                                            FirebaseStorage.instance;
+                                        if (image != null) {
+                                          await storage
+                                              .ref()
+                                              .child(
+                                                  "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                              .putFile(image)
+                                              .whenComplete(() async {
+                                            print("Image Uploaded");
+                                          });
 
-                                        var img = await image.length();
-                                        print(img);
-                                        imageURL = await storage
-                                            .ref()
-                                            .child(
-                                                "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
-                                            .getDownloadURL();
-                                      }
+                                          var img = await image.length();
+                                          print(img);
+                                          imageURL = await storage
+                                              .ref()
+                                              .child(
+                                                  "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                              .getDownloadURL();
+                                        }
+                                      }); */
                                     },
                                     child: Container(
                                       padding:
@@ -199,78 +207,99 @@ class _MenuEditState extends State<MenuEdit> {
                                             'Add an image for detail',
                                       ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          (image != null)
-                              ? Container(
-                                  height: 200,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      child: PinchZoom(
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        (image != null)
+                            ? Container(
+                                height: 100,
+                                width: 100,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    child: PinchZoom(
                                         maxScale: 3.5,
                                         resetDuration:
                                             Duration(microseconds: 100),
                                         zoomedBackgroundColor:
                                             Colors.black.withOpacity(0.5),
-                                        image: CachedNetworkImage(
-                                          imageUrl: imageURL,
-                                          fadeInCurve: Curves.easeIn,
-                                          fit: BoxFit.cover,
-                                          fadeOutDuration:
-                                              Duration(microseconds: 100),
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Container(
-                                                  height: 10,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                          value:
-                                                              downloadProgress
-                                                                  .progress)),
-                                          errorWidget: (context, url, error) =>
-                                              Icon(Icons.error),
-                                        ),
-                                      )),
-                                )
-                              : Container(),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
+                                        image: Image.file(
+                                          image,
+                                          fit: BoxFit.fill,
+                                        ))),
+                              )
+                            : Container(
+                                height: 100,
+                                width: 100,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Container(
+                                    color: Color.fromRGBO(84, 176, 243, 1)
+                                        .withOpacity(0.2),
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      Icons.photo_album_rounded,
+                                      color: Color.fromRGBO(84, 176, 243, 1),
+                                    ),
                                   ),
                                 ),
-                                child: Text(
-                                  "ADD",
-                                  style: TextStyle(
-                                    fontFamily: 'OpenSans',
-                                  ),
+                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    formkey.currentState.save();
-                                    if (itemName != '') {
-                                      print(itemName);
-                                      menu.add({
-                                        'ItemName': itemName,
-                                        'Detail': detail,
-                                        'Price': price,
-                                        'Image': imageURL
-                                      });
-                                      formkey.currentState.reset();
-                                      imageURL = '';
-                                      print(imageURL);
-                                    }
-                                    return;
+                              ),
+                              child: Text(
+                                "ADD",
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                ),
+                              ),
+                              onPressed: () async {
+                                final storage = FirebaseStorage.instance;
+                                if (image != null) {
+                                  await storage
+                                      .ref()
+                                      .child(
+                                          "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                      .putFile(image)
+                                      .whenComplete(() async {
+                                    print("Image Uploaded");
                                   });
-                                }),
-                          )
-                        ],
-                      ),
+
+                                  var img = await image.length();
+                                  print(img);
+                                  imageURL = await storage
+                                      .ref()
+                                      .child(
+                                          "ProductList/${FirebaseAuth.instance.currentUser.uid}/$itemName")
+                                      .getDownloadURL();
+                                }
+                                setState(() {
+                                  formkey.currentState.save();
+                                  if (itemName != '') {
+                                    print(imageURL);
+                                    menu.add({
+                                      'ItemName': itemName,
+                                      'Detail': detail,
+                                      'Price': price,
+                                      'Image': imageURL
+                                    });
+                                    formkey.currentState.reset();
+                                    imageURL = '';
+                                    image = null;
+                                    print(imageURL);
+                                  }
+                                  return;
+                                });
+                              }),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -286,47 +315,79 @@ class _MenuEditState extends State<MenuEdit> {
                         color: Colors.black87),
                   ),
                 ),
-                ListView.builder(
-                    itemCount: menu.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        dense: true,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              menu[index]['ItemName'],
-                              style: TextStyle(
-                                  fontFamily: 'OpenSans',
-                                  fontSize: 14,
-                                  color: Colors.black87),
-                            ),
-                            Text(
-                              '₹ ' + menu[index]['Price'],
-                              style: TextStyle(
-                                  fontFamily: 'OpenSans',
-                                  fontSize: 12,
-                                  color: Colors.black54),
-                            ),
-                          ],
-                        ),
-                        subtitle: Text(
-                          menu[index]['Detail'],
-                          style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontSize: 12,
-                              color: Colors.black54),
-                        ),
-                        trailing: SizedBox(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: ListView.builder(
+                      itemCount: menu.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Expanded(
+                              ListTile(
+                                dense: true,
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      menu[index]['ItemName'],
+                                      style: TextStyle(
+                                          fontFamily: 'OpenSans',
+                                          fontSize: 14,
+                                          color: Colors.black87),
+                                    ),
+                                    Text(
+                                      '₹ ' + menu[index]['Price'],
+                                      style: TextStyle(
+                                          fontFamily: 'OpenSans',
+                                          fontSize: 12,
+                                          color: Colors.black54),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Text(
+                                  menu[index]['Detail'],
+                                  style: TextStyle(
+                                      fontFamily: 'OpenSans',
+                                      fontSize: 12,
+                                      color: Colors.black54),
+                                ),
+                                trailing: SizedBox(
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        if (menu[index]['Image'] != '') {
+                                          FirebaseStorage.instance
+                                              .ref()
+                                              .child(
+                                                  "ProductList/${FirebaseAuth.instance.currentUser.uid}/${menu[index]['ItemName']}")
+                                              .delete();
+                                        }
+                                        menu.removeAt(index);
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.delete,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                  fit: FlexFit.loose,
                                   child: (menu[index]['Image'] == '')
-                                      ? Image.asset('')
+                                      ? Container(
+                                          margin: EdgeInsets.only(
+                                              left: 16, bottom: 6),
+                                          height: 100,
+                                          width: 100,
+                                          color: Colors.black,
+                                        )
                                       : PinchZoom(
                                           maxScale: 3.5,
                                           resetDuration:
@@ -355,27 +416,11 @@ class _MenuEditState extends State<MenuEdit> {
                                                     Icon(Icons.error),
                                           ),
                                         )),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    FirebaseStorage.instance
-                                        .ref()
-                                        .child(
-                                            "ProductList/${FirebaseAuth.instance.currentUser.uid}/${menu[index]['ItemName']}")
-                                        .delete();
-                                    menu.removeAt(index);
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  size: 20,
-                                ),
-                              ),
                             ],
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                ),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
