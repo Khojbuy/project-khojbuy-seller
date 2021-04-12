@@ -293,6 +293,9 @@ class _MenuEditState extends State<MenuEdit> {
                                     formkey.currentState.reset();
                                     imageURL = '';
                                     image = null;
+                                    itemName = '';
+                                    detail = '';
+                                    price = '';
                                     print(imageURL);
                                   }
                                   return;
@@ -381,39 +384,38 @@ class _MenuEditState extends State<MenuEdit> {
                               Flexible(
                                   fit: FlexFit.loose,
                                   child: (menu[index]['Image'] == '')
-                                      ? Container(
+                                      ? Container()
+                                      : Container(
                                           margin: EdgeInsets.only(
                                               left: 16, bottom: 6),
                                           height: 100,
                                           width: 100,
-                                          color: Colors.black,
-                                        )
-                                      : PinchZoom(
-                                          maxScale: 3.5,
-                                          resetDuration:
-                                              Duration(microseconds: 100),
-                                          zoomedBackgroundColor:
-                                              Colors.black.withOpacity(0.5),
-                                          image: CachedNetworkImage(
-                                            imageUrl: menu[index]['Image'],
-                                            fadeInCurve: Curves.easeIn,
-                                            height: 40,
-                                            width: 40,
-                                            fit: BoxFit.cover,
-                                            fadeOutDuration:
+                                          child: PinchZoom(
+                                            maxScale: 3.5,
+                                            resetDuration:
                                                 Duration(microseconds: 100),
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                Container(
-                                                    height: 10,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                            value:
-                                                                downloadProgress
-                                                                    .progress)),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Icon(Icons.error),
+                                            zoomedBackgroundColor:
+                                                Colors.black.withOpacity(0.5),
+                                            image: CachedNetworkImage(
+                                              imageUrl: menu[index]['Image'],
+                                              fadeInCurve: Curves.easeIn,
+                                              height: 40,
+                                              width: 40,
+                                              fit: BoxFit.cover,
+                                              fadeOutDuration:
+                                                  Duration(microseconds: 100),
+                                              progressIndicatorBuilder: (context,
+                                                      url, downloadProgress) =>
+                                                  Container(
+                                                      height: 10,
+                                                      child: CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress)),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            ),
                                           ),
                                         )),
                             ],

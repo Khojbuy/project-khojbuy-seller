@@ -127,6 +127,10 @@ class _ShopMenuState extends State<ShopMenu> {
                               itemCount: snapshot.data['Menu'].length,
                               itemBuilder: (context, index) {
                                 return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     ListTile(
                                       dense: true,
@@ -178,9 +182,12 @@ class _ShopMenuState extends State<ShopMenu> {
                                                     ['Image'] ==
                                                 null)
                                         ? Container()
-                                        : Expanded(
-                                            child: Container(
-                                                child: PinchZoom(
+                                        : Container(
+                                            height: 100,
+                                            width: 100,
+                                            margin: EdgeInsets.only(
+                                                left: 16, bottom: 6),
+                                            child: PinchZoom(
                                               maxScale: 3.5,
                                               resetDuration:
                                                   Duration(microseconds: 100),
@@ -190,7 +197,7 @@ class _ShopMenuState extends State<ShopMenu> {
                                                 imageUrl: snapshot.data['Menu']
                                                     [index]['Image'],
                                                 fadeInCurve: Curves.easeIn,
-                                                fit: BoxFit.cover,
+                                                fit: BoxFit.fill,
                                                 fadeOutDuration:
                                                     Duration(microseconds: 100),
                                                 progressIndicatorBuilder: (context,
@@ -207,7 +214,6 @@ class _ShopMenuState extends State<ShopMenu> {
                                                         Icon(Icons.error),
                                               ),
                                             )),
-                                          ),
                                   ],
                                 );
                               })
